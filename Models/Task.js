@@ -8,7 +8,29 @@ const TaskSchema = new Schema({
         required:true,
         unique:true
     },
-    users:[{type:Schema.Types.ObjectId,ref:'User'}]
+    Description:{
+            type:String,
+            default:{}
+        },
+    Deadline:{
+        type:Date,
+        default:{}
+    },
+    assignedUser:[{
+        type:Schema.Types.ObjectId
+    }],
+    assignedUserName:{
+        type:String,
+        default:""
+    },
+    Completed:{
+        type:Boolean,
+        default:true
+    },
+    dateCreated:{
+        type:Date,
+        default:Date.now()
+    }
 
 })
 

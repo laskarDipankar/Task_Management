@@ -13,25 +13,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json())
 
-const port = process.env.PORT || 9009;
+const port = process.env.PORT || 9099;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port} `);
 });
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     const Todos = new User(req.body);
     const saveTodo = await Todos.save();
     res.status(200).send(saveTodo);
     // res.status(200).send(saveTasks)
-    console.log(saveTodo);
+
+const msg ={
+          "message": "OK",
+          "Data":saveTodo
+        }
+
+    console.log(msg);
   } catch (error) {
     res.send(error);
   }
 });
 
-app.post("/tasks", async (req, res) => {
+app.post("/api/tasks", async (req, res) => {
   try {
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
@@ -42,32 +48,37 @@ app.post("/tasks", async (req, res) => {
 });
 
 
-app.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
 
-  User.find({})
-  .populate('tasks','taskName')
+  User.find((req.query))
+  .populate('tasks')
   .exec((error, data) => {
     if (error) {
       res.send(error);
     } else {
+      
       res.send(data);
     }
   });
+  console.log(req.query)
 });
 
-app.get("/tasks", (req, res) => {
-  Task.find({}).populate('users','email').exec((error, data) => {
+app.get("/api/tasks", (req, res) => {
+  Task.find((req.query))
+  // .populate()
+  .exec((error, data) => {
     if (error) {
         res.send(error);
     } else {
       res.send(data);
     }
 });
+console.log(req.query)
 });
 
-app.get("/user/:id",(req,res)=>{
+app.get("/api/user/:id",(req,res)=>{
   User.find({_id:req.params.id})
-    .populate('tasks',"taskName")
+    .populate('tasks')
     .exec((error,result)=>{
     if(error){
       res.send(error)
@@ -77,7 +88,7 @@ app.get("/user/:id",(req,res)=>{
   })
 })
 
-app.get("/task/:id",(req,res)=>{
+app.get("/api/task/:id",(req,res)=>{
   Task.find({_id:req.params.id})
     .populate('users',"name")
     .exec((error,result)=>{
@@ -89,6 +100,8 @@ app.get("/task/:id",(req,res)=>{
   })
 })
 
+// app.get("/api/users?where ={_'id':}")
+
 
 
 
@@ -96,14 +109,71 @@ app.get("/task/:id",(req,res)=>{
 //     res.send("hello")
 // ])
 
-app.put("/user/:id",async (req,res)=>{
+app.put("/api/user/:id",async (req,res)=>{
 
     // res.send('hello')
     
     try{
         const _id = req.params.id
-        await User.findByIdAndUpdate(_id,{$push:{tasks:req.body.tasks}},{new:true})
-        console.log(_id)
+        Data= await User.findByIdAndUpdate(_id,{$push:{'tasks':req.body.tasks,'PendingTasks':req.body.PendingTasks}},{new:true})   
+        const msg ={
+          "message": "OK",
+          "Data":Data
+        }
+        console.log(msg)
+      
+
+        res.send(_id)
+    }
+    catch(error){
+        console.log(error)
+    }
+
+  //   try{
+  //     const _id = req.params.id
+  //     await User.findByIdAndUpdate(_id,{$push:{'PendingTasks':req.body.PendingTasks}},{new:true})   
+  //     console.log(_id)
+  //     res.send(_id)
+  // }
+  // catch(error){
+  //     console.log(error)
+  // }
+
+
+
+
+})
+
+// app.get('/api/find/:id',(req,res)=>{
+
+//   // var u_id =  User.find({})
+//   Task.find({_id:req.params.id},((error,result)=>{
+    
+//     if(error){
+//       res.send(error)
+//     }
+//     else{
+//       res.send(result)
+//     }
+//   }))
+// })
+
+// Task.find({})
+
+
+
+
+
+
+app.put("/api/task/:id",async (req,res)=>{
+    // res.send('hello')
+    
+    try{
+        // const SetTask = {$set:{Completed:req.body.Completed,assignedUserName:req.body.assignedUserName}}
+        // const pushTask = {$push:{assignedUser:req.body.assignedUser}}
+        const _id = req.params.id
+        const Data = await Task.findOneAndUpdate({_id:_id,},{$set:{Completed:req.body.Completed,assignedUserName:req.body.assignedUserName},$push:{assignedUser:req.body.assignedUser}},{new:true})
+        console.log(Data)
         res.send(_id)
     }
     catch(error){
@@ -111,23 +181,7 @@ app.put("/user/:id",async (req,res)=>{
     }
 })
 
-
-app.put("/task/:id",async (req,res)=>{
-
-    // res.send('hello')
-    
-    try{
-        const _id = req.params.id
-        await Task.findOneAndUpdate({_id:_id},{$push:{users:req.body.users}},{new:true})
-        console.log(_id)
-        res.send(_id)
-    }
-    catch(error){
-        console.log(error)
-    }
-})
-
-app.delete('/user/:id',async (req,res)=>{
+app.delete('/api/user/:id',async (req,res)=>{
     try{
         await User.findOneAndDelete({_id:req.params.id})
         res.send(req.params.id)
@@ -136,7 +190,7 @@ app.delete('/user/:id',async (req,res)=>{
     }
 })
 
-app.delete('/task/:id',async (req,res)=>{
+app.delete('/api/task/:id',async (req,res)=>{
     try{
         await Task.findOneAndDelete({_id:req.params.id})
         res.send(req.params.id)
@@ -144,12 +198,7 @@ app.delete('/task/:id',async (req,res)=>{
         console.log(error)
     }
 })
-   
-    
-    
-    
-    
-    
+
 
 
 

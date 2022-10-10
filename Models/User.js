@@ -14,26 +14,19 @@ const UserSchema = new Schema({
         type:String,
         required:true
     },
+    PendingTasks:[
+        {type:Schema.Types.ObjectId,
+        ref:'Task'}
+    ],
     
     tasks:[{type:Schema.Types.ObjectId,
-            ref:'Task'}
-
-
-            // {
-            //     task_id:{
-
-            //     type:Schema.Types.ObjectId,
-            //     ref:'Task'},
-                
-            //     Completed:{
-            //         type:Boolean
-            //     }
-
-
-            // } 
-        ]
-
-
+            ref:'Task'
+        }
+    ],
+    dateCreated:{
+        type:Date,
+        default: Date.now()
+    }
 })
         
         
