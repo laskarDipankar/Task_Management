@@ -14,15 +14,15 @@ const UserSchema = new Schema({
         type:String,
         required:true
     },
-    PendingTasks:[
+    pendingTasks:[
         {type:Schema.Types.ObjectId,
         ref:'Task'}
     ],
     
-    tasks:[{type:Schema.Types.ObjectId,
-            ref:'Task'
-        }
-    ],
+    // tasks:[{type:Schema.Types.ObjectId,
+    //         ref:'Task'
+    //     }
+    // ],
     dateCreated:{
         type:Date,
         default: Date.now()

@@ -3,27 +3,28 @@ const mongoose  = require('mongoose')
 const {Schema,model} = mongoose
 
 const TaskSchema = new Schema({
-    taskName:{
+    taskNames:{
         type:String,
-        required:true,
+        // required:true,
         unique:true
     },
-    Description:{
+    description:{
             type:String,
-            default:{}
+            // default:{}
         },
-    Deadline:{
+    deadline:{
         type:Date,
-        default:{}
+        // default:{}
     },
-    assignedUser:[{
-        type:Schema.Types.ObjectId
-    }],
+    assignedUser:{
+        type:String
+        
+    },
     assignedUserName:{
         type:String,
-        default:""
+        default:"unassigned"
     },
-    Completed:{
+    completed:{
         type:Boolean,
         default:true
     },
