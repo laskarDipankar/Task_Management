@@ -2,9 +2,10 @@ const express = require("express");
 
 const User = require("./Models/User");
 const Task = require("./Models/Task");
-const UserTask = require("./Models/UserTask");
+// const UserTask = require("./Models/UserTask");
 const { PythonShell } = require("python-shell");
 const bodyParser = require("body-parser");
+const { OneK, DataArrayOutlined } = require("@mui/icons-material");
 const app = express();
 require("./Database/Connection");
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 9099;
+const port = process.env.PORT || 8999;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port} `);
@@ -34,7 +35,7 @@ app.post("/api/users", async (req, res) => {
   if (!req.body.name == "" && !req.body.email == "") {
     const UserEmail = await User.find({ email: req.body.email });
 
-    console.log(UserEmail.length);
+    // console.log(UserEmail.length);
 
     if (UserEmail.length == 0) {
       // try{
@@ -70,91 +71,124 @@ app.post("/api/users", async (req, res) => {
 
 
 app.post("/api/tasks", async (req, res) => {
-  try {console.log(req.body)
+  if(!req.body.taskNames == "" && !req.body.deadline == ""){
 
+    // console.log("not working")
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
-    res.status(200).json(SaveTasks);
-  } catch (error) {
-    console.log(error)
-    res.send(error);
+
+    if(SaveTasks == null){
+
+      res.status(404).send({
+        message:"No Task Data Recieved",
+        data:[]
+      });
+
+      
+    }else{
+      res.send({
+        message:"task Created",
+        data:SaveTasks});
+    // console.log(error)
+   
+  }}
+  else{
+    // console.log("hello")
+    res.status(404).send({
+      message:"you have either left deadline or taskname fields empty"
+    })
+  
   }
 });
 
 app.get("/api/users", (req, res) => {
-  // const userCount = User.find({})
-
-  // const countProperties=(obj)=> {
-  //   var userLenght = Object.keys(obj).length
-  //   console.log(userLenght)
-  // }
-  // countProperties(userCount)
-  // console.log(userLenght)
-
   User.find(eval("(" + req.query.where + ")"))
     .select(eval("(" + req.query.select + ")"))
     .sort(eval("(" + req.query.sort + " )"))
-    // .sort(eval(req.query.sort))
-    // .populate('tasks')
     .exec((error, data) => {
       if (error) {
         res.send(error);
       } else {
-        res.send(data);
+        if(req.query.count){
+          res.status(200).send({
+            message:"total users",
+            data:data.length
+          })
+        }else{
+                  res.status(200).send({
+                    message:'user details retrieved',
+                    Data:data});
+        }
       }
     });
   console.log(req.query);
 });
 
 app.get("/api/tasks", (req, res) => {
-  Task.find(eval("(" + req.query.where + ")")) ///find({_id:_id]})
+  Task.find(eval("(" + req.query.where + ")"))
     .sort(eval("(" + req.query.sort + " )"))
     .skip(eval("("+req.query.skip+")"))
     .limit(eval("("+req.query.limit+")"))
-
-    .populate("assignedUser")
     .exec((error, data) => {
       if (error) {
         res.send(error);
       } else {
-        res.send(data);
-      }
+        if(req.query.count){
+          res.status(200).send({
+            message:"total tasks",
+            data:data.length
+          })
+        }else{
+          
+          res.send(
+            {
+              message:"ok",
+              data:data
+            }
+            );
+          }
+          }
     });
   console.log(req.query);
 });
 
 app.get("/api/user/:id", (req, res) => {
   User.find({ _id: req.params.id })
-    .populate("tasks")
     .exec((error, result) => {
       if (error) {
-        res.send(error);
+        res.status(400).send({
+          message:"Wrong user details",
+          Data:[]
+
+        });
       } else {
-        res.send(result);
+        res.status(400).send({
+          message:'Retirved tasks details',
+          data:result
+        });
       }
     });
 });
 
-app.get("/api/task/:id", (req, res) => {
-  Task.find({ _id: req.params.id })
-    .populate("users", "name")
+app.get("/api/tasks/:id", async (req, res) => {
+    await Task.find({ _id: req.params.id })
     .exec((error, result) => {
       if (error) {
         res.send(error);
       } else {
-        res.send(result);
+        res.send(
+          {
+          message:"Retrived tasks details",
+          data:  result
+          });
       }
     });
 });
 
 app.put("/api/users/:id", async (req, res) => {
-  try {
+  
     const _id = req.params.id;
     const Data = await User.findById(_id);
-    const msg = {
-      message: "OK",
-      Data: Data,
-    };
     if (Data == null) {
       res.status(404).send({
         message: "Oppsie!! you are not a registered user",
@@ -173,48 +207,38 @@ app.put("/api/users/:id", async (req, res) => {
           Data: userData,
         });
       } else {
-        try {
-          const taskId = req.body.taskId;
-          const taskResult = await Task.findById(taskId);
-
-          // if(taskResult.length>0)
-          console.log(taskResult.length);
+        // try {
+          const taskd = req.body.taskd;
+          const taskResult = await Task.findById(taskd)
+          // console.log(taskResult.length);
 
           if (taskResult == null) {
-            res.status(400).send({
+            res.send({
               message: "task does not exist",
             });
           } else {
             const isComplete = taskResult.completed;
-            // res.send(taskResult)
             if (isComplete == true) {
               const CompletionOftask = await Task.findByIdAndUpdate(
-                taskId,
+                taskd,
                 { $set: { completed: false } },
                 { new: true }
               );
               UpdateUser = await User.findByIdAndUpdate(
                 _id,
-                { $push: { tasks: taskId, PendingTasks: taskId } },
+                { $push: { tasks: taskd, PendingTasks: taskd } },
                 { new: true }
               );
               User.findByIdAndUpdate(_id, {
                 $push: { Pendingtasks: taskResult._id },
               });
-              // res.send(UpdateUser)
-            } else {
-              res.status(400).send({
-                message: "oOpps ! task is Assigned to some other user",
-                data:[]
-              });
-            }
-          }
-          try {
-            const UserData = await User.findById(_id);
+
+
+              const UserData =  User.findById(_id);
             const userName = UserData.name;
             const assignedUser = _id;
             const updatedTask = await Task.findByIdAndUpdate(
-              taskId,
+              taskd,
               {
                 $set: {
                   assignedUserName: userName,
@@ -223,22 +247,35 @@ app.put("/api/users/:id", async (req, res) => {
               },
               { new: true }
             );
-            res.send({ message: "user is assigned tasks", data: updatedTask });
-            // console.log(UserData)
-          } catch (error) {
-            res.send("not the righ user");
+            if(updatedTask == null){
+              res.send("not a valid user");
+              
+            }
+          else  {
+            res.status(200).send({ message: "user is assigned tasks",
+          data:updatedTask });
+          } // res.send(UpdateUser)
+            } else {
+              res.status(400).send({
+                message: "oOpps ! task is Assigned to some other user",
+                data:[]
+              });
+            }
           }
-        } catch (error) {
-          res.status(400).send("This is not a Valid Task !!");
-        }
+          // try {
+        //  (error) {
+        //   res.status(400).send({message:"This is not a Valid Task !!",
+        // data:UserData}
+        //   );
+        // }
       }
     }
-  } catch (error) {
-    res.send({ message: "Opps server error", data: [] });
-  }
+  // } catch (error) {
+  //   res.send({ message: "Opps server error"});
+  // }
 });
 
-app.put("/api/task/:id", async (req, res) => {
+app.put("/api/tasks/:id", async (req, res) => {
   // res.send('hello')
 
   try {
@@ -247,10 +284,10 @@ app.put("/api/task/:id", async (req, res) => {
       { _id: _id },
       {
         $set: {
-          Description: req.body.Description,
-          Deadline: req.body.Deadline,
-          Completed: req.body.Completed,
-          taskName: req.body.taskName,
+          description: req.body.description,
+          deadline: req.body.deadline,
+          completed: req.body.completed,
+          taskNames: req.body.taskNames,
         },
       },
       { new: true }
@@ -262,78 +299,50 @@ app.put("/api/task/:id", async (req, res) => {
     } else {
       res.status(201).send({
         message: "Task Modified",
-        Date: Data,
+        Data: Data,
       });
     }
     // console.log(Data)
   } catch (error) {
-    console.log(error);
+    res.status(500).send({
+      message:"server error"
+
+    })
   }
 });
 
-app.delete("/api/user/:id", async (req, res) => {
-  try {
+app.delete("/api/users/:id", async (req, res) => {
+  
     const _id = req.params.id;
-    await User.findOneAndDelete({ _id: req.params.id });
-    // res.send(req.params.id)
-  } catch (error) {
-    console.log(error);
-  }
-});
-app.delete("/api/task/:id", async (req, res) => {
-  try {
-    await Task.findOneAndDelete({ _id: req.params.id });
-    res.send(req.params.id);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    const result = await User.findOneAndDelete({_id: req.params.id })
 
-app.post("/todo/:user_id/:task_id", async (req, res) => {
-  try {
-    const task_id = req.params.task_id;
-    const user_id = req.params.user_id;
+      console.log(req.query)
+      
+      if(result == null){
+        res.status(404).send({
+          message:` not a valid user` })
+        }
+      else{
+        res.status(200).send({
+          message:`user ${data} deleted`
+      })}
+    })
+app.delete("/api/tasks/:id", async (req, res) => {
+    const result = await Task.findOneAndDelete({ _id: req.params.id });
 
-    const Utasks = new UserTask({
-      task_id: task_id,
-      user_id: user_id,
-      Completed: req.body.Completed,
-    });
-    const saveUtasks = await Utasks.save();
-    res.status(200).send(saveUtasks);
-  } catch (error) {
-    res.send(error);
-  }
-});
+    if(result == null){
+      res.status(400).send({
+        message:"task does not exist  deleted",
+        data:result
+      })
+    }else{
+      res.status(200).send({
+        message:`task with taskid ${req.params.id} has been deleted succesfully`,
+      })
 
-app.get("/user/:user_id", (req, res) => {
-  const user_id = req.params.user_id;
-  // const task_id = req.params.task_id
+    }
 
-  UserTask.find({ user_id: user_id })
-    .populate("task_id", "taskName")
-    .populate("user_id")
-    .exec((error, data) => {
-      if (error) {
-        res.send(error);
-      } else {
-        res.send(data);
-      }
-    });
-});
 
-app.get("/task/:task_id", (req, res) => {
-  // const user_id = req.params.user_id
-  const task_id = req.params.task_id;
-
-  UserTask.find({ task_id: task_id })
-    .populate("task_id")
-    .populate("user_id", "name")
-    .exec((error, data) => {
-      if (error) {
-        res.send(error);
-      } else {
-        res.send(data);
-      }
-    });
+  
+  
 });

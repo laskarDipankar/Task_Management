@@ -6,7 +6,7 @@ const TaskSchema = new Schema({
     taskNames:{
         type:String,
         // required:true,
-        unique:true
+        // unique:true
     },
     description:{
             type:String,
@@ -22,7 +22,7 @@ const TaskSchema = new Schema({
     },
     assignedUserName:{
         type:String,
-        default:"unassigned"
+        // default:"unassigned"
     },
     completed:{
         type:Boolean,

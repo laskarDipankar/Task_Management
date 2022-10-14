@@ -145,4 +145,55 @@ print('Hello from python')
 
 
 
+# app.post("/todo/:user_id/:task_id", async (req, res) => {
+#   try {
+#     const task_id = req.params.task_id;
+#     const user_id = req.params.user_id;
+
+#     const Utasks = new UserTask({
+#       task_id: task_id,
+#       user_id: user_id,
+#       Completed: req.body.Completed,
+#     });
+#     const saveUtasks = await Utasks.save();
+#     res.status(200).send(saveUtasks);
+#   } catch (error) {
+#     res.send(error);
+#   }
+# });
+
+# app.get("/user/:user_id", (req, res) => {
+#   const user_id = req.params.user_id;
+#   // const task_id = req.params.task_id
+
+#   UserTask.find({ user_id: user_id })
+#     .populate("task_id", "taskName")
+#     .populate("user_id")
+#     .exec((error, data) => {
+#       if (error) {
+#         res.send(error);
+#       } else {
+#         res.send(data);
+#       }
+#     });
+# });
+
+# app.get("/task/:task_id", (req, res) => {
+#   // const user_id = req.params.user_id
+#   const task_id = req.params.task_id;
+
+#   UserTask.find({ task_id: task_id })
+#     .populate("task_id")
+#     .populate("user_id", "name")
+#     .exec((error, data) => {
+#       if (error) {
+#         res.send(error);
+#       } else {
+#         res.send(data);
+#       }
+#     });
+# });
+
+
+
 

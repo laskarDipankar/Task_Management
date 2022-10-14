@@ -8,7 +8,7 @@ const { Schema,model } = mongoose
 const UserSchema = new Schema({
     name:{
         type : String,
-        required:true
+        // required:true
     },
     email:{
         type:String,
@@ -18,11 +18,6 @@ const UserSchema = new Schema({
         {type:Schema.Types.ObjectId,
         ref:'Task'}
     ],
-    
-    // tasks:[{type:Schema.Types.ObjectId,
-    //         ref:'Task'
-    //     }
-    // ],
     dateCreated:{
         type:Date,
         default: Date.now()

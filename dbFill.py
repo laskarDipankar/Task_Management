@@ -86,7 +86,7 @@ def main(argv):
         data = response.read()
         d = json.loads(data)
 
-        print("hello2",d)
+        # print("hello2",d)
 
         # Store the users id
         userIDs.append(d['Data']['_id'])
@@ -117,7 +117,9 @@ def main(argv):
         data = response.read()
         d = json.loads(data)
 
-        taskID = str(d['_id'])
+        print("donno",d)
+
+        taskID = str(d['data']['_id'])
 
         # Make sure the task is added to the pending list of the user
         if assigned and not completed:
@@ -125,6 +127,7 @@ def main(argv):
             conn.request("GET","""/api/users?where={"_id":\""""+assignedUserID+"""\"}""")
             response = conn.getresponse()
             data = response.read()
+            print("naam1",data)
             d = json.loads(data)
 
             print("naam",d)
@@ -152,4 +155,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-     main(sys.argv[1:])
+    main(sys.argv[1:])
