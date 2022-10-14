@@ -13,7 +13,7 @@
     <p>BY-DIPANKAR LASKAR</p>
 
 <div>
-<header>baseURL:https://taskmanagementtodo.herokuapp.com/</header>
+<header>baseURL:https://taskmanagementtodo.herokuapp.com/api</header>
         <p>
 
 Endpoints <span>-</span>	Actions	<span>-</span>Intended Outcome <br/>
@@ -38,6 +38,24 @@ PUT	<span>-</span> Replace entire task with supplied task or 404 error <br/>
 <br/>
 DELETE <span>-</span>	Delete specified user or 404 error <br/>
         </p>
+    </div>
+
+    <div>
+
+        <p>
+
+        
+        Parameter <span>------------------------------------</span>	Description
+        where <span>:</span>	filter results based on JSON query <br/><br/>
+        sort <span>:</span>	specify the order in which to sort each specified field (1- ascending; -1 - descending) <br/><br/>
+        select <span>:</span>	specify the set of fields to include or exclude in each document (1 - include; 0 - exclude)<br/><br/>
+        skip <span>:</span>	specify the number of results to skip in the result set; useful for pagination <br/><br/>
+        limit <span>:</span>	specify the number of results to return (default should be 100 for tasks and unlimited for users)<br/><br/>
+        count <span>:</span>	if set to true, return the count of documents that match the query (instead of the documents themselves)<br/><br/>
+
+    </p>
+
+
     </div>
 
 
