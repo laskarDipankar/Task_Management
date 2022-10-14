@@ -95,7 +95,7 @@ app.post("/api/tasks", async (req, res) => {
 
       
     }else{
-      res.send({
+      res.status(201).send({
         message:"task Created",
         data:SaveTasks});
     // console.log(error)
@@ -161,7 +161,7 @@ app.get("/api/tasks", (req, res) => {
   console.log(req.query);
 });
 
-app.get("/api/user/:id", (req, res) => {
+app.get("/api/users/:id", (req, res) => {
   User.find({ _id: req.params.id })
     .exec((error, result) => {
       if (error) {
@@ -180,18 +180,20 @@ app.get("/api/user/:id", (req, res) => {
 });
 
 app.get("/api/tasks/:id", async (req, res) => {
-    await Task.find({ _id: req.params.id })
-    .exec((error, result) => {
-      if (error) {
-        res.send(error);
+   const results = await Task.findById({ _id: req.params.id })
+    
+      if (results == null) {
+        res.status(404).send({
+          message:"task not found"
+        });
       } else {
-        res.send(
+        res.status(200).send(
           {
           message:"Retrived tasks details",
-          data:  result
+          results
           });
       }
-    });
+    // });
 });
 
 app.put("/api/users/:id", async (req, res) => {
@@ -257,7 +259,7 @@ app.put("/api/users/:id", async (req, res) => {
               { new: true }
             );
             if(updatedTask == null){
-              res.send("not a valid user");
+              res.status(404).send("not a valid user");
               
             }
           else  {
