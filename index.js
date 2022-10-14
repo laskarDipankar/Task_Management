@@ -3,9 +3,9 @@ const express = require("express");
 const User = require("./Models/User");
 const Task = require("./Models/Task");
 // const UserTask = require("./Models/UserTask");
-const { PythonShell } = require("python-shell");
+// const { PythonShell } = require("python-shell");
 const bodyParser = require("body-parser");
-const { OneK, DataArrayOutlined } = require("@mui/icons-material");
+const path = require('path')
 const app = express();
 require("./Database/Connection");
 app.use(express.json());
@@ -25,9 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 8999;
 
+app.use(express.static('Public'));
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port} `);
 });
+
+app.get('/',(req,res)=>{
+  res.sendFile(path.join(__dirname,'Public/index.html'))
+})
+
+
 
 app.post("/api/users", async (req, res) => {
   const userCount = User.find({});
