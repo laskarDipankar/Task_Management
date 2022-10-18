@@ -9,6 +9,8 @@ const path = require('path')
 const app = express();
 require("./Database/Connection");
 app.use(express.json());
+const cors = require('cors')
+app.use(cors())
 
 // PythonShell.run("dbFill.py", {}, function (err, result) {
 //   if (err) {
@@ -110,13 +112,17 @@ app.post("/api/tasks", async (req, res) => {
   }
 });
 
-app.get("/api/users", (req, res) => {
-  User.find(eval("(" + req.query.where + ")"))
+app.get("/api/users", async(req, res) => {
+  await User.find(eval("(" + req.query.where + ")"))
     .select(eval("(" + req.query.select + ")"))
+    .skip(eval("("+req.query.skip+")"))
+    .limit(eval("("+req.query.limit+")"))
     .sort(eval("(" + req.query.sort + " )"))
     .exec((error, data) => {
       if (error) {
-        res.send(error);
+        res.status(400).send({
+          message:'given data does match any fields in database'
+        });
       } else {
         if(req.query.count){
           res.status(200).send({
@@ -130,11 +136,11 @@ app.get("/api/users", (req, res) => {
         }
       }
     });
-  console.log(req.query);
+  // console.log(req.query);
 });
 
-app.get("/api/tasks", (req, res) => {
-  Task.find(eval("(" + req.query.where + ")"))
+app.get("/api/tasks", async (req, res) => {
+  await Task.find(eval("(" + req.query.where + ")"))
     .sort(eval("(" + req.query.sort + " )"))
     .skip(eval("("+req.query.skip+")"))
     .limit(eval("("+req.query.limit+")"))
@@ -171,7 +177,7 @@ app.get("/api/users/:id", (req, res) => {
 
         });
       } else {
-        res.status(400).send({
+        res.status(200).send({
           message:'Retirved tasks details',
           data:result
         });
