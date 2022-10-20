@@ -3,13 +3,15 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { bgcolor, display } from "@mui/system";
+import Pagination from "../Pagination/Pagination";
+import AddUser from "./AddUser";
 
 const UserGallery = () => {
     const [state, setstate] = useState([]);
     const [page,setpage] = useState(0)
 
     useEffect(() => {
-    axios.get(`https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9`)
+    axios.get(`http://localhost:9999/api/users?skip=${page}&limit=9`)
     .then((res) => {
 
         setstate(res.data.Data);
@@ -18,31 +20,18 @@ const UserGallery = () => {
 });
     },[page])
 
-    const Nextpage=(e)=>{
-        if(page >=40){
-            return 0
-        }else{
-
-            setpage(item=>item+9)
+    const getData=(data)=>{
+        setpage(data)
         }
 
-    }
-    const Previouspage=(e)=>{
-        console.log(e.target.value)
-        if(page==0){
-            return 0
-        }else{
-
-            setpage(item=>item-9)
-        }
-
-    }
 
 
 
 console.log(page)
 return (<>
-   
+<Pagination getData={getData}/>
+
+<AddUser/>
 
 <Box sx={{
     marginTop:'13%',

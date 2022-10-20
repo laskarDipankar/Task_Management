@@ -7,7 +7,7 @@ const TaskDetails = () => {
     const params = useParams()
 
     useEffect(()=>{
-        axios.get(`http://localhost:8999/api/tasks/${params.id}`)
+        axios.get(`http://localhost:9999/api/tasks/${params.id}`)
         .then((res)=>{
             // console.log(res.data.results)
             setTasks(res.data.results)
