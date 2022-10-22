@@ -9,16 +9,17 @@ import UserDetails from './Components/user/UserDetails';
 import Navbar from './Components/Navbar/Navbar';
 import TaskDetails from './Components/task/TaskDetails';
 import TaskGallery from './Components/task/TaskGallery';
-import { AppBar } from '@mui/material';
-import UserRev from './Components/Navbar/UserRev';
+import Appbar from './Components/Navbar/Appbar';
+// import UserRev from './Components/Navbar/UserRev';
+import Home from './Components/Navbar/Home';
 
 const App = () => {
   return (
 
     <BrowserRouter>
-    <Navbar/>
+    <Appbar/>
     <Routes>
-      <Route path='/' element = {<UserRev/>}/>
+      <Route path='/' element = {<Home/>}/>
       <Route path='/users' element={<Index/>} />
       <Route path = '/tasks' element ={<TaskGallery/>}/>
       <Route path='/users/:id' element={<UserDetails/>} />

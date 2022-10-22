@@ -12,7 +12,7 @@ const TaskGallery = () => {
     const [page,setpage]=useState(0)
 
     useEffect(()=>{
-        axios.get(`http://localhost:9999/api/tasks?skip=${page}&limit=9`)
+        axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9`)
         .then((res)=>{
             console.log(res.data.data)
             setTask(res.data.data)

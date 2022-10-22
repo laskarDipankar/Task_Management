@@ -14,7 +14,10 @@ return(
 <>
     <Box
     sx={{
-        marginTop:'10%'
+        marginTop:'5%',
+        marginBottom:'1%',
+        display:'flex',
+        justifyContent:'center'
     }}
     >
         <button

@@ -22,6 +22,7 @@ import male1 from '../../Img/male1.gif'
 import f1 from '../../Img/f1.gif'
 import f2 from '../../Img/f2.gif'
 import male2 from '../../Img/male2.gif'
+import LaptopIcon from '@mui/icons-material/Laptop';
 
 
 const UserRev = () => {
@@ -63,7 +64,7 @@ const UserRev = () => {
         >
           <Box
             sx={{
-              margin: "6%",
+              margin: "4%",
               // border:'2px solid red',
               minWidth: "40%",
 
@@ -73,16 +74,19 @@ const UserRev = () => {
             }}
           >
             <Typography
-              variant="h3"
+              variant="h5"
               component="div"
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "auto",
+                boxShadow:'2px 2px 10px 2px yellowgreen',
+                color:'yellowgreen',
+                fontWeight:700
               }}
             >
-              WELCOME
+              WELCOME TO toDo
             </Typography>
 
             <Box
@@ -97,7 +101,7 @@ const UserRev = () => {
                 alignItems: "center",
                 // border:'3px solid black',
                 // borderRadius:'10px',
-                marginLeft: "5%",
+                // marginLeft: "2%",
               }}
             >
               {/* <Typography>USERS</Typography> */}
@@ -107,10 +111,11 @@ const UserRev = () => {
 
                   maxWidth: 400,
                   borderRadius: "12px",
-                  boxShadow: "5px 2px 8px 2px #FF99FF",
+                  boxShadow: "5px 5px 10px 5px grey",
                   opacity: 0.9,
                   "&:hover": {
-                    boxShadow: "5px 5px 10px 5px greenyellow",
+                    boxShadow: "5px 5px 10px 5px yellowgreen",
+                    
                   },
 
                   // height:300
@@ -153,9 +158,9 @@ const UserRev = () => {
                     maxWidth: 400,
                     borderRadius: "12px",
                     opacity: 0.9,
-                    boxShadow: "5px 5px 10px 5px #FF99FF",
+                    boxShadow: "5px 5px 10px 5px grey",
                     "&:hover": {
-                      boxShadow: "5px 5px 10px 5px greenyellow",
+                      boxShadow: "5px 5px 10px 5px yellowgreen",
                     },
 
                     // height:300
@@ -178,9 +183,9 @@ const UserRev = () => {
                     // marginLeft:'40%',
                     borderRadius: "12px",
                     opacity: 0.9,
-                    boxShadow: "5px 5px 10px 5px #FF99FF",
+                    boxShadow: "5px 5px 10px 5px grey",
                     "&:hover": {
-                      boxShadow: "5px 5px 10px 5px greenyellow",
+                      boxShadow: "5px 5px 10px 5px yellowgreen",
                     },
 
                     // height:300
@@ -196,6 +201,31 @@ const UserRev = () => {
                     </Typography>
                   </CardContent>
                 </Card>
+                <Card
+                  sx={{
+                    display: "flex",
+                    maxWidth: 400,
+                    // marginLeft:'40%',
+                    borderRadius: "12px",
+                    opacity: 0.9,
+                    boxShadow: "5px 5px 10px 5px grey",
+                    "&:hover": {
+                      boxShadow: "5px 5px 10px 5px yellowgreen ",
+                    },
+
+                    // height:300
+                    // marginTop:'10%'
+                  }}
+                >
+                  <CardContent>
+                    <img className="gif" src={gif}></img>
+                    <Typography gutterBottom variant="span" component="div">
+                      Ecomm-Webiste
+                      <Divider variant="middle" flexItem />
+                      <LaptopIcon/>
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Box>
             </Box>
           </Box>
@@ -204,29 +234,62 @@ const UserRev = () => {
               // border: "2px solid red",
               // height:300,
               // width:600,
-              margin: "6%",
+              margin: "4%",
             }}
           >
+            <Box
+            sx={{
+              // marginTop:'%',
+              // borderRadius:'4%',
+              boxShadow: "3px 3px 6px 3px black",
+              "&:hover": {
+                boxShadow: "5px 3px 6px 3px #809fff",
+                // bgcolor:'white'
+              }
+            }}>
+
             <Typography
               variant="h6"
               component="div"
               sx={{
                 display: "flex",
+                flexDirection:'column',
                 justifyContent: "center",
                 alignItems: "center",
-                margin: "auto",
+                // margin: "auto",
+                fontWeight:'bold'
               }}
             >
-              toDo - helps you manage your tasks
-            </Typography>
+              toDo : HELPS YOU MANAGE YOUR TASKS.
 
+            <Typography
+            variant="p"
+            component="div"
+            sx={{
+              display: "flex",
+              // justifyContent: "center",
+              // alignItems: "center",
+              textAlign:'center',
+              // margin: "auto",
+              color:'#1338be',
+              fontWeight:'bold',
+              
+            }}
+            >
+            YOUR STEP TOWARDS DISCIPLINE AND SUCCESS.
+            </Typography>
+            </Typography>
+            </Box>
+
+
+              
             <Box
               sx={{
                 // bgcolor: "#BDD8CE ",
                 // marginBottom: "2%",
                 // width:400,
-                height: 600,
-                // margin: "6%",
+                height: 490,
+                margin: "3%",
 
                 display: "flex",
                 flexDirection:'column',
@@ -237,8 +300,13 @@ const UserRev = () => {
                 // backgroundRepeat: "no-repeat",
                 // backgroundPosition: "center center",
                 // backgroundAttachment: "fixed",
-                // border: "3px solid black",
-                // borderRadius:'10px',
+                // border: "3px solid yellowgreen",
+                borderRadius:'10%',
+                boxShadow: "5px 5px 10px 5px grey",
+                "&:hover": {
+                  boxShadow: "2px 2px 6px 2px #809fff",
+                  // bgcolor:'white'
+                }
                 // marginLeft: "5%",
               }}
             ><Typography
@@ -246,17 +314,18 @@ const UserRev = () => {
             component='div'
             sx={{
               height:'30px',
-              width:'500px',
+              width:'480px',
               margin:'5%',
               display:'flex',
               alignItems:'center',
               justifyContent:'center',
-              boxShadow: "2px 2px 6px 2px grey",
+              boxShadow: "5px 5px 10px 5px grey",
                     "&:hover": {
-                      boxShadow: "2px 2px 6px 2px orange",
+                      boxShadow: "2px 2px 6px 2px #809fff",
+                      bgcolor:'white'
                     },
             }}
-            >How our users feel about us</Typography>
+            >How our users feel about us !!</Typography>
             
 
               <Typography
@@ -269,20 +338,23 @@ const UserRev = () => {
                 marginTop:'3%',
                 display:'flex',
                 alignItems:'center',
+                color:'black',
                 // justifyContent:'center',
                 boxShadow: "2px 2px 6px 2px grey",
                     "&:hover": {
                       boxShadow: "5px 5px 10px 5px #809fff",
+                      bgcolor:'white'
                     },
               }}
               >
                 <img className="gif1" src={f2}></img>
+                Flexible, fast, and modern design
               </Typography>
               <Typography
-              variant='h5'
+              variant='p'
               component='div'
               sx={{
-                height:'30px',
+                height:'38px',
                 width:'400px',
                 marginTop:'3%',
                 display:'flex',
@@ -292,17 +364,19 @@ const UserRev = () => {
                 boxShadow: "2px 2px 6px 2px grey",
                 "&:hover": {
                   boxShadow: "5px 5px 10px 5px #809fff",
+                  bgcolor:'white'
                 },
 
               }}
               >
-                <img className="gif1" src={male2}></img>
+                <img className="gif1" src={male2}/>
+                With projects, labels and priorities, you can tailor toDo to your personal workflow
                 </Typography>
               <Typography
-              variant='h5'
+              variant='p'
               component='div'
               sx={{
-                height:'30px',
+                height:'40px',
                 width:'400px',
                 marginTop:'3%',
                 marginLeft:'5%',
@@ -312,13 +386,16 @@ const UserRev = () => {
                 boxShadow: "2px 2px 6px 2px grey",
                     "&:hover": {
                       boxShadow: "5px 5px 10px 5px #809fff",
+                      bgcolor:'white'
                     },
               }}
               >
                 <img className="gif1" src={f1}></img>
+                Choose everything from a simple checklist to a multi-column kanban board.
+
                 </Typography>
               <Typography
-              variant='h5'
+              variant='p'
               component='div'
               sx={{
                 height:'30px',
@@ -331,19 +408,22 @@ const UserRev = () => {
                 boxShadow: "2px 2px 6px 2px grey",
                 "&:hover": {
                   boxShadow: "5px 5px 10px 5px #809fff",
+                  bgcolor:'white'
                 },
 
               }}
               >
 
                 <img className="gif1" src={male1}></img>
+                I have become more punctual, all thanks to toDo 
               </Typography>
               <Typography
-              variant='h5'
+              variant='p'
               component='div'
               sx={{
                 height:'30px',
                 width:'400px',
+                // fontSize:10,
                 marginTop:'3%',
                 display:'flex',
                 alignItems:'center',
@@ -352,12 +432,16 @@ const UserRev = () => {
                 boxShadow: "2px 2px 6px 2px grey",
                 "&:hover": {
                   boxShadow: "5px 5px 10px 5px #809fff",
+                  bgcolor:'white'
                 },
 
               }}
               >
 
                 <img className="gif1" src={f2}></img>
+                i work for 48hrs in 24hrs.
+
+                
               </Typography>
               
 

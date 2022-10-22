@@ -1,77 +1,171 @@
 import { NavLink } from "react-router-dom";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import { bgcolor, display } from "@mui/system";
 import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
+import * as React from "react";
+import u1 from '../../Img/user/u1.svg'
+import u2 from '../../Img/user/u2.svg'
+import u3 from '../../Img/user/u3.svg'
+import u4 from '../../Img/user/u4.svg'
+import u5 from '../../Img/user/u5.svg'
+import u6 from '../../Img/user/u6.svg'
+import u7 from '../../Img/user/u7.svg'
+import u8 from '../../Img/user/u8.svg'
+import u9 from '../../Img/user/u9.svg'
+
+const imgList = [
+  {img:u1},{img:u2},{img:u3},{img:u4},{img:u5},{img:u6},{img:u7},{img:u8},{img:u9}];
+// import Typography from '@mui/material/Typography';
 
 const UserGallery = () => {
-    const [state, setstate] = useState([]);
-    const [page,setpage] = useState(0)
+  const [state, setstate] = useState([]);
+  const [length, setlength] = useState();
+  const [page, setpage] = useState(0);
+  const [imgUser,setimguser] = useState([])
 
-    useEffect(() => {
-    axios.get(`http://localhost:9999/api/users?skip=${page}&limit=9`)
-    .then((res) => {
+  useEffect(() => {
 
+    axios
+      .get(`https://taskmanagementtodo.herokuapp.com/api/users`)
+      .then((res) => {
+        setlength(res.data.Data.length)
+        // console.log(res.data.Data.length);
+      });
+
+
+    
+    axios
+      .get(`https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`)
+      .then((res) => {
         setstate(res.data.Data);
-        // console.log(res.data.Data);
+        console.log(res.data.Data.length);
+        setimguser(imgList.concat(res.data.Data))
+      });
+  }, [page]);
 
-});
-    },[page])
+  const getData = (data) => {
+    setpage(data);
+  };
 
-    const getData=(data)=>{
-        setpage(data)
-        }
+  // state.push(imgList)
+//  imgList.forEach(element => {
+    
+    // console.log(element)
+  // });
+
+  // console.log(...imgUser);
+  return (
+    <>
+
+      <AddUser />
+      
+      <Pagination getData={getData} />
+      <Box
+      sx={{
+        display:'flex',
+        justifyContent:'center'
+      }}>
+
+      <Button>Total Users: {length}</Button>
+      </Box>
+
+      <Box
+        sx={{
+          // marginTop: "7%",
+          display: "grid",
+        //   alignItems:'center',
+        //   justifyContent:'center',
+        //   marginLeft:'auto',
+          gridTemplateColumns: "repeat(3,1fr)",
+          gap:'10px'
+        }}
+      >
+        {/* {state.map((item) => {
+          
+          return ( */}
+            <>
+            {
+              // imgList.forEach(element => {
+    
+              //   // console.log(element)
+              // // });
 
 
 
-
-console.log(page)
-return (<>
-<Pagination getData={getData}/>
-
-<AddUser/>
-
-<Box sx={{
-    marginTop:'13%',
-    display:'grid',
-    gridTemplateColumns:'repeat(3,1fr)'
-}}>
-   
-        {
-            state.map((item)=>{
-                return(
-                <>
-
-                <Card sx={{
-                    height:'20rem',
-                    widht:'15rem',
-                    border:'3px solid red'
-                    }}>
-                    <CardContent
-                    sx={{
-                        bgcolor:'yellow',
+              //   return(
+              //     {
+              state.map((item)=>{
+                    return(
+                        <>
+                        <Box
+                        sx={{
+                            display:'grid',
+                            justifyContent:'center'
+                        }}>
                         
-                    }}
-                    >
-                    <NavLink to ={`/users/${item._id}`}
-                    style={({ isActive }) => ({ 
-                        color: isActive ? 'greenyellow' : 'white' })}
                         
-                        >
-                    <Typography
-                    color='black'>{item.name}</Typography>
-                    </NavLink>
+                        <Card sx={{ 
+                            width: 500 ,
+                    border:'2px solid red',
+                    display:'grid',
+                    placeItems:'center'
+                }}>
+                    <CardMedia
+                      component="img"
+                      height="250"
+                        image={u7}
+                      alt='image user'
+                      />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        User:
+                        {item.name}
+                      </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        email:
+                        {item.email}
+                      </Typography>
                     </CardContent>
-                </Card>
+                    <CardActions>
+                    <Button size="small">EDIT-USER</Button>
+                    <NavLink to={`/users/${item._id}`}
+                      style={({ isActive }) => ({ 
+                        color: isActive ? 'greenyellow' : 'white' }
+                        ,{textDecoration:'none'})}
+                    >
+                        <Button size="small">User-Detail</Button>
+                    </NavLink>
+                    </CardActions>
+                  </Card>
+                  </Box>
+                      </>
+                   )
+                })
 
-                </>)
-            })
-        }
-    </Box>
+
+              }
+                {/* ) */}
+              {/* }) */}
+
+            {/* } */}
+             
+            </>
+          {/* ); */}
+        {/* })} */}
+      </Box>
     </>
-)
-}
+  );
+};
 
-export default UserGallery
+export default UserGallery;

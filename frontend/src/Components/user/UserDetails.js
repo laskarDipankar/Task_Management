@@ -12,7 +12,7 @@ const UserDetails = () => {
 
     useEffect(() => {
         axios
-        .get(`http://localhost:8999/api/users/${params.id}`)
+        .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
         .then((res)=>{
             // console.log(res.data.data[0])
             setUser(res.data.data[0])

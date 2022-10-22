@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button } from '@mui/material'
+import { Button ,Box} from '@mui/material'
+
 const Pagination = (props) => {
     const [page,setpage] = useState(0)
 
@@ -34,6 +35,11 @@ const Pagination = (props) => {
 
   return (
     <>
+    <Box
+    sx={{
+        display:'flex',
+        justifyContent:'center'
+    }}>
 
 <Button
 onClick={Previouspage}
@@ -42,6 +48,8 @@ onClick={Previouspage}
 value='hello'
 onClick={Nextpage}
 >Next</Button>
+    </Box>
+
     </>
   )
 }

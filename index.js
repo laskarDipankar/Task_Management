@@ -42,8 +42,7 @@ app.get('/',(req,res)=>{
 
 app.post("/api/users", async (req, res) => {
   const userCount = User.find({});
-
-  if (!req.body.name == "" && !req.body.email == "") {
+  if (req.body.name != "" && req.body.email != "") {
     const UserEmail = await User.find({ email: req.body.email });
 
     // console.log(UserEmail.length);
@@ -54,13 +53,9 @@ app.post("/api/users", async (req, res) => {
       saveTodo = await Todos.save();
 
       res.send({
-        message: "user can move forward",
+        message: "user is registered",
         Data: saveTodo,
       });
-
-      // }catch(){
-
-      // }
     } else {
       res.send({
         message: "A user is already regstered with this email",
@@ -70,14 +65,11 @@ app.post("/api/users", async (req, res) => {
       });
     }
   } else {
-    console.log("no");
-    res.status(404).send({
+    res.send({
       message: "Oouchh !!You have left mandatory fields blank",
       data:[]
     });
   }
-
-  //
 });
 
 
@@ -214,16 +206,24 @@ app.put("/api/users/:id", async (req, res) => {
       const updateName = req.body.name;
       const updateEmail = req.body.email;
       if (!updateEmail == "" || !updateName == "") {
+
+        const verifyEMail = await User.findById(_id) 
+        if(verifyEMail.email==req.body.email){
+          res.send({
+            message:'a user is registered with this email already'
+          })
+        }else{
+
         const userData = await User.findByIdAndUpdate(
           _id,
           { $set: { name: updateName, email: updateEmail } },
           { new: true }
         );
         res.status(201).send({
-          message: "Great !!",
+          message: "you have successfully registered",
           Data: userData,
         });
-      } else {
+      }} else {
         // try {
           const taskd = req.body.taskd;
           const taskResult = await Task.findById(taskd)
@@ -331,21 +331,22 @@ app.put("/api/tasks/:id", async (req, res) => {
 app.delete("/api/users/:id", async (req, res) => {
   
     const _id = req.params.id;
+    console.log(_id)
     const result = await User.findOneAndDelete({_id: req.params.id })
 
-      console.log(req.query)
+      // console.log(req.query)
       
       if(result == null){
-        res.status(404).send({
+        res.send({
           message:` not a valid user` })
         }
       else{
         res.status(200).send({
-          message:`user ${data} deleted`
+          message:`user deleted`
       })}
     })
 app.delete("/api/tasks/:id", async (req, res) => {
-    const result = await Task.findOneAndDelete({ _id: req.params.id });
+    const result = await Task.findOneAndDelete({ _id: req.params.id },{new:true});
 
     if(result == null){
       res.status(400).send({
