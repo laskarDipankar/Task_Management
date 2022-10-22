@@ -59,6 +59,10 @@ const UserList = () => {
   };
 
   const UserUpdate = async () => {
+
+    if(edit.name == "" || edit.email == ""){
+      alert('All the fields are mandatory')
+    }else{
     await axios
       .put(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`,{
         name:edit.name,
@@ -66,7 +70,8 @@ const UserList = () => {
       })
       .then((res) => {
         alert(res.data.message);
-      });
+      })
+    }
 
     console.log(user);
   };
@@ -202,7 +207,7 @@ const handleClose = () => {
                   </TextField>
                 </Box>
                 
-                <Button variant="contained" >save</Button>
+                {/* <Button variant="contained" >save</Button> */}
               
               </Box>
               <Button
