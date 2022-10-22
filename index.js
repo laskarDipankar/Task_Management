@@ -195,6 +195,8 @@ app.get("/api/tasks/:id", async (req, res) => {
 });
 
 app.put("/api/users/:id", async (req, res) => {
+
+  
   
     const _id = req.params.id;
     const Data = await User.findById(_id);
@@ -205,7 +207,15 @@ app.put("/api/users/:id", async (req, res) => {
     } else {
       const updateName = req.body.name;
       const updateEmail = req.body.email;
-      if (!updateEmail == "" && !updateName == "") {
+      console.log("ja to raha hai")
+
+      if(req.body.name == null || req.body.email == null){
+        res.send({
+          message:'you have left fields blank'
+        })
+      }
+     
+      else if (updateEmail != "" && !updateName != "") {
 
         const verifyEMail = await User.findById(_id) 
         if(verifyEMail.email==req.body.email){
