@@ -214,13 +214,13 @@ app.put("/api/users/:id", async (req, res) => {
     } else {
       const updateName = req.body.name;
       const updateEmail = req.body.email;
-      console.log("ja to raha hai")
+      // console.log("ja to raha hai")
 
       
       
       if (updateEmail != null && !updateName != null) {
 
-        console.log("kya ho raha hai")
+        // console.log("kya ho raha hai")
 
         const verifyEMail = await User.findById(_id) 
         if(verifyEMail.email==req.body.email){
