@@ -198,6 +198,13 @@ app.put("/api/users/:id", async (req, res) => {
 
   
   
+  if(req.body.name == null || req.body.email == null){
+    res.send({
+      message:'you have left fields blank'
+    })
+  }
+  else{
+  
     const _id = req.params.id;
     const Data = await User.findById(_id);
     if (Data == null) {
@@ -209,13 +216,11 @@ app.put("/api/users/:id", async (req, res) => {
       const updateEmail = req.body.email;
       console.log("ja to raha hai")
 
-      if(req.body.name == null || req.body.email == null){
-        res.send({
-          message:'you have left fields blank'
-        })
-      }
-     
-      else if (updateEmail != "" && !updateName != "") {
+      
+      
+      if (updateEmail != null && !updateName != null) {
+
+        console.log("kya ho raha hai")
 
         const verifyEMail = await User.findById(_id) 
         if(verifyEMail.email==req.body.email){
@@ -289,17 +294,9 @@ app.put("/api/users/:id", async (req, res) => {
               });
             }
           }
-          // try {
-        //  (error) {
-        //   res.status(400).send({message:"This is not a Valid Task !!",
-        // data:UserData}
-        //   );
-        // }
       }
-    }
-  // } catch (error) {
-  //   res.send({ message: "Opps server error"});
-  // }
+    }}
+
 });
 
 app.put("/api/tasks/:id", async (req, res) => {
