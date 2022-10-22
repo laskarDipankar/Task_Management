@@ -23,14 +23,14 @@ return(
         <button
         value='true'
         onClick={(e)=>setstate( true)}
-        >List-View</button>
+        >Gallery</button>
         <button
         value='false'
         onClick={()=>setstate(false)}
-        >Gallery</button>
+        >List-View</button>
     </Box>
     {
-        state ? <UserList/>:<UserGallery/>
+        state ? <UserGallery/>:<UserList/>
     }
 
     

@@ -12,6 +12,7 @@ import TaskGallery from './Components/task/TaskGallery';
 import Appbar from './Components/Navbar/Appbar';
 // import UserRev from './Components/Navbar/UserRev';
 import Home from './Components/Navbar/Home';
+import UserMobile from './Components/user/userMain';
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
     <Appbar/>
     <Routes>
       <Route path='/' element = {<Home/>}/>
-      <Route path='/users' element={<Index/>} />
+      <Route path='/users' element={<UserMobile/>} />
       <Route path = '/tasks' element ={<TaskGallery/>}/>
       <Route path='/users/:id' element={<UserDetails/>} />
       <Route path = '/tasks/:id' element ={<TaskDetails/>}/>

@@ -282,7 +282,25 @@ const handleClose = () => {
                     // paddingRight:'2rem',
                     // gap:5
                   }}
+                >     
+                <NavLink
+                to={`/users/${item._id}`}
+                style={{
+                  textDecoration:'none'
+                }
+                }
                 >
+                <Button
+                variant="outlined"
+                sx={{
+                  margin:2
+                }}
+                >
+                  Detail
+                  <span>/</span>
+                  Add Task
+                </Button>
+                </NavLink>
                   <Button
                   variant="outlined"
                   sx={{
