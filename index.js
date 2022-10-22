@@ -235,7 +235,7 @@ app.put("/api/users/:id", async (req, res) => {
           { new: true }
         );
         res.status(201).send({
-          message: "you have successfully registered",
+          message: "you have successfully Updated",
           Data: userData,
         });
       }} else {
