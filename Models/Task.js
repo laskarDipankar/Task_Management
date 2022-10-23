@@ -1,9 +1,10 @@
 
 const mongoose  = require('mongoose')
 const {Schema,model} = mongoose
-
-const TaskSchema = new Schema({
-    taskNames:{
+const TaskSchema = new Schema(
+    {
+        
+    name:{
         type:String,
         // required:true,
         // unique:true
@@ -17,12 +18,14 @@ const TaskSchema = new Schema({
         // default:{}
     },
     assignedUser:{
-        type:String
+        type:String,
+        default:"unassigned"
         
     },
     assignedUserName:{
         type:String,
-        // default:"unassigned"
+        default:""
+    
     },
     completed:{
         type:Boolean,

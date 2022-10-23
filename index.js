@@ -74,7 +74,7 @@ app.post("/api/users", async (req, res) => {
 
 
 app.post("/api/tasks", async (req, res) => {
-  if(!req.body.taskNames == "" && !req.body.deadline == ""){
+  if(!req.body.name == "" && !req.body.deadline == ""){
 
     // console.log("not working")
     const Tasks = new Task(req.body);
@@ -241,8 +241,9 @@ app.put("/api/users/:id", async (req, res) => {
       }} else {
         // try {
           const taskd = req.body.taskd;
+          // console.log(taskd)
           const taskResult = await Task.findById(taskd)
-          // console.log(taskResult.length);
+          console.log(taskResult);
 
           if (taskResult == null) {
             res.send({
@@ -258,16 +259,20 @@ app.put("/api/users/:id", async (req, res) => {
               );
               UpdateUser = await User.findByIdAndUpdate(
                 _id,
-                { $push: { tasks: taskd, PendingTasks: taskd } },
+                { $push: { pendingTasks: taskd } },
                 { new: true }
               );
-              User.findByIdAndUpdate(_id, {
-                $push: { Pendingtasks: taskResult._id },
-              });
+              // User.findByIdAndUpdate(_id, {
+              // $push: { Pendingtasks: taskResult._id },
+              // });
 
+              console.log(`${_id} user id`)
+              console.log("hello")
 
-              const UserData =  User.findById(_id);
+            const UserData = await User.findById({_id:_id});
+            console.log(UserData)
             const userName = UserData.name;
+            console.log(`${userName} is it working`)
             const assignedUser = _id;
             const updatedTask = await Task.findByIdAndUpdate(
               taskd,
@@ -311,7 +316,7 @@ app.put("/api/tasks/:id", async (req, res) => {
           description: req.body.description,
           deadline: req.body.deadline,
           completed: req.body.completed,
-          taskNames: req.body.taskNames,
+          names: req.body.names,
         },
       },
       { new: true }

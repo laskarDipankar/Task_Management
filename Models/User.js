@@ -15,8 +15,7 @@ const UserSchema = new Schema({
         required:true
     },
     pendingTasks:[
-        {type:Schema.Types.ObjectId,
-        ref:'Task'}
+        {type:String}
     ],
     dateCreated:{
         type:Date,

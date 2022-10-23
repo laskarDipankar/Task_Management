@@ -6,10 +6,9 @@ import { NavLink } from 'react-router-dom'
 import { border, Box, height, textAlign} from '@mui/system'
 import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import u6 from '../../Img/user/u6.svg'
-import sand from '../../Img/sand.jpg'
 
 
-const UserDetails = () => {
+const UserModetail = () => {
     const [individual,setUser] = useState([])
     const [tasks,setpendingTasks] = useState([])
     const [taskId,setTaskId] = useState({
@@ -63,6 +62,7 @@ console.log(typeof(taskId))
 
 return (
     <>
+    
     <Dialog
     open={add}
     onClose={()=>setadd(false)}
@@ -135,7 +135,8 @@ return (
             
             sx={{
                 height:150,
-                width:600,
+                width:500,
+                marginLeft:'7.5%',
                 marginTop:'8%',
                 // border:"2px solid brown",
                 display:"flex",
@@ -146,7 +147,7 @@ return (
             }}>
 
             <Typography
-            variant='h6'
+            variant='p'
             component='div'
             sx={{
                 // border:"2px solid red",
@@ -170,7 +171,7 @@ return (
                 {individual.email}
             </Typography>
             <Typography
-            variant='h6'
+            variant='p'
             component='div'
             sx={{
                 // border:"2px solid red",
@@ -178,7 +179,7 @@ return (
                 
             }}
             >
-                dateCreated <span> : </span>
+                DateCreated <span> : </span>
                 {individual.dateCreated}
             </Typography>
             <Box
@@ -190,6 +191,7 @@ return (
 
             <Button>EDIT</Button>
             <Button
+            size='small'
             onClick={(e)=>{
                 // {handleID()}
                 // {setTaskId(individual._id)}
@@ -208,7 +210,8 @@ return (
                     marginTop:'8%',
                     // paddingLeft:'50%',
                     display:'grid',
-                    gridTemplateColumns:'repeat(2,1fr)',
+                    gridTemplateColumns:'repeat(1,1fr)',
+                    marginLeft:'18%'
                     // justifyContent:'center'
 
                 }}>
@@ -227,11 +230,11 @@ return (
                                 
                                 sx={{
                                     // border:'2px solid greenyellow',
-                                    marginTop:'2%',
+                                    marginTop:'4%',
                                     marginLeft:'9%',
-                                    width:250,
+                                    width:230,
                                     height:200,
-                                    opacity:0.8
+                                    opacity:0.9
                                     
                                 }}>
                                     <CardMedia
@@ -278,14 +281,4 @@ return (
 
 }
 
-export default UserDetails
-
-{/* <h1>{ `EMAIL: ${individual.email}  `}</h1>
-            <h1>PendingTasks :</h1>
-            {
-                tasks.map((item)=>{
-                    return <NavLink }><h1>{item}</h1></NavLink>
-                })
-            }
-            
-            <h1>{ individual.dateCreated }</h1> */}
+export default UserModetail
