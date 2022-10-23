@@ -225,7 +225,7 @@ app.put("/api/users/:id", async (req, res) => {
         const verifyEMail = await User.findById(_id) 
         if(verifyEMail.email==req.body.email){
           res.send({
-            message:'a user is registered with this email already'
+            message:'A user is registered with this email already'
           })
         }else{
 
@@ -235,7 +235,7 @@ app.put("/api/users/:id", async (req, res) => {
           { new: true }
         );
         res.status(201).send({
-          message: "you have successfully Updated",
+          message: "You have successfully Updated",
           Data: userData,
         });
       }} else {
