@@ -2,6 +2,9 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+    Drawer,
+    List,
+    ListItemButton,
   Box,
   Button,
   Card,
@@ -12,7 +15,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  ListItemText
 } from "@mui/material";
 import { bgcolor, display } from "@mui/system";
 import Pagination from "../Pagination/Pagination";
@@ -22,12 +26,13 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import UpdaateUser from "./UpdaateUser";
 import e from "cors";
 
-const UserList = () => {
+const UserMolist = () => {
   const [state, setstate] = useState([]);
   const [page, setpage] = useState(0);
   const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
+  const [draw,setDraw]=useState(false)
   const [edit,setEdit]=useState({
     name:"",
     email:""
@@ -44,6 +49,14 @@ const UserList = () => {
         // console.log(res.data.Data);
       });
   }, [page]);
+
+  const handlebutton = () => {
+    if (open == false) {
+      setDraw(true);
+    } else {
+      setDraw(false);
+    }
+  };
 
   const getData = (data) => {
     setpage(data);
@@ -87,8 +100,6 @@ const handleChange=(e)=>{
   // console.log(edit)
 }
 const UserEdit = () => {
-    // console.log(user);
-    // alert('successfully Updated')
     setOpen(true);
 };
 const handleClickOpen = () => {
@@ -98,10 +109,13 @@ const handleClickOpen = () => {
 const handleClose = () => {
   setWarn(false);
 };
+const handledraw = () => {
+    setDraw(false);
+  };
 
   return (
     <>
-      {/* <UpdaateUser openM={openM} /> */}
+     
       <Box>
         <Dialog
         open={warn}
@@ -131,9 +145,9 @@ const handleClose = () => {
 
 
 
-{/* //////////////////// Modal for to edit users////////////////////////////////  */}
 
-<Modal open={open} onClose={() => setOpen(false)}>
+
+        <Modal open={open} onClose={() => setOpen(false)}>
           <Box
             sx={{
               maxWidth: "100%",
@@ -228,8 +242,6 @@ const handleClose = () => {
           </Box>
         </Modal>
       </Box>
-
-      
       {/* /////////////////////////////////////////////////  coponents ///////////// */}
 
       <AddUser />
@@ -251,13 +263,15 @@ const handleClose = () => {
               <Box
                 sx={{
                   display: "flex",
-                  // justifyContent:'center',
+                //   flexDirection:'column',
+                  justifyContent:'center',
                   paddingLeft: "2rem",
-                  // alignItems:'center',
+                  alignItems:'center',
                   border: "2px solid orange",
-                  width: 800,
+                  width: 300,
                   height: 120,
-                  backgroundColor:'rgba(255,255,255,0.8)'
+                  backgroundColor:'rgba(255,255,255,0.8)',
+                  
                 }}
               >
                 <NavLink
@@ -272,12 +286,12 @@ const handleClose = () => {
                   <Typography
                     sx={{
                       color: "black",
-                      paddingTop: "45%",
+                    //   paddingTop: "45%",
                       // height:40,
                       display: "grid",
                       alignItems: "center",
-                      // background:'white'
-                      // justifyContent:'center'
+                    //   justifyContent
+                      justifyContent:'center'
                     }}
                   >
                     {item.name.toUpperCase()}
@@ -286,6 +300,7 @@ const handleClose = () => {
                 <Box
                   sx={{
                     display: "flex",
+                    flexDirection:'column',
                     alignItems: "center",
                     marginLeft: "auto",
                     // paddingRight:'2rem',
@@ -300,20 +315,22 @@ const handleClose = () => {
                 }
                 >
                 <Button
-                variant="outlined"
+                // variant="outlined"
                 sx={{
-                  margin:2
+                //   margin:1,
+                //   height:40
+
                 }}
                 >
-                  Detail
-                  <span>/</span>
-                  Add Task
+                  DETAIL
+                  {/* <span>/</span>
+                  Add Task */}
                 </Button>
                 </NavLink>
                   <Button
-                  variant="outlined"
+                //   variant="outlined"
                   sx={{
-                    margin:2
+                    // margin:2
                   }}
                     onClick={(e) => {
                       {
@@ -322,16 +339,19 @@ const handleClose = () => {
                       {
                         setUser(item._id);
                       }
+                      {
+                        
+                      }
                     }}
                   >
                     Edit <span>-</span>
                     <EditIcon />
-                  </Button>
+                  </Button> 
 
-                  <Button
-                  variant="outlined"
+                   <Button
+                //   variant="outlined"
                   sx={{
-                    margin:2
+                    // margin:2
                   }}
                     // dUser={item._id}
                     
@@ -346,7 +366,7 @@ const handleClose = () => {
                     }}
                   > Delete <span>-</span>
                     <HighlightOffIcon />
-                  </Button>
+                  </Button> 
                 </Box>
               </Box>
             </>
@@ -357,4 +377,4 @@ const handleClose = () => {
   );
 };
 
-export default UserList;
+export default UserMolist;

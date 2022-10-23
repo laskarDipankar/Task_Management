@@ -198,12 +198,12 @@ app.put("/api/users/:id", async (req, res) => {
 
   
   
-  if(req.body.name == null || req.body.email == null){
-    res.send({
-      message:'you have left fields blank'
-    })
-  }
-  else{
+  // if(req.body.name == null || req.body.email == null){
+  //   res.send({
+  //     message:'you have left fields blank'
+  //   })
+  // }
+  // else{
   
     const _id = req.params.id;
     const Data = await User.findById(_id);
@@ -295,7 +295,7 @@ app.put("/api/users/:id", async (req, res) => {
             }
           }
       }
-    }}
+    }
 
 });
 

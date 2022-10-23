@@ -2,19 +2,17 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useState,useEffect } from "react";
-import UserGallery from "./UserGallery";
-import UserList from "./UserLIst";
-
-const Index = (props) => {
+import UserMolist from "./UserMOlist";
+import UserMOGallery from "./UsermoGallery";
+const MobileUser = (props) => {
     const [state, setstate] = useState(props.state)
 
-    
-
     // console.log(props.state)
+
+
     const handleTrue =()=>{
         setstate(true)
         props.getBool(true)
-        // console.log(props.state)
         
     }
     const handleFalse =()=>{
@@ -23,15 +21,13 @@ const Index = (props) => {
         
     }
 
-    
-
 
 
 return(
 <>
     <Box
     sx={{
-        marginTop:'7%',
+        marginTop:'15%',
         marginBottom:'1%',
         display:'flex',
         justifyContent:'center'
@@ -46,8 +42,9 @@ return(
         onClick={handleFalse}
         >List-View</button>
     </Box>
+        
     {
-        state ? <UserGallery  />:<UserList  />
+        state ? <UserMOGallery/>:<UserMolist/>
     }
 
     
@@ -56,4 +53,4 @@ return(
 </>)
 };
 
-export default Index;
+export default MobileUser;
