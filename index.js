@@ -246,7 +246,7 @@ app.put("/api/users/:id", async (req, res) => {
 
           if (taskResult == null) {
             res.send({
-              message: "task does not exist",
+              message: "Task does not exist",
             });
           } else {
             const isComplete = taskResult.completed;
