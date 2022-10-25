@@ -197,12 +197,12 @@ return (
                 
             }}>
 
-            <Button
+            {/* <Button
             sx={{
                 backgroundColor:'#92D293'
             }}
             onClick={Sorry}
-            >EDIT</Button>
+            >EDIT</Button> */}
             <Button
             sx={{
                 backgroundColor:'#92D293'
@@ -216,12 +216,12 @@ return (
             }}
             
             >Add-Task</Button>
-            <Button
+            {/* <Button
             sx={{
                 backgroundColor:'#92D293'
             }}
             onClick={Sorry}
-            >EDIT</Button>
+            >EDIT</Button> */}
             </Box>
                 </Box>
                 <Box

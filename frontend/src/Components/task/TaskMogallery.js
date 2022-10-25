@@ -11,25 +11,22 @@ import {
   DialogContent,
   Modal,
   TextField,
-  FormControlLabel,
-  Checkbox
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 import AddTask from "./AddTask";
 
-const TaskGallery = () => {
+const TaskMoGallery = () => {
   const [Tasks, setTask] = useState([]);
   const [page, setpage] = useState(0);
   const [warn, setWarn] = useState(false);
   const [taskId, setTaskid] = useState();
   const [open, setOpen] = useState(false);
-  const [taskstatus,setstatus] = useState(false)
   const [edit, setEdit] = useState({
     name: "",
     description: "",
-    deadline:"",
-    status:false
+    deadline: Date,
+    status: false,
   });
 
   useEffect(() => {
@@ -38,7 +35,7 @@ const TaskGallery = () => {
         `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9`
       )
       .then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         setTask(res.data.data);
       });
   }, [page]);
@@ -47,12 +44,14 @@ const TaskGallery = () => {
     setpage(data);
   };
   const taskDelete = async () => {
-    await axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}?sort={'dateCreated':-1}`)
-    // axios.delete(`http://localhost:9999/api/tasks/${taskId}`)
-    .then((res) => {
-      alert(res.data.message);
-    });
-    
+    await axios
+      .delete(
+        `https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}?sort={'dateCreated':-1}`
+      )
+      // axios.delete(`http://localhost:9999/api/tasks/${taskId}`)
+      .then((res) => {
+        alert(res.data.message);
+      });
   };
   const handleChange = (e) => {
     setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -72,29 +71,21 @@ const TaskGallery = () => {
     // console.log(edit)
   };
 
-  const handleTask = (e) =>{
-    console.log(taskstatus)
-
-  }
-
   const updateTask = async () => {
-    await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
-
-      "name":edit.name,
-      "description": edit.description,
-      "deadline": edit.deadline,
-      "completed":edit.status
-
-    }).then((res) => {
-      alert(res.data.message);
-    });
+    await axios
+      .patch(`http://localhost:9999/api/tasks/${taskId}`, {
+        name: edit.name,
+        description: edit.description,
+        deadline: edit.deadline,
+        completed: edit.status,
+      })
+      .then((res) => {
+        alert(res.data.message);
+      });
   };
 
   return (
     <>
-    
-      
-
       <Dialog open={warn} onClose={handleClose}>
         <DialogTitle
           sx={{
@@ -127,11 +118,11 @@ const TaskGallery = () => {
       </Dialog>
       <Box
         sx={{
-          marginTop: "10%",
+          marginTop: "20%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap:1
+          gap:0.5
         }}
       >
         {/* /////////////////////////////////////////////////////////////////////////////// */}
@@ -187,14 +178,14 @@ const TaskGallery = () => {
                     //   alignItems:'center'
                     // }}
                     >
-                    <TextField
-                          onChange={handleChange}
+                      <TextField
+                        //   onChange={handleChange}
 
                         name="name"
                         placeholder="Edit Name"
-                    >
+                      >
                         {edit.name}
-                    </TextField>
+                      </TextField>
                     </Box>
                     <Box>
                       <TextField
@@ -205,19 +196,7 @@ const TaskGallery = () => {
                         {edit.description}
                       </TextField>
                     </Box>
-                    {/* <Box>
-                      <FormGroup>
-                    <FormControlLabel disabled control={<Checkbox />} label="Status" />
-                        
-                      </FormGroup>
-
-                    </Box> */}
-                    <Box
-                    sx={{
-                      display:'flex',
-                      alignItems:'center',
-                      gap:1
-                    }}>
+                    <Box>
                       <TextField
                         name="deadline"
                         placeholder="Enter Deadline"
@@ -226,15 +205,8 @@ const TaskGallery = () => {
                       >
                         {edit.deadline}
                       </TextField>
-                      {/* <FormGroup> */}
-                    <FormControlLabel control={<Checkbox 
-                    name="status"
-                    onClick={()=>{{setEdit((prev)=>({status:!edit.status}))}}}
-                    
-                    />} label="Status" />
-                        
-                      {/* </FormGroup> */}
                     </Box>
+
                     {/* <Button variant="contained" >save</Button> */}
                   </Box>
                   <Button
@@ -258,7 +230,7 @@ const TaskGallery = () => {
         </Modal>
 
         {/* /////////////////////////////////////////////////////////////////////////////////////// */}
-        <AddTask/>
+        <AddTask />
         <Pagination getData={getData} />
 
         {Tasks.map((item) => {
@@ -266,9 +238,10 @@ const TaskGallery = () => {
             <>
               <Box
                 sx={{
+                    // marginTop:'4%',
                   border: "2px solid red",
                   height: 100,
-                  width: 800,
+                  width: 290,
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -276,7 +249,7 @@ const TaskGallery = () => {
                 <NavLink
                   style={{
                     textDecoration: "none",
-                    paddingLeft: "1%",
+                    paddingLeft: "2%",
                   }}
                   to={`/tasks/${item._id}`}
                 >
@@ -287,11 +260,12 @@ const TaskGallery = () => {
                       }
                     }
                   >
-                    Task name <span>-</span>
+                    Name <span>-</span>
                     {item.name}
                   </Typography>
                 </NavLink>
                 <Button
+                size="small"
                   sx={{
                     marginLeft: "auto",
                   }}
@@ -307,6 +281,7 @@ const TaskGallery = () => {
                   Delete
                 </Button>
                 <Button
+                size="small"
                   onClick={() => {
                     {
                       setOpen(true);
@@ -315,15 +290,6 @@ const TaskGallery = () => {
                 >
                   Edit
                 </Button>
-                <FormControlLabel control={<Checkbox 
-                    name="status"
-                    onClick={()=>{
-                      {setstatus((e)=>({taskstatus:!taskstatus}))}
-                      {handleTask()}
-                    
-                    }}
-                    
-                    />} label="Status" />
               </Box>
             </>
           );
@@ -332,4 +298,4 @@ const TaskGallery = () => {
     </>
   );
 };
-export default TaskGallery;
+export default TaskMoGallery;

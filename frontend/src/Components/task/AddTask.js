@@ -54,8 +54,6 @@ const AddTask = () => {
             // isFlag = true
     }
 
-  
-
 
 return (
     <>
@@ -63,7 +61,7 @@ return (
     sx={{
         display:'flex',
         justifyContent:'center',
-        marginTop:'5%%'
+        // marginTop:'9%'
     }}>
     <Button
     sx={{

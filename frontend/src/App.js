@@ -14,6 +14,8 @@ import Appbar from './Components/Navbar/Appbar';
 import Home from './Components/Navbar/Home';
 import UserMobile from './Components/user/userMain';
 import Detail from './Components/user/Detail';
+import MainTaskDetal from './Components/task/MainTaskDetal';
+import MainTaskGallery from './Components/task/Maintaskgallery';
 
 const App = () => {
   return (
@@ -23,9 +25,9 @@ const App = () => {
     <Routes>
       <Route path='/' element = {<Home/>}/>
       <Route path='/users' element={<UserMobile/>} />
-      <Route path = '/tasks' element ={<TaskGallery/>}/>
+      <Route path = '/tasks' element ={<MainTaskGallery/>}/>
       <Route path='/users/:id' element={<Detail/>} />
-      <Route path = '/tasks/:id' element ={<TaskDetails/>}/>
+      <Route path = '/tasks/:id' element ={<MainTaskDetal/>}/>
       
 
 

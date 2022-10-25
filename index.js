@@ -94,7 +94,6 @@ app.post("/api/tasks", async (req, res) => {
         message:"task Created",
         data:SaveTasks});
     // console.log(error)
-   
   }}
   else{
     // console.log("hello")
@@ -179,7 +178,7 @@ app.get("/api/users/:id", (req, res) => {
 });
 
 app.get("/api/tasks/:id", async (req, res) => {
-   const results = await Task.findById({ _id: req.params.id })
+  const results = await Task.findById({ _id: req.params.id })
     
       if (results == null) {
         res.status(404).send({
@@ -305,37 +304,95 @@ app.put("/api/users/:id", async (req, res) => {
 
 });
 
-app.put("/api/tasks/:id", async (req, res) => {
+app.patch("/api/tasks/:id", async (req, res) => {
   // res.send('hello')
 
+  const id = req.params.id;
+  console.log(id)
+  const Udata = await Task.find({_id:id})
+  // console.log(Udata)
+  
+  
   try {
-    const _id = req.params.id;
-
-    
-    const Data = await Task.findOneAndUpdate(
-      { _id: _id },
-      {
-        $set: {
-          name: req.body.name,
-          description: req.body.description,
-          deadline: req.body.deadline,
-          completed: req.body.completed
-        },
-      },
-      { new: true }
-    );
-    console.log("yahan")
-    if (Data == null) {
+    if (Udata == null) {
+      console.log("inside")
       res.send({
         message: "This Task does not exist",
       });
     } else {
+
+      // console.log("1")
+    // console.log(req.body.name)
+
+    if(req.body.name !="" ){
+      await Task.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            name: req.body.name
+          },
+        },
+        { new: true }
+      );
+    }
+    // console.log(req.body.completed , "hello")
+    if(req.body.description != "" ){
+      await Task.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            description: req.body.description,
+          },
+        },
+        { new: true }
+      );
+    }
+    if(req.body.deadline != "" ){
+      await Task.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            deadline: req.body.deadline
+          },
+        },
+        { new: true }
+      );
+    }
+    console.log("bye")
+    
+    if(req.body.completed !== null ){
+      console.log(req.body.completed,"inside")
+    await Task.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          completed: req.body.completed
+        }
+      },
+      { new: true }
+    );
+
+    if(req.body.completed == true){
+      const findUser = await User.find({"pendingTasks":id})
+
+      // console.log(findUser.name)
+
+       await findUser.pendingTasks.filter((item)=>{
+
+        console.log("here")
+        if(item == id ){
+          findUser.pendingTasks.remove(id)
+          findUser.save()
+        }
+      })}
+    }
+    const Data = await Task.find({_id:id})
       res.status(201).send({
         message: "Task Modified",
         Data: Data,
       });
     }
-    // console.log(Data)
+
   } catch (error) {
     res.status(500).send({
       message:"server error"

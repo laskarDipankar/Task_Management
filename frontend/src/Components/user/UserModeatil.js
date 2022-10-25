@@ -193,7 +193,7 @@ return (
                 
             }}>
 
-            <Button>EDIT</Button>
+            {/* <Button>EDIT</Button> */}
             <Button
             size='small'
             onClick={(e)=>{
@@ -203,7 +203,7 @@ return (
             }}
             
             >Add-Task</Button>
-            <Button>EDIT</Button>
+            {/* <Button>EDIT</Button> */}
             </Box>
                 </Box>
                 <Box
