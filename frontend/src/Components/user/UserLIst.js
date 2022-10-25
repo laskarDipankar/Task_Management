@@ -19,8 +19,7 @@ import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import UpdaateUser from "./UpdaateUser";
-import e from "cors";
+
 
 const UserList = () => {
   const [state, setstate] = useState([]);
@@ -30,7 +29,8 @@ const UserList = () => {
   const [warn, setWarn] = useState(false);
   const [edit,setEdit]=useState({
     name:"",
-    email:""
+    email:"",
+    deadline:Date
   })
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const UserList = () => {
     await axios
       .delete(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`)
       .then((res) => {
-        alert(res.data.message);
+        alert( alert(`Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`));
       });
 
     console.log(user);
@@ -196,6 +196,24 @@ const handleClose = () => {
                   </TextField>
                   
                 
+                </Box>
+                <Box>
+                  {/* <TextField></TextField> */}
+                  <TextField
+                  name="email"
+                  placeholder="Edit email"
+                  onChange={handleChange}
+                  >
+                  </TextField>
+                </Box>
+                <Box>
+                  {/* <TextField></TextField> */}
+                  <TextField
+                  name="email"
+                  placeholder="Edit email"
+                  onChange={handleChange}
+                  >
+                  </TextField>
                 </Box>
                 <Box>
                   {/* <TextField></TextField> */}

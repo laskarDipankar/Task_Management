@@ -23,11 +23,13 @@ const MobileUser = (props) => {
 
 
 
+
+
 return(
 <>
     <Box
     sx={{
-        marginTop:'15%',
+        marginTop:'25%',
         marginBottom:'1%',
         display:'flex',
         justifyContent:'center'

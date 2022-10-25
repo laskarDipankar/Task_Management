@@ -2,45 +2,211 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { useParams } from "react-router";
 import { Box } from "@mui/system";
+import { Button, Typography,Dialog,DialogActions,DialogContent,DialogTitle } from "@mui/material";
 
 const TaskDetails = () => {
     const[tasks,setTasks]=useState([])
     const params = useParams()
+    const [user,setUser] = useState()
+    const [warn, setWarn] = useState(false);
 
     useEffect(()=>{
         axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
         .then((res)=>{
-            console.log(res.data.results)
+            // console.log(res.data.results)
             setTasks(res.data.results)
         })
     },[params.id])
 
+    const taskDelete = () =>{
+      // axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
+      axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
+      .then((res)=>{
+        alert(res.data.message)
+      })
+
+      // alert("hello")
+    }
+    const handleClickOpen = () => {
+      setWarn(true);
+    };
+    
+    const handleClose = () => {
+      setWarn(false);
+    };
+
+
+
+
+
+
     const status =(tasks.completed+"")
-    console.log(status)
+    // console.log(status)
   return (
     <>
+     <Dialog
+        open={warn}
+        onClose={handleClose}
+        >
+          <DialogTitle
+          sx={{
+            color:'red'
+          }}
+          >
+            {"Warning"}
+          </DialogTitle>
+          <DialogContent>
+          {"Deleting this will erase all the data of this user, are you sure you want to delete ."}
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleClose}>Do not Delete</Button>
+          <Button onClick={()=>{{handleClose()}{taskDelete()}}} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+        </Dialog>
     <Box
     sx={{
-      margin:'5%'
+      // marginTop:'7'
+      margin:'7%',
+      height:770,
+      display:'grid',
+      justifyContent:'center',
+      alignItems:'center',
+      border:' 2px solid yellow'
+
     }}>
-    <h1>{` Taskname: ${tasks.name}`}</h1>
-    <h1>{`Status : ${status}`}</h1>
-    <p>{`Description :${tasks.description}`}</p>
-    <h1>{`Assigned-User : ${tasks.assignedUser}`}</h1>
-    <h1>{`Assigned User Name : ${tasks.assignedUserName}`}</h1>
-    <h1>{`Deadline : ${tasks.deadline}`}</h1>
+      <Typography
+      variant="h3"
+      component={'div'}
+      sx={{
+        // border:'2px solid red',
+        color:'blueviolet',
+        marginBottom:'3%'
+      }}
+      >
+      {` Taskname: ${tasks.name}`}
+      </Typography>
+      <Typography
+      variant="h6"
+      component={'div'}
+      sx={{
+        // border:'2px solid red',
+        color:'blueviolet'
+      }}
+      >
+      {` Task-Id: ${tasks._id}`}
+      </Typography>
+      <Box
+      sx={{
+        display:'flex',
+        justifyContent:'space-around',
+        flexDirection:'column',
+        gap:4
+      }}>
+        <Typography
+        variant="h4"
+        component={'div'}
+        sx={{
+          // border:'2px solid red',
+          color:"green"
+        }}
+        >
+        {`Status : ${status}`}
+        </Typography>
+        <Typography
+        variant="h6"
+        component='div'
+        sx={{
+          width:400
+        }}
+        >
+          
+        {`Description :${tasks.description}`}
+
+
+
+        </Typography>
+        <Typography
+        variant="h4"
+        component={'div'}
+        sx={{
+          // border:'2px solid red',
+          color:"green"
+        }}
+        >
+        {`Deadline : ${tasks.deadline}`}
+        </Typography>
+        <Typography
+        variant="h4"
+        component={'div'}
+        sx={{
+          // border:'2px solid red',
+          color:"green"
+        }}
+        >
+            {`Assigned-User : ${tasks.assignedUser}`}
+        </Typography>
+        <Typography
+        variant="h4"
+        component={'div'}
+        sx={{
+          // border:'2px solid red',
+          color:"green"
+        }}
+        >
+          {`Assigned User Name : ${tasks.assignedUserName}`}
+
+        </Typography>
+
+        <Box
+        sx={{
+          display:'flex',
+          gap:2
+        }}>
+          <Button
+          variant="outlined"
+          sx={{
+            bgcolor:'red',
+            color:'darkgreen'
+          }}
+          onClick={()=>{{handleClickOpen()}}}
+          
+          
+          size="medium">Delete</Button>
+          <Button
+          variant="outlined"
+          sx={{
+            bgcolor:'green',
+            color:'blue'
+          }} size="medium">Edit</Button>
+          {/* <Button size="small"></Button> */}
+        </Box>
+        </Box>
+          
+
+
+        
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+
+
+
+    {/* <p></p> */}
+    
     </Box>
     </>
-    
-    // <div>
-        /* <h1>{` Taskname: ${tasks.name}`}</h1> */
-    //     <h1>{`Status : ${status}`}</h1>
-    //     <p>{`Description :${tasks.description}`}</p>
-    //     <h1>{`Assigned-User : ${tasks.assignedUser}`}</h1>
-    //     <h1>{`Assigned User Name : ${tasks.assignedUserName}`}</h1>
-    //     <h1>{`Deadline : ${tasks.deadline}`}</h1>
 
-    // </div>
   )
 }
 

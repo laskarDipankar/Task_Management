@@ -244,7 +244,6 @@ const UserRev = () => {
               boxShadow: "3px 3px 6px 3px black",
               "&:hover": {
                 boxShadow: "5px 3px 6px 3px #809fff",
-                // bgcolor:'white'
               }
             }}>
 

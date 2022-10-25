@@ -20,7 +20,7 @@ const Pagination = (props) => {
     const Previouspage=(e)=>{
         console.log(e.target.value)
         if(page==0){
-            return 0
+            alert('you have reached lower limit')
         }else{
 
             setpage(item=>item-9)
@@ -28,6 +28,7 @@ const Pagination = (props) => {
         }
 
     }
+    
 
 
 

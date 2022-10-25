@@ -13,6 +13,8 @@ const Detail = () => {
     <>
     <Box
     sx={{
+
+        
         backgroundImage: `url(${sand})`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",

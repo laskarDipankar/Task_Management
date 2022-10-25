@@ -38,9 +38,13 @@ const UserDetails = () => {
         })
     },[params.id])
 
+    const Sorry = () =>{
+        alert('I am working on it , thanks for your patience')
+    }
+
     const handleID = async () =>{
-    //    await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
-    await axios.put(`http://localhost:9999/api/users/${params.id}`
+    await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
+    // await axios.put(`http://localhost:9999/api/users/${params.id}`
     
     ,{
             taskd:taskId.task
@@ -135,13 +139,16 @@ return (
             
             sx={{
                 height:150,
-                width:600,
+                width:500,
                 marginTop:'8%',
+                marginLeft:'8%',
                 // border:"2px solid brown",
                 display:"flex",
                 flexDirection:"column",
                 justifyContent:'center',
                 // alignItems:'center'
+                background:'white',
+                opacity:0.9
 
             }}>
 
@@ -166,7 +173,7 @@ return (
                 
             }}
             >
-                email <span> : </span>
+                Email <span> : </span>
                 {individual.email}
             </Typography>
             <Typography
@@ -178,26 +185,43 @@ return (
                 
             }}
             >
-                dateCreated <span> : </span>
+                DateCreated <span> : </span>
                 {individual.dateCreated}
             </Typography>
             <Box
             sx={{
                 display:'flex',
                 alignItems:'center',
-                justifyContent:"center"
+                justifyContent:"center",
+                gap:'2px',
+                
             }}>
 
-            <Button>EDIT</Button>
             <Button
+            sx={{
+                backgroundColor:'#92D293'
+            }}
+            onClick={Sorry}
+            >EDIT</Button>
+            <Button
+            sx={{
+                backgroundColor:'#92D293'
+            }}
             onClick={(e)=>{
                 // {handleID()}
                 // {setTaskId(individual._id)}
                 {setadd(true)}
+
+        
             }}
             
             >Add-Task</Button>
-            <Button>EDIT</Button>
+            <Button
+            sx={{
+                backgroundColor:'#92D293'
+            }}
+            onClick={Sorry}
+            >EDIT</Button>
             </Box>
                 </Box>
                 <Box
@@ -209,6 +233,7 @@ return (
                     // paddingLeft:'50%',
                     display:'grid',
                     gridTemplateColumns:'repeat(2,1fr)',
+                    marginLeft:'8%'
                     // justifyContent:'center'
 
                 }}>

@@ -9,7 +9,8 @@ const path = require('path')
 const app = express();
 require("./Database/Connection");
 app.use(express.json());
-const cors = require('cors')
+const cors = require('cors');
+const { optionGroupUnstyledClasses } = require("@mui/base");
 app.use(cors())
 
 // PythonShell.run("dbFill.py", {}, function (err, result) {
@@ -208,7 +209,7 @@ app.put("/api/users/:id", async (req, res) => {
     const _id = req.params.id;
     const Data = await User.findById(_id);
     if (Data == null) {
-      res.status(404).send({
+      res.status(400).send({
         message: "Oppsie!! you are not a registered user",
       });
     } else {
@@ -285,7 +286,7 @@ app.put("/api/users/:id", async (req, res) => {
               { new: true }
             );
             if(updatedTask == null){
-              res.status(404).send("not a valid user");
+              res.status.send("not a valid user");
               
             }
           else  {
@@ -293,7 +294,7 @@ app.put("/api/users/:id", async (req, res) => {
           data:updatedTask });
           } // res.send(UpdateUser)
             } else {
-              res.status(400).send({
+              res.send({
                 message: "oOpps ! task is Assigned to some other user",
                 data:[]
               });
@@ -340,39 +341,116 @@ app.put("/api/tasks/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/users/:id", async (req, res) => {
+// app.delete("/api/users/:id", async (req, res) => {
   
-    const _id = req.params.id;
-    console.log(_id)
-    const result = await User.findOneAndDelete({_id: req.params.id })
+//     const _id = req.params.id;
+//     console.log(_id)
+//     const result = await User.findOneAndDelete({_id: req.params.id })
 
-      // console.log(req.query)
-      
-      if(result == null){
-        res.send({
-          message:` not a valid user` })
-        }
-      else{
-        res.status(200).send({
-          message:`user deleted`
-      })}
+//       if(result == null){
+//         res.send({
+//           message:` not a valid user` })
+//         }
+//       else{
+//         res.status(200).send({
+//           message:`user deleted`
+//       })}
+//     })
+
+app.delete("/api/users/:id", async(req,res)=>{
+  const id= req.params.id
+
+  const result = await User.findById({_id:id})
+
+  if(result == null){
+    res.send({message:"THERE IS NO SUCH USER"})
+  }else{
+    const DelUserDetails = await Task.findOneAndUpdate({"assignedUser":id.toString()},{$set:{"completed":true,"assignedUser":"","assignedUserName":""}})
+
+    const DelUser = await User.findOneAndDelete({_id: req.params.id })
+
+    // const Updatedetail = await Task.find()
+    res.send({
+      message:`User ${result.name} deleted`,
+      data:DelUser,
+      Taskfreed : `${DelUserDetails.name} is free to assign`
     })
-app.delete("/api/tasks/:id", async (req, res) => {
-    const result = await Task.findOneAndDelete({ _id: req.params.id },{new:true});
+  }
+})
+
+
+
+
+
+
+
+
+
+
+app.delete("/api/tasks/:id",async(req,res)=>{
+  const result = await Task.findById({_id:req.params.id})
+  const id = req.params.id
+  console.log("1")
 
     if(result == null){
-      res.status(400).send({
+      console.log("2")
+      res.send({
         message:"task does not exist  deleted",
         data:result
       })
     }else{
-      res.status(200).send({
-        message:`task with taskid ${req.params.id} has been deleted succesfully`,
-      })
+      console.log("3")
+      console.log( result.completed)
+      if(result.assignedUser != "" && !result.completed ){
+
+        console.log("4")
+        const data = await User.findById(result.assignedUser) 
+
+        if(data != null){
+          console.log("5")
+            var darray = data.pendingTasks.filter((item)=>{
+            if(item == id ){
+              data.pendingTasks.remove(id)
+              data.save()
+              res.send({
+                message:'Task Deleted',
+                data:data
+              })
+
+            }
+          })
+          
+        }
+      }else{
+        console.log("hello")
+        const delTask = await Task.findOneAndDelete({ _id: id},{new:true});
+
+        
+        res.send({
+          message:'task deleted',
+          data:delTask
+        })
+          
+      
+
+
+      }
 
     }
+} )
 
+// app.delete("/api/tasks/:id", async (req, res) => {
+//     const result = await Task.findOneAndDelete({ _id: req.params.id },{new:true});
 
-  
-  
-});
+//     if(result == null){
+//       res.send({
+//         message:"task does not exist  deleted",
+//         data:result
+//       })
+//     }else{
+//       res.send({
+//         message:`task with taskid ${req.params.id} has been deleted succesfully`,
+//       })
+
+//     }
+// });

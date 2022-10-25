@@ -30,7 +30,7 @@ const MobileHome = () => {
         <>
           <Box
             sx={{
-              marginTop: "10%",
+              marginTop: "14%",
             //   minHeight: "100%",
               width: "100%",
               display: "grid",
@@ -80,10 +80,10 @@ const MobileHome = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    width:350,
+                    width:300,
                     // margin: "auto",
                     boxShadow:'2px 2px 7px 2px yellowgreen',
-                    color:'yellowgreen',
+                    color:'purple',
                     fontWeight:700
                   }}
                 >
@@ -110,14 +110,14 @@ const MobileHome = () => {
                     sx={{
                       // display:'flex',
     
-                      width: 300,
+                      width: 270,
                       borderRadius: "12px",
                       boxShadow: "5px 5px 10px 5px grey",
                       opacity: 0.9,
-                      "&:hover": {
-                        boxShadow: "5px 5px 10px 5px yellowgreen",
+                      // "&:hover": {
+                      //   boxShadow: "5px 5px 10px 5px yellowgreen",
                         
-                      },
+                      // },
     
                       // height:300
                       // marginTop:'10%'
@@ -160,16 +160,16 @@ const MobileHome = () => {
                         borderRadius: "12px",
                         opacity: 0.9,
                         boxShadow: "5px 5px 10px 5px grey",
-                        "&:hover": {
-                          boxShadow: "5px 5px 10px 5px yellowgreen",
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "5px 5px 10px 5px yellowgreen",
+                        // },
     
                         // height:300
                         // marginTop:'10%'
                       }}
                     >
                       <CardContent>
-                        <img className="gif" src={gif}></img>
+                        {/* <img className="gif" src={gif}></img> */}
                         <Typography gutterBottom variant="span" component="div">
                           GO SHOPPING
                           <Divider variant="middle" flexItem />
@@ -185,16 +185,16 @@ const MobileHome = () => {
                         borderRadius: "12px",
                         opacity: 0.9,
                         boxShadow: "5px 5px 10px 5px grey",
-                        "&:hover": {
-                          boxShadow: "5px 5px 10px 5px yellowgreen",
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "5px 5px 10px 5px yellowgreen",
+                        // },
     
                         // height:300
                         // marginTop:'10%'
                       }}
                     >
                       <CardContent>
-                        <img className="gif" src={gif}></img>
+                        {/* <img className="gif" src={gif}></img> */}
                         <Typography gutterBottom variant="span" component="div">
                           Volleyball
                           <Divider variant="middle" flexItem />
@@ -210,16 +210,16 @@ const MobileHome = () => {
                         borderRadius: "12px",
                         opacity: 0.9,
                         boxShadow: "5px 5px 10px 5px grey",
-                        "&:hover": {
-                          boxShadow: "5px 5px 10px 5px yellowgreen ",
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "5px 5px 10px 5px yellowgreen ",
+                        // },
     
                         // height:300
                         // marginTop:'10%'
                       }}
                     >
                       <CardContent>
-                        <img className="gif" src={gif}></img>
+                        {/* <img className="gif" src={gif}></img> */}
                         <Typography gutterBottom variant="span" component="div">
                           Ecomm-Webiste
                           <Divider variant="middle" flexItem />
@@ -243,10 +243,10 @@ const MobileHome = () => {
                   // marginTop:'%',
                   borderRadius:'4%',
                   boxShadow: "3px 3px 6px 3px black",
-                  "&:hover": {
-                    boxShadow: "5px 3px 6px 3px #809fff",
-                    // bgcolor:'white'
-                  }
+                  // "&:hover": {
+                  //   boxShadow: "5px 3px 6px 3px #809fff",
+                    
+                  // }
                 }}>
     
                 <Typography
@@ -306,10 +306,10 @@ const MobileHome = () => {
                     // border: "3px solid yellowgreen",
                     borderRadius:'10%',
                     boxShadow: "5px 5px 10px 5px grey",
-                    "&:hover": {
-                      boxShadow: "2px 2px 6px 2px #809fff",
-                      // bgcolor:'white'
-                    }
+                    // "&:hover": {
+                    //   boxShadow: "2px 2px 6px 2px #809fff",
+                    
+                    // }
                     // marginLeft: "5%",
                   }}
                 ><Typography
@@ -324,10 +324,10 @@ const MobileHome = () => {
                   justifyContent:'center',
                   fontSize:'20px',
                   boxShadow: "5px 5px 10px 5px grey",
-                        "&:hover": {
-                          boxShadow: "2px 2px 6px 2px #809fff",
-                          bgcolor:'white'
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "2px 2px 6px 2px #809fff",
+                        //   bgcolor:'white'
+                        // },
                 }}
                 >How our users feel about us !!</Typography>
                 
@@ -345,13 +345,13 @@ const MobileHome = () => {
                     color:'black',
                     // justifyContent:'center',
                     boxShadow: "2px 2px 6px 2px grey",
-                        "&:hover": {
-                          boxShadow: "5px 5px 10px 5px #809fff",
-                          bgcolor:'white'
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "5px 5px 10px 5px #809fff",
+                        //   bgcolor:'white'
+                        // },
                   }}
                   >
-                    <img className="gif1" src={f2}></img>
+                    {/* <img className="gif1" src={f2}></img> */}
                     Flexible, fast, and modern design
                   </Typography>
                   <Typography
@@ -368,14 +368,14 @@ const MobileHome = () => {
                     // justifyContent:'center',
                     marginRight:'5%',
                     boxShadow: "2px 2px 6px 2px grey",
-                    "&:hover": {
-                      boxShadow: "5px 5px 10px 5px #809fff",
-                      bgcolor:'white'
-                    },
+                    // "&:hover": {
+                    //   boxShadow: "5px 5px 10px 5px #809fff",
+                    //   bgcolor:'white'
+                    // },
     
                   }}
                   >
-                    <img className="gif1" src={male2}/>
+                    {/* <img className="gif1" src={male2}/> */}
                     With projects, labels and priorities, you can tailor toDo to your personal workflow
                     </Typography>
                   <Typography
@@ -391,13 +391,13 @@ const MobileHome = () => {
                     fontSize:'12px',
                     // justifyContent:'center',
                     boxShadow: "2px 2px 6px 2px grey",
-                        "&:hover": {
-                          boxShadow: "5px 5px 10px 5px #809fff",
-                          bgcolor:'white'
-                        },
+                        // "&:hover": {
+                        //   boxShadow: "5px 5px 10px 5px #809fff",
+                        //   bgcolor:'white'
+                        // },
                   }}
                   >
-                    <img className="gif1" src={f1}></img>
+                    {/* <img className="gif1" src={f1}></img> */}
                     Choose everything from a simple checklist to a multi-column kanban board.
     
                     </Typography>
@@ -414,15 +414,15 @@ const MobileHome = () => {
                     // justifyContent:'center',
                     marginRight:'5%',
                     boxShadow: "2px 2px 6px 2px grey",
-                    "&:hover": {
-                      boxShadow: "5px 5px 10px 5px #809fff",
-                      bgcolor:'white'
-                    },
+                    // "&:hover": {
+                    //   boxShadow: "5px 5px 10px 5px #809fff",
+                    //   bgcolor:'white'
+                    // },
     
                   }}
                   >
     
-                    <img className="gif1" src={male1}></img>
+                    {/* <img className="gif1" src={male1}></img> */}
                     I have become more punctual, all thanks to toDo 
                   </Typography>
                   <Typography
@@ -439,15 +439,15 @@ const MobileHome = () => {
                     fontSize:'13px',
                     marginLeft:'5%',
                     boxShadow: "2px 2px 6px 2px grey",
-                    "&:hover": {
-                      boxShadow: "5px 5px 10px 5px #809fff",
-                      bgcolor:'white'
-                    },
+                    // "&:hover": {
+                    //   boxShadow: "5px 5px 10px 5px #809fff",
+                    //   bgcolor:'white'
+                    // },
     
                   }}
                   >
     
-                    <img className="gif1" src={f2}></img>
+                    {/* <img className="gif1" src={f2}></img> */}
                     i work for 48hrs in 24hrs.
     
                     

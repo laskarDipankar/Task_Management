@@ -99,9 +99,9 @@ return (
 
     <Box
     sx={{
-        height: 890,
-        width: "99.2%",
-        marginTop:'5.5%',
+        height: 600,
+        // width: "99.2%",
+        marginTop:'10%',
         // border:'2px solid red',
         display:'grid',
         justifyContent:'center',
@@ -112,8 +112,8 @@ return (
         <Box
         
         sx={{
-            height:800,
-            width:1000,
+            height:600,
+            // width:1000,
             // border:'2px solid green',
             display:'grid',
             
@@ -122,26 +122,29 @@ return (
         }}>
             <Box
             sx={{
-                width:800,
+                width:400,
                 // border:"2px solid yellow",
                 display:'grid',
                 gridTemplateRows:'30% 1fr',
                 justifyContent:'center',
                 // placeItems:"center",
-                height:800,
+                height:600,
 
             }}> 
             <Box
             
             sx={{
                 height:150,
-                width:500,
-                marginLeft:'7.5%',
+                width:300,
+                // marginLeft:'%',
                 marginTop:'8%',
                 // border:"2px solid brown",
                 display:"flex",
                 flexDirection:"column",
                 justifyContent:'center',
+                background:'white',
+                opacity:0.85,
+                marginLeft:'2%'
                 // alignItems:'center'
 
             }}>
@@ -186,7 +189,8 @@ return (
             sx={{
                 display:'flex',
                 alignItems:'center',
-                justifyContent:"center"
+                justifyContent:"center",
+                
             }}>
 
             <Button>EDIT</Button>
@@ -205,14 +209,15 @@ return (
                 <Box
                 sx={{
                     // border:'2px solid pink',
-                    height:450,
-                    width:600,
+                    // height:450,
+                    width:300,
                     marginTop:'8%',
-                    // paddingLeft:'50%',
+                    paddingLeft:'6%',
                     display:'grid',
-                    gridTemplateColumns:'repeat(1,1fr)',
-                    marginLeft:'18%'
+                    gridTemplateColumns:'1fr',
+                    marginLeft:'2%',
                     // justifyContent:'center'
+                    alignitems:'center'
 
                 }}>
                     {/* <Typography
