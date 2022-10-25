@@ -24,6 +24,7 @@ const TaskGallery = () => {
   const [warn, setWarn] = useState(false);
   const [taskId, setTaskid] = useState();
   const [open, setOpen] = useState(false);
+  const [completion,setcompletion] = useState(null)
   const [taskstatus,setstatus] = useState(false)
   const [edit, setEdit] = useState({
     name: "",
@@ -38,7 +39,7 @@ const TaskGallery = () => {
         `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9`
       )
       .then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         setTask(res.data.data);
       });
   }, [page]);
@@ -77,6 +78,8 @@ const TaskGallery = () => {
 
   }
 
+  
+
   const updateTask = async () => {
     await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
 
@@ -89,7 +92,8 @@ const TaskGallery = () => {
       alert(res.data.message);
     });
   };
-
+console.log(completion)
+console.log(Tasks.completed)
   return (
     <>
     
@@ -259,9 +263,40 @@ const TaskGallery = () => {
 
         {/* /////////////////////////////////////////////////////////////////////////////////////// */}
         <AddTask/>
-        <Pagination getData={getData} />
+        <Box
+        sx={{
+          display:'flex',
+          justifyContent:'center'
+        }}>
 
-        {Tasks.map((item) => {
+        <Button
+        value='fasle'
+        onClick={(e)=>setcompletion(false)}
+        >Completed Task</Button>
+        <Pagination getData={getData} />
+        <Button
+        // value='true'
+        onClick={(e)=>setcompletion(true)}
+        >Completed Task</Button>
+        </Box>
+
+
+        {
+        
+          Tasks.filter((item)=>{
+            if(completion == null){
+              console.log("blank")
+              return item
+
+              
+            }else if(item.completed == completion ){
+              console.log("blank1")
+              return item
+            }
+            console.log("blank2")
+              return item
+        })
+        .map((item) => {
           return (
             <>
               <Box

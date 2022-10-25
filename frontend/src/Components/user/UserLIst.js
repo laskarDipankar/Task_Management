@@ -12,14 +12,16 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  fabClasses,
 } from "@mui/material";
 import { bgcolor, display } from "@mui/system";
 import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-
+import ClipLoader from "react-spinners/ClipLoader";
+import { blue } from "@mui/material/colors";
 
 const UserList = () => {
   const [state, setstate] = useState([]);
@@ -27,22 +29,34 @@ const UserList = () => {
   const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
-  const [edit,setEdit]=useState({
-    name:"",
-    email:"",
-    deadline:Date
-  })
+  const [sortdata, setdata] = useState();
+  const [flag, setflag] = useState(true);
+  const [loading, setloading] = useState(false);
+  const [color,setcolor] = useState("blue")
+  const [edit, setEdit] = useState({
+    name: "",
+    email: "",
+    deadline: Date,
+  });
 
   useEffect(() => {
-    axios
-      .get(
-        `https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
-        // `http://localhost:9999/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
-      )
-      .then((res) => {
-        setstate(res.data.Data);
-        // console.log(res.data.Data);
-      });
+    setloading(true);
+
+    setTimeout(() => {
+      axios
+        .get(
+          `https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
+          // `http://localhost:9999/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
+        )
+        .then((res) => {
+          setstate(res.data.Data);
+          // console.log(res.data.Data);
+        });
+    }, 1000);
+
+    var status = document.querySelectorAll('.status')
+
+    setloading(false);
   }, [page]);
 
   const getData = (data) => {
@@ -50,90 +64,118 @@ const UserList = () => {
   };
   const UserDelete = async () => {
     await axios
-      .delete(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`)
+      .delete(
+        `https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`
+      )
       .then((res) => {
-        alert( alert(`Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`));
+        
+          alert(
+            `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
+            );
+
+            if(res.data.message != ""){
+              setTimeout(() => {
+                setcolor("green")
+              }, 100);
+              setcolor("blue")
+            }
+          
       });
 
     console.log(user);
   };
 
   const UserUpdate = async () => {
-
-    if(edit.name == "" || edit.email == ""){
-      alert('All the fields are mandatory')
-    }else{
-    await axios
-      .put(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`,{
-        name:edit.name,
-        email:edit.email
-      })
-      .then((res) => {
-        alert(res.data.message);
-      })
+    if (edit.name == "" || edit.email == "") {
+      alert("All the fields are mandatory");
+    } else {
+      await axios
+        .put(
+          `https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`,
+          {
+            name: edit.name,
+            email: edit.email,
+          }
+        )
+        .then((res) => {
+          alert(res.data.message);
+          
+        });
     }
 
     console.log(user);
   };
 
+  const sortItem = () => {
+    console.log("hello");
+    if (flag != true) {
+      setstate((item) => item.sort((a, b) => (a.id > b.id ? 1 : -1)));
+      setflag(true);
+    } else {
+      setstate((item) => item.sort((a, b) => (a.id > b.id ? -1 : 1)));
+      setflag(false);
+    }
+  };
 
-const handleSubmit=(e)=>{
-  e.preventDefault()
-  e.target.reset()
-  console.log(edit)
-}
-const handleChange=(e)=>{
-  setEdit((prev)=>({...prev,[e.target.name]:e.target.value}))
-  // console.log(edit)
-}
-const UserEdit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    console.log(edit);
+  };
+  const handleChange = (e) => {
+    setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // console.log(edit)
+  };
+  const UserEdit = () => {
     // console.log(user);
     // alert('successfully Updated')
     setOpen(true);
-};
-const handleClickOpen = () => {
-  setWarn(true);
-};
+  };
+  const handleClickOpen = () => {
+    setWarn(true);
+  };
 
-const handleClose = () => {
-  setWarn(false);
-};
+  const handleClose = () => {
+    setWarn(false);
+  };
 
   return (
     <>
-      {/* <UpdaateUser openM={openM} /> */}
       <Box>
-        <Dialog
-        open={warn}
-        onClose={handleClose}
-        >
+        <Dialog open={warn} onClose={handleClose}>
           <DialogTitle
-          sx={{
-            color:'red'
-          }}
+            sx={{
+              color: "red",
+            }}
           >
             {"Warning"}
           </DialogTitle>
           <DialogContent>
-          {"Deleting this will erase all the data of this user, are you sure you want to delete ."}
+            {
+              "Deleting this will erase all the data of this user, are you sure you want to delete ."
+            }
           </DialogContent>
           <DialogActions>
-          <Button onClick={handleClose}>Do not Delete</Button>
-          <Button onClick={()=>{{handleClose()}{UserDelete()}}} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
+            <Button onClick={handleClose}>Do not Delete</Button>
+            <Button
+              onClick={() => {
+                {
+                  handleClose();
+                }
+                {
+                  UserDelete();
+                }
+              }}
+              autoFocus
+            >
+              Delete
+            </Button>
+          </DialogActions>
         </Dialog>
-        
 
+        {/* //////////////////// Modal for to edit users////////////////////////////////  */}
 
-
-
-
-
-{/* //////////////////// Modal for to edit users////////////////////////////////  */}
-
-<Modal open={open} onClose={() => setOpen(false)}>
+        <Modal open={open} onClose={() => setOpen(false)}>
           <Box
             sx={{
               maxWidth: "100%",
@@ -156,104 +198,113 @@ const handleClose = () => {
                 background: "white",
               }}
             >
-              <form
-              onSubmit={handleSubmit}
-              >
+              <form onSubmit={handleSubmit}>
                 <Box
-                sx={{
-                  display:'flex',
-                  flexDirection:'column',
-                  gap:2,
-                  justifyContent:'center',
-                  alignItems:'center'
-                }}>
-                <Box
-                sx={{
-                  display:'flex',
-                  flexDirection:'column',
-                  gap:2,
-                  justifyContent:'center',
-                  alignItems:'center'
-                }}>
-
-                <Box
-                // sx={{
-                //    display:'flex',
-                //   flexDirection:'column',
-                //   // gap:20,
-                //   justifyContent:'center',
-                //   alignItems:'center'
-                // }}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  
-                  <TextField
-                  onChange={handleChange}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                    // sx={{
+                    //    display:'flex',
+                    //   flexDirection:'column',
+                    //   // gap:20,
+                    //   justifyContent:'center',
+                    //   alignItems:'center'
+                    // }}
+                    >
+                      <TextField
+                        onChange={handleChange}
+                        name="name"
+                        placeholder="Edit Name"
+                      >
+                        {edit.name}
+                      </TextField>
+                    </Box>
+                    <Box>
+                      {/* <TextField></TextField> */}
+                      <TextField
+                        name="email"
+                        placeholder="Edit email"
+                        onChange={handleChange}
+                      ></TextField>
+                    </Box>
+                    <Box>
+                      {/* <TextField></TextField> */}
+                      <TextField
+                        name="email"
+                        placeholder="Edit email"
+                        onChange={handleChange}
+                      ></TextField>
+                    </Box>
+                    <Box>
+                      {/* <TextField></TextField> */}
+                      <TextField
+                        name="email"
+                        placeholder="Edit email"
+                        onChange={handleChange}
+                      ></TextField>
+                    </Box>
 
-                  name="name"
-                  placeholder="Edit Name">
-                    {edit.name}
-
-                  </TextField>
-                  
-                
-                </Box>
-                <Box>
-                  {/* <TextField></TextField> */}
-                  <TextField
-                  name="email"
-                  placeholder="Edit email"
-                  onChange={handleChange}
+                    {/* <Button variant="contained" >save</Button> */}
+                  </Box>
+                  <Button
+                    type="submit"
+                    onClick={(e) => {
+                      {
+                        // setOpen(false);
+                      }
+                      {
+                        UserUpdate();
+                      }
+                    }}
                   >
-                  </TextField>
+                    Submit !
+                  </Button>
                 </Box>
-                <Box>
-                  {/* <TextField></TextField> */}
-                  <TextField
-                  name="email"
-                  placeholder="Edit email"
-                  onChange={handleChange}
-                  >
-                  </TextField>
-                </Box>
-                <Box>
-                  {/* <TextField></TextField> */}
-                  <TextField
-                  name="email"
-                  placeholder="Edit email"
-                  onChange={handleChange}
-                  >
-                  </TextField>
-                </Box>
-                
-                {/* <Button variant="contained" >save</Button> */}
-              
-              </Box>
-              <Button
-              type='submit'
-              onClick={(e) =>{{
-                // setOpen(false);
-              }{
-                UserUpdate()
-              }}}
-              >
-                Submit !
-              </Button>
-                </Box>
-                <Button
-                onClick={()=>setOpen(false)}>close</Button>
+                <Button onClick={() => setOpen(false)}>close</Button>
               </form>
             </Typography>
           </Box>
         </Modal>
       </Box>
 
-      
-      {/* /////////////////////////////////////////////////  coponents ///////////// */}
-
       <AddUser />
-      <Pagination getData={getData} />
+      <Box
+      className="status"
+      sx={{
+        height:40,
+        width:40,
+        borderRadius:'50%',
+        bgcolor:`${color}`,
+        marginLeft:'48.5%'
+      }}>
 
-      {/* /////////////////////////////////////////////////// */}
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button onClick={sortItem}>sort</Button>
+        {/* <Button></Button> */}
+      </Box>
+      <Pagination getData={getData} />
 
       <Box
         sx={{
@@ -266,107 +317,129 @@ const handleClose = () => {
         {state.map((item) => {
           return (
             <>
-              <Box
+              {loading ? (
+                <>
+                  <ClipLoader
+                    color={'greenyellow'}
+                    loading={loading}
+                    
+                    size={150}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+
+                  {/* <Box
                 sx={{
-                  display: "flex",
-                  // justifyContent:'center',
-                  paddingLeft: "2rem",
-                  // alignItems:'center',
-                  border: "2px solid orange",
-                  width: 800,
-                  height: 120,
-                  backgroundColor:'rgba(255,255,255,0.8)'
-                }}
-              >
-                <NavLink
-                  to={`/users/${item._id}`}
-                  style={({ isActive }) => (
-                    {
-                      color: isActive ? "greenyellow" : "white",
-                    },
-                    { textDecoration: "none" }
-                  )}
-                >
-                  <Typography
-                    sx={{
-                      color: "black",
-                      paddingTop: "45%",
-                      // height:40,
-                      display: "grid",
-                      alignItems: "center",
-                      // background:'white'
-                      // justifyContent:'center'
-                    }}
-                  >
-                    {item.name.toUpperCase()}
-                  </Typography>
-                </NavLink>
+                  marginTop:'50%'
+                }}>
+                <h1>hello.......................</h1>
+
+                </Box> */}
+                </>
+              ) : (
                 <Box
                   sx={{
                     display: "flex",
-                    alignItems: "center",
-                    marginLeft: "auto",
-                    // paddingRight:'2rem',
-                    // gap:5
+                    // justifyContent:'center',
+                    paddingLeft: "2rem",
+                    // alignItems:'center',
+                    border: "2px solid orange",
+                    width: 800,
+                    height: 120,
+                    backgroundColor: "rgba(255,255,255,0.8)",
                   }}
-                >     
-                <NavLink
-                to={`/users/${item._id}`}
-                style={{
-                  textDecoration:'none'
-                }
-                }
                 >
-                <Button
-                variant="outlined"
-                sx={{
-                  margin:2
-                }}
-                >
-                  Detail
-                  <span>/</span>
-                  Add Task
-                </Button>
-                </NavLink>
-                  <Button
-                  variant="outlined"
-                  sx={{
-                    margin:2
-                  }}
-                    onClick={(e) => {
+                  <NavLink
+                    to={`/users/${item._id}`}
+                    style={({ isActive }) => (
                       {
-                        UserEdit();
-                      }
-                      {
-                        setUser(item._id);
-                      }
+                        color: isActive ? "greenyellow" : "white",
+                      },
+                      { textDecoration: "none" }
+                    )}
+                  >
+                    <Typography
+                      sx={{
+                        color: "black",
+                        paddingTop: "45%",
+                        // height:40,
+                        display: "grid",
+                        alignItems: "center",
+                        // background:'white'
+                        // justifyContent:'center'
+                      }}
+                    >
+                      {item.name.toUpperCase()}
+                    </Typography>
+                  </NavLink>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginLeft: "auto",
+                      // paddingRight:'2rem',
+                      // gap:5
                     }}
                   >
-                    Edit <span>-</span>
-                    <EditIcon />
-                  </Button>
+                    <NavLink
+                      to={`/users/${item._id}`}
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          margin: 2,
+                        }}
+                      >
+                        Detail
+                        <span>/</span>
+                        Add Task
+                      </Button>
+                    </NavLink>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        margin: 2,
+                      }}
+                      onClick={(e) => {
+                        {
+                          UserEdit();
+                        }
+                        {
+                          setUser(item._id);
+                        }
+                      }}
+                    >
+                      Edit <span>-</span>
+                      <EditIcon />
+                    </Button>
 
-                  <Button
-                  variant="outlined"
-                  sx={{
-                    margin:2
-                  }}
-                    // dUser={item._id}
-                    
-                    onClick={(e) => {
-                      {
-                        handleClickOpen()
-                        // UserDelete();
-                      }
-                      {
-                        setUser(item._id);
-                      }
-                    }}
-                  > Delete <span>-</span>
-                    <HighlightOffIcon />
-                  </Button>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        margin: 2,
+                      }}
+                      // dUser={item._id}
+
+                      onClick={(e) => {
+                        {
+                          handleClickOpen();
+                          // UserDelete();
+                        }
+                        {
+                          setUser(item._id);
+                        }
+                      }}
+                    >
+                      {" "}
+                      Delete <span>-</span>
+                      <HighlightOffIcon />
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
+              )}
             </>
           );
         })}

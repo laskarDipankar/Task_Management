@@ -27,7 +27,7 @@ const AddTask = () => {
         axios.post('https://taskmanagementtodo.herokuapp.com/api/tasks',{
             name:input.name,
             email:input.description,
-            dealine:input.deadline
+            deadline:input.deadline
         })
         .then((res)=>{
             alert(res.data.message)  

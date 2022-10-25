@@ -53,6 +53,7 @@ const TaskDetails = () => {
   
     const updateTask = async () => {
       // await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
+        await axios.patch(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`,{
 
         "name":edit.name,
         "description": edit.description,
@@ -220,6 +221,8 @@ const TaskDetails = () => {
             </Typography>
           </Box>
         </Modal>
+
+        {/* <Button>Completed Task</Button> */}
     <Box
     sx={{
       // marginTop:'7'

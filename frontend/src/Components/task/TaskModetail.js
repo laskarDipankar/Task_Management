@@ -31,7 +31,7 @@ const TaskMoDetails = () => {
 
     const taskDelete = () =>{
       // axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
-      axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
+      axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
       .then((res)=>{
         alert(res.data.message)
       })
@@ -52,8 +52,8 @@ const TaskMoDetails = () => {
     };
   
     const updateTask = async () => {
-      await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
-
+      // await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
+        await axios.patch(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`,{
         "name":edit.name,
         "description": edit.description,
         "deadline": edit.deadline,
@@ -77,7 +77,7 @@ const TaskMoDetails = () => {
     // console.log(status)
   return (
     <>
-     <Dialog
+    <Dialog
         open={warn}
         onClose={handleClose}
         >
