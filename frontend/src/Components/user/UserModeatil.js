@@ -38,8 +38,8 @@ const UserModetail = () => {
     },[params.id])
 
     const handleID = async () =>{
-    //    await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
-    await axios.put(`http://localhost:9999/api/users/${params.id}`
+    await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
+    // await axios.put(`http://localhost:9999/api/users/${params.id}`
     
     ,{
             taskd:taskId.task

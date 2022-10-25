@@ -373,7 +373,7 @@ app.delete("/api/users/:id", async(req,res)=>{
     res.send({
       message:`User ${result.name} deleted`,
       data:DelUser,
-      Taskfreed : `${DelUserDetails.name} is free to assign`
+      Taskfreed : `${DelUserDetails.name} is free to assign to other users`
     })
   }
 })
