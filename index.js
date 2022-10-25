@@ -310,18 +310,21 @@ app.put("/api/tasks/:id", async (req, res) => {
 
   try {
     const _id = req.params.id;
+
+    
     const Data = await Task.findOneAndUpdate(
       { _id: _id },
       {
         $set: {
+          name: req.body.name,
           description: req.body.description,
           deadline: req.body.deadline,
-          completed: req.body.completed,
-          names: req.body.names,
+          completed: req.body.completed
         },
       },
       { new: true }
     );
+    console.log("yahan")
     if (Data == null) {
       res.send({
         message: "This Task does not exist",
