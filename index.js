@@ -10,7 +10,7 @@ const app = express();
 require("./Database/Connection");
 app.use(express.json());
 const cors = require('cors');
-const { optionGroupUnstyledClasses } = require("@mui/base");
+
 app.use(cors())
 
 // PythonShell.run("dbFill.py", {}, function (err, result) {
