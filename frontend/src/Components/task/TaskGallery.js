@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
-// import { LocalizationProvider } from "@mui/x-date-pickers";
+import AddTask from "./AddTask";
 
 const TaskGallery = () => {
   const [Tasks, setTask] = useState([]);
@@ -76,6 +76,9 @@ const TaskGallery = () => {
 
   return (
     <>
+    
+      
+
       <Dialog open={warn} onClose={handleClose}>
         <DialogTitle
           sx={{
@@ -108,7 +111,7 @@ const TaskGallery = () => {
       </Dialog>
       <Box
         sx={{
-          marginTop: "13%",
+          marginTop: "10%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -218,7 +221,9 @@ const TaskGallery = () => {
         </Modal>
 
         {/* /////////////////////////////////////////////////////////////////////////////////////// */}
+        <AddTask/>
         <Pagination getData={getData} />
+
         {Tasks.map((item) => {
           return (
             <>
