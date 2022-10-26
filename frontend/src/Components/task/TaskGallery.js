@@ -36,7 +36,10 @@ const TaskGallery = () => {
   useEffect(() => {
     axios
       .get(
-        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
+        // `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
+
+        `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
+
       )
       .then((res) => {
         console.log(res.data.data);
@@ -77,20 +80,20 @@ const TaskGallery = () => {
     console.log(taskstatus)
   }
 
-  const Completed = async () =>{
+  // const Completed = async () =>{
 
-    await axios
-    .get(
-      // `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&`
-      `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
+  //   await axios
+  //   .get(
+  //     `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&`
+  //     // `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
 
-    )
-    .then((res) => {
-      console.log(res.data.data);
-      setTask(res.data.data);
-    });
+  //   )
+  //   .then((res) => {
+  //     console.log(res.data.data);
+  //     setTask(res.data.data);
+  //   });
 
-  }
+  // }
 
   
 
@@ -288,12 +291,12 @@ console.log(completion)
         value='fasle'
         onClick={(e)=>setcompletion(false)}
         >Completed Task</Button> */}
-         <Button
+        {/* <Button
         onClick={Completed}
-        >Completed Task</Button>
+        >Completed Task</Button> */}
+        </Box>
 
       
-        </Box>
 
         {
         
