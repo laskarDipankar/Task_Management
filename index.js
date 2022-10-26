@@ -164,7 +164,7 @@ app.get("/api/users/:id", (req, res) => {
     .exec((error, result) => {
       if (error) {
         res.status(400).send({
-          message:"Wrong user details",
+          message:"Wrong user Details",
           Data:[]
 
         });
