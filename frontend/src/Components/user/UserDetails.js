@@ -22,13 +22,13 @@ const UserDetails = () => {
     useEffect(async () => {
         
         
-        await axios
-        .get(`http://localhost:9999/api/tasks?where={"completed":true}`)
+        // await axios
+        // .get(`http://localhost:9999/api/tasks?where={"completed":true}`)
         
         // .get(`https://taskmanagementtodo.herokuapp.com/api/tasks?where={'completed'=true}`)
-            .then((res)=>{
-                console.log(res.data)
-            })
+            // .then((res)=>{
+            //     console.log(res.data)
+            // })
 
 
 
@@ -54,7 +54,7 @@ const UserDetails = () => {
             taskd:taskId.task
         })
         .then((res)=>{
-            alert(res.data.message)
+            // alert(res.data.message)
         })
     }
 

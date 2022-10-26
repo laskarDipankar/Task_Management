@@ -45,7 +45,7 @@ const TaskGallery = () => {
         console.log(res.data.data);
         setTask(res.data.data);
       });
-  }, [page,Tasks]);
+  }, [page]);
 
   const getData = (data) => {
     setpage(data);
