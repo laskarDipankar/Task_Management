@@ -374,10 +374,9 @@ app.patch("/api/tasks/:id", async (req, res) => {
 
     if(req.body.completed == true){
       const findUser = await User.find({"pendingTasks":id})
-
-      // console.log(findUser.name)
-
-       await findUser.pendingTasks.filter((item)=>{
+      
+      console.log(findUser.nam)
+      await findUser.pendingTasks.filter((item)=>{
 
         console.log("here")
         if(item == id ){
@@ -423,7 +422,7 @@ app.delete("/api/users/:id", async(req,res)=>{
   const result = await User.findById({_id:id})
 
   if(result == null){
-    res.send({message:"THERE IS NO SUCH USER"})
+    res.status(404).send({message:"THERE IS NO SUCH USER"})
   }else{
     const DelUserDetails = await Task.findOneAndUpdate({"assignedUser":id.toString()},{$set:{"completed":true,"assignedUser":"","assignedUserName":""}})
 
@@ -455,7 +454,7 @@ app.delete("/api/tasks/:id",async(req,res)=>{
     if(result == null){
       console.log("2")
       res.send({
-        message:"task does not exist  deleted",
+        message:"task does not exist ",
         data:result
       })
     }else{

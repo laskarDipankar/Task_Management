@@ -36,7 +36,7 @@ const UserList = () => {
   const [edit, setEdit] = useState({
     name: "",
     email: "",
-    deadline: Date,
+    deadline: "",
   });
 
   useEffect(() => {
@@ -77,8 +77,8 @@ const UserList = () => {
               setTimeout(() => {
                 setcolor("green")
               }, 100);
-              setcolor("blue")
             }
+            setcolor("blue")
           
       });
 
@@ -99,6 +99,12 @@ const UserList = () => {
         )
         .then((res) => {
           alert(res.data.message);
+          if(res.data.message != ""){
+            setTimeout(() => {
+              setcolor("green")
+            }, 100);
+          }
+          setcolor("blue")
           
         });
     }
@@ -242,8 +248,8 @@ const UserList = () => {
                         onChange={handleChange}
                       ></TextField>
                     </Box>
-                    <Box>
-                      {/* <TextField></TextField> */}
+                    {/* <Box>
+                      
                       <TextField
                         name="email"
                         placeholder="Edit email"
@@ -251,13 +257,13 @@ const UserList = () => {
                       ></TextField>
                     </Box>
                     <Box>
-                      {/* <TextField></TextField> */}
+                      
                       <TextField
                         name="email"
                         placeholder="Edit email"
                         onChange={handleChange}
                       ></TextField>
-                    </Box>
+                    </Box> */}
 
                     {/* <Button variant="contained" >save</Button> */}
                   </Box>

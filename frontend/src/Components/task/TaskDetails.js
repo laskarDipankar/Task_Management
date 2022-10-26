@@ -30,8 +30,8 @@ const TaskDetails = () => {
     },[params.id])
 
     const taskDelete = () =>{
-      // axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
-      axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
+      axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
+      // axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
       .then((res)=>{
         alert(res.data.message)
       })

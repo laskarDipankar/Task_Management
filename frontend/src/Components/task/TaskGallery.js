@@ -36,7 +36,7 @@ const TaskGallery = () => {
   useEffect(() => {
     axios
       .get(
-        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9`
+        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
       )
       .then((res) => {
         console.log(res.data.data);
@@ -48,7 +48,7 @@ const TaskGallery = () => {
     setpage(data);
   };
   const taskDelete = async () => {
-    await axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}?sort={'dateCreated':-1}`)
+    await axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`)
     // axios.delete(`http://localhost:9999/api/tasks/${taskId}`)
     .then((res) => {
       alert(res.data.message);
@@ -131,7 +131,7 @@ console.log(Tasks.completed)
       </Dialog>
       <Box
         sx={{
-          marginTop: "10%",
+          marginTop: "8%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -268,35 +268,35 @@ console.log(Tasks.completed)
           display:'flex',
           justifyContent:'center'
         }}>
+          <Pagination getData={getData} />
 
-        <Button
+        {/* <Button
         value='fasle'
         onClick={(e)=>setcompletion(false)}
-        >Completed Task</Button>
-        <Pagination getData={getData} />
-        <Button
-        // value='true'
+        >Completed Task</Button> */}
+        {/* <Button
         onClick={(e)=>setcompletion(true)}
         >Completed Task</Button>
-        </Box>
 
+      */}
+        </Box>
 
         {
         
-          Tasks.filter((item)=>{
-            if(completion == null){
-              console.log("blank")
-              return item
+        //   .filter((item)=>{
+        //     if(completion == null){
+        //       console.log("blank")
+        //       return item
 
               
-            }else if(item.completed == completion ){
-              console.log("blank1")
-              return item
-            }
-            console.log("blank2")
-              return item
-        })
-        .map((item) => {
+        //     }else if(item.completed == completion ){
+        //       console.log("blank1")
+        //       return item
+        //     }
+        //     console.log("blank2")
+        //       return item
+        // })
+        Tasks.map((item) => {
           return (
             <>
               <Box
