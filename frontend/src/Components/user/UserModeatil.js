@@ -37,7 +37,7 @@ const UserModetail = () => {
         })
 
 
-    },[params.id,taskId])
+    },[params.id])
 
     const handleID = async () =>{
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
@@ -48,7 +48,7 @@ const UserModetail = () => {
         })
         .then((res)=>{
             alert(res.data.message)
-            setTaskId(0)
+            // setTaskId("")
         })
     }
 

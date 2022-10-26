@@ -75,7 +75,7 @@ app.post("/api/users", async (req, res) => {
 
 
 app.post("/api/tasks", async (req, res) => {
-  if(req.body.name != "" && !req.body.deadline != ""){
+  if(req.body.name != "" && !req.body.deadline != null){
 
     // console.log("not working")
     const Tasks = new Task(req.body);
@@ -96,7 +96,7 @@ app.post("/api/tasks", async (req, res) => {
     // console.log(error)
   }}
   else{
-    // console.log("hello")
+    console.log("hello")
     res.status(404).send({
       message:"You have either left deadline or taskname fields empty"
     })
@@ -417,14 +417,16 @@ app.patch("/api/tasks/:id", async (req, res) => {
 //     })
 
 app.delete("/api/users/:id", async(req,res)=>{
-  const id= req.params.id
+  const id = req.params.id
+
+  // console.log(typeof(id))
 
   const result = await User.findById({_id:id})
 
   if(result == null){
     res.status(404).send({message:"THERE IS NO SUCH USER"})
   }else{
-    const DelUserDetails = await Task.findOneAndUpdate({"assignedUser":id.toString()},{$set:{"completed":true,"assignedUser":"","assignedUserName":""}})
+    const DelUserDetails = await Task.findOneAndUpdate({"assignedUser":id},{$set:{"completed":true,"assignedUser":"","assignedUserName":""}})
 
     const DelUser = await User.findOneAndDelete({_id: req.params.id })
 
@@ -436,6 +438,8 @@ app.delete("/api/users/:id", async(req,res)=>{
     })
   }
 })
+
+
 
 
 
@@ -497,6 +501,147 @@ app.delete("/api/tasks/:id",async(req,res)=>{
 
     }
 } )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.delete("/api/tasks/:id",async(req,res)=>{
+//   const result = await Task.findById({_id:req.params.id})
+//   const id = req.params.id
+//   console.log("1")
+
+//     if(result == null){
+//       console.log("2")
+//       res.send({
+//         message:"task does not exist ",
+//         data:result
+//       })
+//     }else{
+
+//       console.log("3")
+//       console.log( result.completed)
+//       if(result.assignedUser != "" && result.completed != true ){
+
+//         console.log("4")
+//         const data = await User.findById(result.assignedUser) 
+//         console.log(result.assignedUser)
+
+        
+//         if(data != null){
+//           console.log("55")
+//           if(data.pendingTasks !== null){
+//             console.log("hello2")
+          
+//             console.log(data.pendingTasks)
+//             console.log("6")
+//             data.pendingTasks.filter((item)=>{
+//               if(item == id ){
+//               console.log("7")
+
+//               data.pendingTasks.remove(id)
+//               data.save()
+//               res.send({
+//                 message:'Task Deleted',
+//                 data:data
+//               })
+
+//             }
+//             else{
+//               console.log("hello")
+//             }
+//           })
+        
+//         }
+//           else{
+//             const delTask = await Task.findOneAndDelete({ _id: id},{new:true});
+//             // delTask.save()
+            
+//             console.log("hello3")
+            
+//             res.send({
+//               message:`Task deleted`,
+//               data:delTask
+//             })
+
+
+
+
+
+
+
+
+            
+//             // console.log("hello2")
+//             // const delTask = await Task.findOneAndDelete({ _id: id},{new:true});
+//             // // delTask.save()
+            
+//             // console.log("hello3")
+            
+//             // res.send({
+//             //   message:`Task deleted`,
+//             //   data:delTask
+//             // })
+//           }
+          
+//         }
+//         else{
+//           console.log("hello")
+//           const delTask = await Task.findOneAndDelete({ _id: id},{new:true});
+          
+  
+          
+//           res.send({
+//             message:`Task deleted`,
+//             data:delTask
+//           })
+//         }
+            
+        
+  
+  
+//       } else{
+//         console.log("hello")
+//         const delTask = await Task.findOneAndDelete({ _id: id},{new:true});
+//         delTask.save()
+
+        
+//         res.send({
+//           message:`Task deleted`,
+//           data:delTask
+//         })
+//       }
+      
+
+//     }
+// } )
 
 // app.delete("/api/tasks/:id", async (req, res) => {
 //     const result = await Task.findOneAndDelete({ _id: req.params.id },{new:true});
