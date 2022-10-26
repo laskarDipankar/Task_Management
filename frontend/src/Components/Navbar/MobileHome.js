@@ -5,23 +5,23 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import img from "../../Img/man.svg";
-import RuleIcon from "@mui/icons-material/Rule";
-import winner from "../../Img/winner.svg";
-import gif from "../../Img/check.gif";
-import SearchIcon from "@mui/icons-material/Search";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import SettingsIcon from "@mui/icons-material/Settings";
-import gt from "../../Img/gt.jpg";
+// import RuleIcon from "@mui/icons-material/Rule";
+// import winner from "../../Img/winner.svg";
+// import gif from "../../Img/check.gif";
+// import SearchIcon from "@mui/icons-material/Search";
+// import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+// import SettingsIcon from "@mui/icons-material/Settings";
+// import gt from "../../Img/gt.jpg";
 import tate from "../../Img/1.jpg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SportsVolleyballIcon from "@mui/icons-material/SportsVolleyball";
-import welcome from "../../Img/welcome.jpg";
-import male1 from '../../Img/male1.gif'
-import f1 from '../../Img/f1.gif'
-import f2 from '../../Img/f2.gif'
-import male2 from '../../Img/male2.gif'
+// import welcome from "../../Img/welcome.jpg";
+// import male1 from '../../Img/male1.gif'
+// import f1 from '../../Img/f1.gif'
+// import f2 from '../../Img/f2.gif'
+// import male2 from '../../Img/male2.gif'
 import LaptopIcon from '@mui/icons-material/Laptop';
 
 const MobileHome = () => {
@@ -56,7 +56,7 @@ const MobileHome = () => {
                 backgroundImage: `url(${tate})`,
                 backgroundSize: "cover",
                 // backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
+                // backgroundPosition: "center center",
                 backgroundAttachment: "fixed",
                 // height:300,
                 // width:600

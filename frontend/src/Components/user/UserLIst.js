@@ -246,6 +246,7 @@ const UserList = () => {
                         name="email"
                         placeholder="Edit email"
                         onChange={handleChange}
+                        type='email'
                       ></TextField>
                     </Box>
                     {/* <Box>

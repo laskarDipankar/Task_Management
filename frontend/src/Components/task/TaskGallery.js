@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 // import { Outlet } from "react-router"
 import {
   Box,
@@ -28,7 +28,7 @@ const TaskGallery = () => {
   const [taskstatus,setstatus] = useState(false)
   const [edit, setEdit] = useState({
     name: "",
-    description: "",
+    description:"",
     deadline:"",
     status:false
   });
@@ -70,11 +70,25 @@ const TaskGallery = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.target.reset();
-    // console.log(edit)
+    console.log(edit)
   };
 
   const handleTask = (e) =>{
     console.log(taskstatus)
+  }
+
+  const Completed = async () =>{
+
+    await axios
+    .get(
+      // `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&`
+      `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
+
+    )
+    .then((res) => {
+      console.log(res.data.data);
+      setTask(res.data.data);
+    });
 
   }
 
@@ -93,7 +107,7 @@ const TaskGallery = () => {
     });
   };
 console.log(completion)
-console.log(Tasks.completed)
+// console.log(Tasks.completed)
   return (
     <>
     
@@ -274,11 +288,11 @@ console.log(Tasks.completed)
         value='fasle'
         onClick={(e)=>setcompletion(false)}
         >Completed Task</Button> */}
-        {/* <Button
-        onClick={(e)=>setcompletion(true)}
+         <Button
+        onClick={Completed}
         >Completed Task</Button>
 
-      */}
+      
         </Box>
 
         {

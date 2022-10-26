@@ -3,16 +3,14 @@ import { Box } from '@mui/system'
 import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
-import { send } from 'process'
 
 const AddTask = () => {
     const [isFlag,setisflag] = useState(false)
     const [input, setInput]=useState({
         name:'',
         description:'',
-        deadline:Date
+        deadline:""
     })
-
     const handleChange =(e)=>{
         setInput((prev)=>({...prev,[e.target.name]:e.target.value}))
         // console.log(input)
@@ -26,7 +24,7 @@ const AddTask = () => {
         
         axios.post('https://taskmanagementtodo.herokuapp.com/api/tasks',{
             name:input.name,
-            email:input.description,
+            description:input.description,
             deadline:input.deadline
         })
         .then((res)=>{
