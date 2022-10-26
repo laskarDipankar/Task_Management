@@ -36,16 +36,16 @@ const TaskGallery = () => {
   useEffect(() => {
     axios
       .get(
-        // `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
+        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
 
-        `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
+        // `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
 
       )
       .then((res) => {
         console.log(res.data.data);
         setTask(res.data.data);
       });
-  }, [page]);
+  }, [page,Tasks]);
 
   const getData = (data) => {
     setpage(data);
@@ -318,18 +318,21 @@ console.log(completion)
             <>
               <Box
                 sx={{
-                  border: "2px solid red",
+                  borderLeft:'6px solid green',
+                  // borderRight:'6px solid green',
                   height: 100,
                   width: 800,
                   display: "flex",
                   alignItems: "center",
+                  // backdropFilter:'blur(10px)'
+                  background:'rgba(	144, 238, 144,0.3)',
+                  backdropFilter:'blur(20px)',
                 }}
               >
                 <NavLink
-                  style={{
-                    textDecoration: "none",
-                    paddingLeft: "1%",
-                  }}
+                style={({ isActive }) => ({ 
+                  color: isActive ? 'greenyellow' : 'white' }
+                  ,{textDecoration:'none',paddingLeft: "1%"})}
                   to={`/tasks/${item._id}`}
                 >
                   <Typography
@@ -367,7 +370,7 @@ console.log(completion)
                 >
                   Edit
                 </Button>
-                <FormControlLabel control={<Checkbox 
+                {/* <FormControlLabel control={<Checkbox 
                     name="status"
                     onClick={()=>{
                       {setstatus((e)=>({taskstatus:!taskstatus}))}
@@ -375,7 +378,7 @@ console.log(completion)
                     
                     }}
                     
-                    />} label="Status" />
+                    />} label="Status" /> */}
               </Box>
             </>
           );

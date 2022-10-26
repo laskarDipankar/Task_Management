@@ -239,11 +239,13 @@ const TaskMoGallery = () => {
               <Box
                 sx={{
                     // marginTop:'4%',
-                  border: "2px solid red",
+                    borderLeft:'6px solid green',
                   height: 100,
                   width: 290,
                   display: "flex",
                   alignItems: "center",
+                  background:'rgba(	144, 238, 144,0.3)',
+                  backdropFilter:'blur(20px)',
                 }}
               >
                 <NavLink

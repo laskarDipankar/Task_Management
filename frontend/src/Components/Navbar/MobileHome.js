@@ -38,10 +38,10 @@ const MobileHome = () => {
               // backgroundImage:`url(${tate})`,
               // marginRight:'8%',
               // backdropFilter:"blur(8px)",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center center",
-              backgroundAttachment: "fixed",
-              backgroundSize: "cover",
+              // backgroundRepeat: "no-repeat",
+              // backgroundPosition: "center center",
+              // backgroundAttachment: "fixed",
+              // backgroundSize: "cover",
     
               // backgroundSize:'cover'
             }}
@@ -56,7 +56,7 @@ const MobileHome = () => {
                 backgroundImage: `url(${tate})`,
                 backgroundSize: "cover",
                 // backgroundRepeat: "no-repeat",
-                // backgroundPosition: "center center",
+                backgroundPosition: "center center",
                 backgroundAttachment: "fixed",
                 // height:300,
                 // width:600

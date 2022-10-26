@@ -21,7 +21,7 @@ import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import ClipLoader from "react-spinners/ClipLoader";
-import { blue } from "@mui/material/colors";
+
 
 const UserList = () => {
   const [state, setstate] = useState([]);
@@ -32,7 +32,7 @@ const UserList = () => {
   const [sortdata, setdata] = useState();
   const [flag, setflag] = useState(true);
   const [loading, setloading] = useState(false);
-  const [color,setcolor] = useState("blue")
+  const [color,setcolor] = useState("")
   const [edit, setEdit] = useState({
     name: "",
     email: "",
@@ -54,10 +54,10 @@ const UserList = () => {
         });
     }, 1000);
 
-    var status = document.querySelectorAll('.status')
+    // var status = document.querySelectorAll('.status')
 
     setloading(false);
-  }, [page]);
+  }, [page,state]);
 
   const getData = (data) => {
     setpage(data);
@@ -69,16 +69,16 @@ const UserList = () => {
       )
       .then((res) => {
         
-          alert(
-            `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
-            );
+          // alert(
+          //   `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
+          //   );
 
             if(res.data.message != ""){
               setTimeout(() => {
-                setcolor("green")
-              }, 100);
+                setcolor("")
+              }, 3000);
+              setcolor(res.data.message)
             }
-            setcolor("blue")
           
       });
 
@@ -98,13 +98,13 @@ const UserList = () => {
           }
         )
         .then((res) => {
-          alert(res.data.message);
+          // alert(res.data.message);
           if(res.data.message != ""){
             setTimeout(() => {
-              setcolor("green")
-            }, 100);
+              setcolor("")
+            }, 3000);
+            setcolor(res.data.message)
           }
-          setcolor("blue")
           
         });
     }
@@ -294,11 +294,19 @@ const UserList = () => {
       className="status"
       sx={{
         height:40,
-        width:40,
-        borderRadius:'50%',
-        bgcolor:`${color}`,
-        marginLeft:'48.5%'
+
+
       }}>
+        <Typography
+        sx={{
+          display:'flex',
+          justifyContent:'center'
+        }}>
+
+        {
+          `${color}`
+        }
+        </Typography>
 
       </Box>
 
@@ -401,8 +409,8 @@ const UserList = () => {
                         }}
                       >
                         Detail
-                        <span>/</span>
-                        Add Task
+                        {/* <span>/</span>
+                        Add Task */}
                       </Button>
                     </NavLink>
                     <Button

@@ -52,7 +52,7 @@ const UserMOGallery = () => {
         console.log(res.data.Data.length);
         setimguser(imgList.concat(res.data.Data))
       });
-  }, [page]);
+  }, [page,state]);
 
   const getData = (data) => {
     setpage(data);
@@ -111,7 +111,7 @@ const UserMOGallery = () => {
                         <Box
                         sx={{
                             display:'grid',
-                            justifyContent:'center'
+                            justifyContent:'center',
                         }}>
                         
                         
@@ -119,7 +119,11 @@ const UserMOGallery = () => {
                             width: 300 ,
                     // border:'2px solid red',
                     display:'grid',
-                    placeItems:'center'
+                    placeItems:'center',
+                    background:'rgba(106,197,117,0.4)',
+                    backdropFilter:'blur(20px)'
+
+
                 }}>
                     <CardMedia
                       component="img"
@@ -150,7 +154,7 @@ const UserMOGallery = () => {
                   </Card>
                   </Box>
                       </>
-                   )
+                  )
                 })
 
 
@@ -159,7 +163,7 @@ const UserMOGallery = () => {
               {/* }) */}
 
             {/* } */}
-             
+            
             </>
           {/* ); */}
         {/* })} */}

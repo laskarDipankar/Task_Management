@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import { useState,useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { border, Box, height, textAlign} from '@mui/system'
-import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField, Typography } from '@mui/material'
 import u6 from '../../Img/user/u6.svg'
 import sand from '../../Img/sand.jpg'
 
@@ -19,28 +19,32 @@ const UserDetails = () => {
     const params = useParams()
     // console.log(params.id)
 
-    useEffect(() => {
-        // axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks`)
-        //     .then((res)=>{
-        //         console.log(res.data)
-        //     })
-
-
+    useEffect(async () => {
+        
+        
+        await axios
+        .get(`http://localhost:9999/api/tasks?where={"completed":true}`)
+        
+        // .get(`https://taskmanagementtodo.herokuapp.com/api/tasks?where={'completed'=true}`)
+            .then((res)=>{
+                console.log(res.data)
+            })
 
 
 
         axios
-        .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
+        // .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
+        .get(`http://localhost:9999/api/users/${params.id}`)
         .then((res)=>{
             console.log(res.data.data[0])
             setUser(res.data.data[0])
             setpendingTasks(res.data.data[0].pendingTasks)
         })
-    },[params.id])
+    },[params.id,individual])
 
-    const Sorry = () =>{
-        alert('I am working on it , thanks for your patience')
-    }
+    // const Sorry = () =>{
+    //     alert('I am working on it , thanks for your patience')
+    // }
 
     const handleID = async () =>{
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
@@ -147,7 +151,8 @@ return (
                 flexDirection:"column",
                 justifyContent:'center',
                 // alignItems:'center'
-                background:'white',
+                background:'transparent',
+                backdropFilter:'blur(20px)',
                 opacity:0.9
 
             }}>
@@ -285,6 +290,19 @@ return (
 
                                     </CardContent>
                                 </Card>
+
+                                <Box>
+                                    <TextField
+                                    label='select Task' 
+                                    select
+                                    >
+                                        <MenuItem>
+                                        {}
+                                        </MenuItem>
+                                    </TextField>
+
+
+                                </Box>
 
                                 
                                 </>

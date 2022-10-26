@@ -35,7 +35,7 @@ const UserModetail = () => {
             setUser(res.data.data[0])
             setpendingTasks(res.data.data[0].pendingTasks)
         })
-    },[params.id])
+    },[params.id,individual])
 
     const handleID = async () =>{
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`

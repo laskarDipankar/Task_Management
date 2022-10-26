@@ -31,9 +31,24 @@ const Navbar = () => {
       <AppBar
         sx={{
           backgroundColor: "#92D293",
+          width:'80%',
+          display:'flex',
+          justifyContent:'center',
+          flexWrap:'wrap',
+          marginRight:'10%',
+          marginTop:'0.15%',
+          boxShadow:'2px 3px  5px greenyellow',
+          // position:'relative'
+          
         }}
       >
-        <Toolbar>
+        <Toolbar
+        sx={{
+          // width:'98%',
+          display:'flex',
+          justifyContent:'center',
+          flexWrap:'wrap'
+        }}>
         <NavLink
             to='/'
             style={isActive => ({

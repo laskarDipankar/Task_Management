@@ -28,7 +28,7 @@ const AddUser = () => {
             email:input.email
         })
         .then((res)=>{
-            alert(res.data.message)  
+            // alert(res.data.message)  
             console.log(res.data.message)
         })
         .catch((err)=>{

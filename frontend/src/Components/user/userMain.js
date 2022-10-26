@@ -7,6 +7,7 @@ import MobileUser from './MobileUser'
 import { Box } from '@mui/system'
 import {Button} from '@mui/material'
 import office from '../../Img/office.svg'
+import bg from '../../Img/bg.jpg'
 
 
 const UserMobile = () => {
@@ -39,6 +40,7 @@ const UserMobile = () => {
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundAttachment: "fixed",
+      // background:'rgba(198,198,198,0.7)',
     }}
     >
 

@@ -48,7 +48,7 @@ const UserMolist = () => {
         setstate(res.data.Data);
         // console.log(res.data.Data);
       });
-  }, [page]);
+  }, [page,state]);
 
   const handlebutton = () => {
     if (open == false) {

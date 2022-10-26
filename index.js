@@ -486,7 +486,7 @@ app.delete("/api/tasks/:id",async(req,res)=>{
 
         
         res.send({
-          message:'task deleted',
+          message:`Task ${delTask.name}deleted`,
           data:delTask
         })
           
