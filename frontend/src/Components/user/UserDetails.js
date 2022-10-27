@@ -46,7 +46,7 @@ const UserDetails = () => {
         .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
         // .get(`http://localhost:9999/api/users/${params.id}`)
         .then((res)=>{
-            // console.log(res.data.data[0])
+            
             setUser(res.data.data[0])
             setpendingTasks(res.data.data[0].pendingTasks)
 
@@ -70,10 +70,6 @@ const UserDetails = () => {
             console.log(tname,"usatat fff")
         })
     },[params.id,Updatedetail])
-
-    // const Sorry = () =>{
-    //     alert('I am working on it , thanks for your patience')
-    // }
 
 
 
