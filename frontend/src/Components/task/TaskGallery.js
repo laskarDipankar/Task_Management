@@ -24,8 +24,9 @@ const TaskGallery = () => {
   const [warn, setWarn] = useState(false);
   const [taskId, setTaskid] = useState();
   const [open, setOpen] = useState(false);
-  const [completion,setcompletion] = useState(null)
-  const [taskstatus,setstatus] = useState(false)
+  const [update,setUpdate] = useState()
+  // const [completion,setcompletion] = useState(null)
+  // const [taskstatus,setstatus] = useState(false)
   const [edit, setEdit] = useState({
     name: "",
     description:"",
@@ -45,7 +46,7 @@ const TaskGallery = () => {
         console.log(res.data.data);
         setTask(res.data.data);
       });
-  }, [page]);
+  }, [page,update]);
 
   const getData = (data) => {
     setpage(data);
@@ -55,6 +56,7 @@ const TaskGallery = () => {
     // axios.delete(`http://localhost:9999/api/tasks/${taskId}`)
     .then((res) => {
       alert(res.data.message);
+      setUpdate(res.data.data)
     });
     
   };
@@ -76,9 +78,9 @@ const TaskGallery = () => {
     console.log(edit)
   };
 
-  const handleTask = (e) =>{
-    console.log(taskstatus)
-  }
+  // const handleTask = (e) =>{
+  //   console.log(taskstatus)
+  // }
 
   // const Completed = async () =>{
 
@@ -107,9 +109,10 @@ const TaskGallery = () => {
 
     }).then((res) => {
       alert(res.data.message);
+      setUpdate(res.data.data)
     });
   };
-console.log(completion)
+// console.log(completion)
 // console.log(Tasks.completed)
   return (
     <>

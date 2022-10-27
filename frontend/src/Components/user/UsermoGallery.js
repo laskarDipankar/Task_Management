@@ -31,6 +31,7 @@ const imgList = [
 const UserMOGallery = () => {
   const [state, setstate] = useState([]);
   const [length, setlength] = useState();
+  const [update,setUpdate] = useState()
   const [page, setpage] = useState(0);
   const [imgUser,setimguser] = useState([])
 
@@ -52,12 +53,15 @@ const UserMOGallery = () => {
         console.log(res.data.Data.length);
         setimguser(imgList.concat(res.data.Data))
       });
-  }, [page,state]);
+  }, [page,update]);
 
   const getData = (data) => {
     setpage(data);
   };
 
+  const getUpdate = (data) =>{
+    setUpdate(data)
+  }
   // state.push(imgList)
 //  imgList.forEach(element => {
     
@@ -68,7 +72,7 @@ const UserMOGallery = () => {
   return (
     <>
 
-      <AddUser />
+      <AddUser getUpdate={getUpdate} />
       
       <Pagination getData={getData} />
       <Box

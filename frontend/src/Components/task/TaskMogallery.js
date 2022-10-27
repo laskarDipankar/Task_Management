@@ -20,6 +20,7 @@ const TaskMoGallery = () => {
   const [Tasks, setTask] = useState([]);
   const [page, setpage] = useState(0);
   const [warn, setWarn] = useState(false);
+  const [update,setUpdate] = useState()
   const [taskId, setTaskid] = useState();
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState({
@@ -38,7 +39,7 @@ const TaskMoGallery = () => {
         console.log(res.data.data);
         setTask(res.data.data);
       });
-  }, [page,Tasks]);
+  }, [page,update]);
 
   const getData = (data) => {
     setpage(data);
@@ -50,7 +51,8 @@ const TaskMoGallery = () => {
       )
       // axios.delete(`http://localhost:9999/api/tasks/${taskId}`)
       .then((res) => {
-        alert(res.data.message);
+        // alert(res.data.message);
+        setUpdate(res.data.data)
       });
   };
   const handleChange = (e) => {
@@ -81,6 +83,7 @@ const TaskMoGallery = () => {
       })
       .then((res) => {
         alert(res.data.message);
+        setUpdate(res.data.data)
       });
   };
 

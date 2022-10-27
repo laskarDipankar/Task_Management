@@ -15,24 +15,25 @@ import {
   DialogActions,
   fabClasses,
 } from "@mui/material";
-import { bgcolor, display } from "@mui/system";
+// import { bgcolor, display } from "@mui/system";
 import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 
 
 const UserList = () => {
   const [state, setstate] = useState([]);
   const [page, setpage] = useState(0);
   const [user, setUser] = useState();
+  const [update,setUpdate] = useState()
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
   const [sortdata, setdata] = useState();
   const [flag, setflag] = useState(true);
   const [loading, setloading] = useState(false);
-  const [color,setcolor] = useState("")
+  const [color,setcolor] = useState("2px solid orange")
   const [edit, setEdit] = useState({
     name: "",
     email: "",
@@ -43,6 +44,7 @@ const UserList = () => {
     setloading(true);
 
     setTimeout(() => {
+
       axios
         .get(
           `https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
@@ -50,14 +52,15 @@ const UserList = () => {
         )
         .then((res) => {
           setstate(res.data.Data);
+          setloading(false)
           // console.log(res.data.Data);
         });
     }, 1000);
 
     // var status = document.querySelectorAll('.status')
 
-    setloading(false);
-  }, [page,state]);
+    // setloading(false);
+  }, [page,update]);
 
   const getData = (data) => {
     setpage(data);
@@ -72,12 +75,13 @@ const UserList = () => {
           // alert(
           //   `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
           //   );
+          setUpdate(res.data.data)
 
             if(res.data.message != ""){
               setTimeout(() => {
-                setcolor("")
-              }, 3000);
-              setcolor(res.data.message)
+                setcolor("2px solid red")
+              }, 1000);
+              // setcolor("2px solid orange")
             }
           
       });
@@ -99,11 +103,12 @@ const UserList = () => {
         )
         .then((res) => {
           // alert(res.data.message);
+          setUpdate(res.data.data)
           if(res.data.message != ""){
             setTimeout(() => {
-              setcolor("")
-            }, 3000);
-            setcolor(res.data.message)
+              setcolor('2px solid red')
+            }, 1000);
+            // setcolor("2px solid orange")
           }
           
         });
@@ -144,6 +149,10 @@ const UserList = () => {
   const handleClose = () => {
     setWarn(false);
   };
+  const getUpdate = (data) =>{
+    setUpdate(data)
+    console.log(data)
+  }
 
   return (
     <>
@@ -289,7 +298,7 @@ const UserList = () => {
         </Modal>
       </Box>
 
-      <AddUser />
+      <AddUser getUpdate={getUpdate} />
       <Box
       className="status"
       sx={{
@@ -304,7 +313,7 @@ const UserList = () => {
         }}>
 
         {
-          `${color}`
+          // `${color}`
         }
         </Typography>
 
@@ -320,6 +329,7 @@ const UserList = () => {
         {/* <Button></Button> */}
       </Box>
       <Pagination getData={getData} />
+      {/* <AddUser /> */}
 
       <Box
         sx={{
@@ -329,36 +339,19 @@ const UserList = () => {
           gridTemplateColumns: "repeat(1fr)",
         }}
       >
-        {state.map((item) => {
+        {
+        
+        
+        state.map( (item) => {
           return (
             <>
-              {loading ? (
-                <>
-                  <ClipLoader
-                    color={'greenyellow'}
-                    loading={loading}
-                    
-                    size={150}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                  />
-
-                  {/* <Box
-                sx={{
-                  marginTop:'50%'
-                }}>
-                <h1>hello.......................</h1>
-
-                </Box> */}
-                </>
-              ) : (
                 <Box
                   sx={{
                     display: "flex",
                     // justifyContent:'center',
                     paddingLeft: "2rem",
                     // alignItems:'center',
-                    border: "2px solid orange",
+                    border: ` ${color}`,
                     width: 800,
                     height: 120,
                     backgroundColor: "rgba(255,255,255,0.8)",
@@ -454,10 +447,12 @@ const UserList = () => {
                     </Button>
                   </Box>
                 </Box>
-              )}
+              )
             </>
-          );
-        })}
+          )
+              })
+            };
+        {/* )} */}
       </Box>
     </>
   );

@@ -3,10 +3,12 @@ import { Box } from '@mui/system'
 import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
-import { send } from 'process'
 
-const AddUser = () => {
+
+const AddUser = (props) => {
     const [isFlag,setisflag] = useState(false)
+    const [data,setData] = useState()
+
     const [input, setInput]=useState({
         name:'',
         email:''
@@ -21,6 +23,9 @@ const AddUser = () => {
         console.log(input)
         e.target.reset();
     }
+    const saveResult=(length)=>{
+        props.getUpdate(length)
+    }
     const saveToDb = () =>{
         
         axios.post('https://taskmanagementtodo.herokuapp.com/api/users',{
@@ -29,12 +34,15 @@ const AddUser = () => {
         })
         .then((res)=>{
             // alert(res.data.message)  
+            // setData(res.data.data)
+            // props.getUpdate(res.data.data)
+            saveResult(props.length+1)
             console.log(res.data.message)
         })
-        .catch((err)=>{
-            // console.log(res.data.message)
-            alert(err.message)
-        })
+        // .catch((err)=>{
+        //     // console.log(res.data.message)
+        //     alert(err.message)
+        // })
 
     
     }

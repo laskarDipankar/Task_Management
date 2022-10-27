@@ -4,56 +4,98 @@ import { useParams } from 'react-router'
 import { useState,useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { border, Box, height, textAlign} from '@mui/system'
-import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material'
 import u6 from '../../Img/user/u6.svg'
 import sand from '../../Img/sand.jpg'
 
 
+
+
 const UserDetails = () => {
     const [individual,setUser] = useState([])
+    const [Updatedetail,setUpdatedetail] =useState()
     const [tasks,setpendingTasks] = useState([])
-    const [taskId,setTaskId] = useState({
-        task:""
-    })
+    const [arr,setArr] = useState([])
+    
+    const [taskId,setTaskId] = useState()
     const [add,setadd]=useState()
+    const [status,setStatus] = useState([])
+    // const [name,setame]=useState([])
+    const[tname,setname]=useState([])
     const params = useParams()
+    var tarray = []
+
+    
     // console.log(params.id)
 
-    useEffect( () => {
-        
-        
-        // await axios
-        // .get(`http://localhost:9999/api/tasks?where={"completed":true}`)
-        
-        // .get(`https://taskmanagementtodo.herokuapp.com/api/tasks?where={'completed'=true}`)
-            // .then((res)=>{
-            //     console.log(res.data)
-            // })
+    useEffect(  ( ) => {
+
+
+        axios.get(`http://localhost:9999/api/tasks?limit=20&where={'completed':true}`)
+        .then((res)=>{
+            setStatus(res.data.data)
+            // console.log(res.data)
+        })
+
+
+
+
 
         
-        axios
+    axios
         .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
         // .get(`http://localhost:9999/api/users/${params.id}`)
         .then((res)=>{
             // console.log(res.data.data[0])
             setUser(res.data.data[0])
             setpendingTasks(res.data.data[0].pendingTasks)
+
+            // console.log(tasks)
+            console.log(res.data.data[0].pendingTasks)
+            res.data.data[0].pendingTasks.map( (item)=>{
+
+
+                console.log(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+                axios.get(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+                .then((res)=>{
+                    console.log(res.data.results,"jjjj")
+
+                    tarray.push(res.data.results.name)
+
+                    // setname(tarray)
+                })
+            })
+            console.log(tarray,"array1")
+            updatearray(tarray)
+            console.log(tname,"usatat fff")
         })
-    },[params.id,individual])
+    },[params.id,Updatedetail])
 
     // const Sorry = () =>{
     //     alert('I am working on it , thanks for your patience')
     // }
 
+
+
+
+    const updatearray=(data)=>{
+
+        setname(data)
+
+    }
+
     const handleID = async () =>{
+
+        // console.log()
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
     // await axios.put(`http://localhost:9999/api/users/${params.id}`
     
     ,{
-            taskd:taskId.task
+            taskd:taskId
         })
         .then((res)=>{
             alert(res.data.message)
+            setUpdatedetail(res.data.data)
         })
     }
 
@@ -61,12 +103,13 @@ const UserDetails = () => {
         setTaskId((prev)=>({...prev,[e.target.name]:[e.target.value]}))
 
     }    
+
+
+
+        
+    console.log(tname,"tarray")
     
-    // console.log(taskId)
 
-
-
-// console.log(typeof(taskId))
 
 return (
     <>
@@ -80,12 +123,50 @@ return (
 
 
         <DialogContent>
+                        <Box>
+                            {/* <FormControl
+                            sx={{ m: 1, width: 300, mt: 3 }}
+                            > */}
+                                <Select
+
+                                sx={{
+                                    width:400,
+                                    margin:'10px',
+                                    label:`${taskId}`
+                                    // placeholder:'select'
+
+                                }}
+                                
+                                >
+
+
+                                    {
+                                        status.map((item)=>{
+                                            return(
+
+                                                <MenuItem
+                                                onClick={()=>{setTaskId(item._id)}}
+                                                >{item.name}</MenuItem>
+                                            )
+
+
+                                        })
+
+                                    }
+                                </Select>
+                            {/* </FormControl> */}
+                        </Box> 
+            
             <TextField
+            sx={{
+                width:400,
+                margin:'10px'
+            }}
             name='task'
             placeholder='add task _id'
             onChange={handleInput}
             >
-                {/* {taskId.task} */}
+                {taskId}
             </TextField>
 
 
@@ -200,13 +281,6 @@ return (
                 gap:'2px',
                 
             }}>
-
-            {/* <Button
-            sx={{
-                backgroundColor:'#92D293'
-            }}
-            onClick={Sorry}
-            >EDIT</Button> */}
             <Button
             sx={{
                 backgroundColor:'#92D293'
@@ -220,12 +294,12 @@ return (
             }}
             
             >Add-Task</Button>
-            {/* <Button
+            <Button
             sx={{
                 backgroundColor:'#92D293'
             }}
-            onClick={Sorry}
-            >EDIT</Button> */}
+            // onClick={pendingTask}
+            >Show Pending tasks</Button>
             </Box>
                 </Box>
                 <Box
@@ -249,7 +323,7 @@ return (
                     {
                         
 
-                        tasks.map((item)=>{
+                        tname.map((item)=>{
                             return(
                                 <>
                                 <Card
@@ -284,24 +358,23 @@ return (
                                     textAlign={'center'}
                                     >
                                         {item}
+
+
+                                        {
+
+                                        }
                                     </Typography>
                                 </NavLink>
 
                                     </CardContent>
                                 </Card>
 
-                                <Box>
-                                    <TextField
-                                    label='select Task' 
-                                    select
-                                    >
-                                        <MenuItem>
-                                        {}
-                                        </MenuItem>
-                                    </TextField>
+                                {/* {
+                                    {tarray}
+                                } */}
 
-
-                                </Box>
+                            
+                            
 
                                 
                                 </>
@@ -331,3 +404,7 @@ export default UserDetails
             }
             
             <h1>{ individual.dateCreated }</h1> */}
+
+
+
+            

@@ -9,6 +9,7 @@ import { Button,Modal, Typography,Dialog,DialogActions,DialogContent,
 
 const TaskMoDetails = () => {
     const[tasks,setTasks]=useState([])
+    const [update,setUpdate] = useState()
     const params = useParams()
     const [user,setUser] = useState()
     const [warn, setWarn] = useState(false);
@@ -27,13 +28,14 @@ const TaskMoDetails = () => {
             // console.log(res.data.results)
             setTasks(res.data.results)
         })
-    },[params.id])
+    },[params.id,update])
 
     const taskDelete = () =>{
       // axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
       axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
       .then((res)=>{
         alert(res.data.message)
+        setUpdate(res.data.data)
       })
 
       // alert("hello")
@@ -61,6 +63,7 @@ const TaskMoDetails = () => {
 
       }).then((res) => {
         alert(res.data.message);
+        setUpdate(res.data.data)
       });
     };
 

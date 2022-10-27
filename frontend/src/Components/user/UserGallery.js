@@ -17,10 +17,10 @@ import {
   DialogActions,
 
 } from "@mui/material";
-import { bgcolor, display } from "@mui/system";
+// import { bgcolor, display } from "@mui/system";
 import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
-import * as React from "react";
+// import * as React from "react";
 import u1 from '../../Img/user/u1.svg'
 import u2 from '../../Img/user/u2.svg'
 import u3 from '../../Img/user/u3.svg'
@@ -30,6 +30,7 @@ import u6 from '../../Img/user/u6.svg'
 import u7 from '../../Img/user/u7.svg'
 import u8 from '../../Img/user/u8.svg'
 import u9 from '../../Img/user/u9.svg'
+// import { set } from "mongoose";
 // import bg from '../../Img/bg.jpg'
 
 const imgList = [
@@ -44,6 +45,7 @@ const UserGallery = () => {
   const [page, setpage] = useState(0);
   const [warn, setWarn] = useState(false);
   const [imgUser,setimguser] = useState([]);
+  const [update,setupdate] = useState()
   const [edit,setEdit]=useState({
     name:"",
     email:""
@@ -67,20 +69,22 @@ const UserGallery = () => {
         // console.log(res.data.Data.length);
         setimguser(imgList.concat(res.data.Data))
       });
-  }, [page,state]);
+  }, [page,update,length]);
 
   const UserDelete = async () => {
     await axios
       .delete(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`)
       .then((res) => {
+        setupdate(res.data.data)
         alert(res.data.message);
-        window.reload(true)
+        // window.reload(true)
 
       });
 
     console.log(user);
   };
 
+  // console.log(update)
 
 
   const getData = (data) => {
@@ -120,12 +124,20 @@ const UserUpdate = async () => {
       email:edit.email
     })
     .then((res) => {
-      alert(res.data.message);
+      // alert(res.data.message);
+      setupdate(res.data.message)
     })
   }
 
   console.log(user);
 };
+
+
+console.log(length)
+const getUpdate = (data) =>{
+  setlength(data)
+  console.log(length)
+}
 
 
   return (
@@ -260,7 +272,7 @@ const UserUpdate = async () => {
       {/* ///////modal////////////////////////////////////// */}
 
 
-      <AddUser />
+      <AddUser  length={length} getUpdate={getUpdate} />
       <Pagination getData={getData} />
       <Box
       sx={{

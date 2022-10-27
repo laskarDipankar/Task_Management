@@ -1,9 +1,9 @@
 import { Button, Modal, TextField, Typography } from '@mui/material'
-import { alignProperty } from '@mui/material/styles/cssUtils'
+// import { alignProperty } from '@mui/material/styles/cssUtils'
 import { Box } from '@mui/system'
 import React from 'react'
 import { useState } from 'react'
-import { Form } from 'react-router-dom'
+// import { Form } from 'react-router-dom'
 
 const UpdaateUser = (props) => {
 
@@ -56,11 +56,6 @@ return (
             </form>
     <Button onClick={  ()=>{setOpen(false)}}>Submit</Button>
         </Typography>
-      
-
-
-
-
     </Box>
         </Modal>
     

@@ -32,7 +32,8 @@ const UserRev = () => {
         sx={{
           marginTop: "2%",
           minHeight: "100%",
-          width: "100%",
+          marginLeft:'10%',
+          width: "80%",
           display: "grid",
           gridTemplateColumns: "1fr",
           // backgroundImage:`url(${tate})`,
@@ -109,7 +110,7 @@ const UserRev = () => {
                 sx={{
                   // display:'flex',
 
-                  maxWidth: 400,
+                  maxWidth: 350,
                   borderRadius: "12px",
                   boxShadow: "5px 5px 10px 5px grey",
                   opacity: 0.9,
@@ -125,7 +126,7 @@ const UserRev = () => {
                 <CardMedia
                   component="img"
                   alt="green iguana"
-                  height="220"
+                  height="180"
                   image={img}
                 />
                 <CardContent>
@@ -149,7 +150,7 @@ const UserRev = () => {
               </Card>
               <Box
                 sx={{
-                  width: "300",
+                  width: "250",
                 }}
               >
                 <Card

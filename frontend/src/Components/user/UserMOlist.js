@@ -18,13 +18,13 @@ import {
   DialogActions,
   ListItemText
 } from "@mui/material";
-import { bgcolor, display } from "@mui/system";
+
 import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import UpdaateUser from "./UpdaateUser";
-import e from "cors";
+
 
 const UserMolist = () => {
   const [state, setstate] = useState([]);
@@ -32,6 +32,8 @@ const UserMolist = () => {
   const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
+  const [update,setUpdate] = useState()
+  
   const [draw,setDraw]=useState(false)
   const [edit,setEdit]=useState({
     name:"",
@@ -48,7 +50,7 @@ const UserMolist = () => {
         setstate(res.data.Data);
         // console.log(res.data.Data);
       });
-  }, [page,state]);
+  }, [page,update]);
 
   const handlebutton = () => {
     if (open == false) {
@@ -57,6 +59,10 @@ const UserMolist = () => {
       setDraw(false);
     }
   };
+  
+  const getUpdate = (data) =>{
+    setUpdate(data)
+  }
 
   const getData = (data) => {
     setpage(data);
@@ -66,6 +72,7 @@ const UserMolist = () => {
       .delete(`https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`)
       .then((res) => {
         alert(res.data.message);
+        setUpdate(res.data.data)
       });
 
     console.log(user);
@@ -83,6 +90,7 @@ const UserMolist = () => {
       })
       .then((res) => {
         alert(res.data.message);
+        setUpdate(res.data.data)
       })
     }
 
@@ -115,7 +123,7 @@ const handledraw = () => {
 
   return (
     <>
-     
+    
       <Box>
         <Dialog
         open={warn}
@@ -244,7 +252,7 @@ const handledraw = () => {
       </Box>
       {/* /////////////////////////////////////////////////  coponents ///////////// */}
 
-      <AddUser />
+      <AddUser getUpdate={getUpdate} />
       <Pagination getData={getData} />
 
       {/* /////////////////////////////////////////////////// */}

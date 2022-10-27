@@ -11,6 +11,7 @@ import u6 from '../../Img/user/u6.svg'
 const UserModetail = () => {
     const [individual,setUser] = useState({})
     const [tasks,setpendingTasks] = useState([])
+    const [updatedetail,setUdetail]=useState()
     const [taskId,setTaskId] = useState({
         task:""
     })
@@ -37,7 +38,7 @@ const UserModetail = () => {
         })
 
 
-    },[params.id])
+    },[params.id,updatedetail])
 
     const handleID = async () =>{
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
@@ -48,7 +49,7 @@ const UserModetail = () => {
         })
         .then((res)=>{
             alert(res.data.message)
-            // setTaskId("")
+            setUdetail(res.data.data)
         })
     }
 
