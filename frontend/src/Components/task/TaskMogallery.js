@@ -32,13 +32,13 @@ const TaskMoGallery = () => {
   useEffect(() => {
     axios
       .get(
-        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9`
+        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
       )
       .then((res) => {
         console.log(res.data.data);
         setTask(res.data.data);
       });
-  }, [page]);
+  }, [page,Tasks]);
 
   const getData = (data) => {
     setpage(data);

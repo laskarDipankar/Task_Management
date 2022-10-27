@@ -19,7 +19,7 @@ const UserDetails = () => {
     const params = useParams()
     // console.log(params.id)
 
-    useEffect(async () => {
+    useEffect( () => {
         
         
         // await axios
@@ -30,13 +30,12 @@ const UserDetails = () => {
             //     console.log(res.data)
             // })
 
-
-
+        
         axios
-        // .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
-        .get(`http://localhost:9999/api/users/${params.id}`)
+        .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
+        // .get(`http://localhost:9999/api/users/${params.id}`)
         .then((res)=>{
-            console.log(res.data.data[0])
+            // console.log(res.data.data[0])
             setUser(res.data.data[0])
             setpendingTasks(res.data.data[0].pendingTasks)
         })
@@ -54,7 +53,7 @@ const UserDetails = () => {
             taskd:taskId.task
         })
         .then((res)=>{
-            // alert(res.data.message)
+            alert(res.data.message)
         })
     }
 
@@ -63,11 +62,11 @@ const UserDetails = () => {
 
     }    
     
-    console.log(taskId)
+    // console.log(taskId)
 
 
 
-console.log(typeof(taskId))
+// console.log(typeof(taskId))
 
 return (
     <>

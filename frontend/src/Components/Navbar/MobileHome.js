@@ -1,6 +1,5 @@
-import { Typography, Divider, TextField } from "@mui/material";
-import { Box, display, fontSize } from "@mui/system";
-import React from "react";
+import { Typography, Divider} from "@mui/material";
+import { Box} from "@mui/system";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -34,16 +33,7 @@ const MobileHome = () => {
             //   minHeight: "100%",
               width: "100%",
               display: "grid",
-              gridTemplateColumns: "1fr",
-              // backgroundImage:`url(${tate})`,
-              // marginRight:'8%',
-              // backdropFilter:"blur(8px)",
-              // backgroundRepeat: "no-repeat",
-              // backgroundPosition: "center center",
-              // backgroundAttachment: "fixed",
-              // backgroundSize: "cover",
-    
-              // backgroundSize:'cover'
+              gridTemplateColumns: "1fr"
             }}
             // position="fixed"
           >
