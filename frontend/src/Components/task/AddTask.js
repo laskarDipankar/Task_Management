@@ -37,9 +37,9 @@ const AddTask = (props) => {
         updateData(res.data.message);
         console.log(res.data.message);
       })
-      .catch((err) => {
+      .catch((res) => {
         // console.log(res.data.message)
-        alert(err.message);
+        alert(res.data.message);
       });
   };
 
