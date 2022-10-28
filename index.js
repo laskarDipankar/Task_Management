@@ -90,7 +90,7 @@ app.post("/api/tasks", async (req, res) => {
     }
   } else {
     // console.log("hello");
-    res.status(404).send({
+    res.status(400).send({
       message:
         "You have either left deadline or taskname fields of the form empty",
     });
