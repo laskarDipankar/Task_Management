@@ -21,6 +21,8 @@ const Detail = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center center",
         backgroundAttachment: "fixed",
+        // background:'rbga(222,2,155,0.6)'
+  
         
     }}
     >

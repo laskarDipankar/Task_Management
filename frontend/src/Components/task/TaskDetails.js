@@ -6,6 +6,7 @@ import { Button,Modal, Typography,Dialog,DialogActions,DialogContent,
   DialogTitle,FormControlLabel,FormGroup,
   TextField, 
   Checkbox } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 const TaskDetails = () => {
     const[tasks,setTasks]=useState([])
@@ -15,6 +16,7 @@ const TaskDetails = () => {
     const [warn, setWarn] = useState(false);
     const [open, setOpen] = useState(false);
     const [taskId, setTaskid] = useState();
+
     const [edit, setEdit] = useState({
       name: "",
       description: "",
@@ -184,6 +186,7 @@ const TaskDetails = () => {
                     sx={{
                       display:'flex',
                       alignItems:'center',
+                    
                       gap:1
                     }}>
                       <TextField
@@ -234,7 +237,9 @@ const TaskDetails = () => {
       display:'grid',
       justifyContent:'center',
       alignItems:'center',
-      border:' 2px solid yellow'
+      border:' 2px solid yellow',
+      background:'rgba(199, 221, 255,0.6)',
+      backdropFilter:'blur(100px)'
 
     }}>
       <Typography
@@ -242,7 +247,7 @@ const TaskDetails = () => {
       component={'div'}
       sx={{
         // border:'2px solid red',
-        color:'blueviolet',
+        color:'#103BC4',
         marginBottom:'3%'
       }}
       >
@@ -316,7 +321,20 @@ const TaskDetails = () => {
           color:"green"
         }}
         >
+          <NavLink
+
+style={({ isActive }) => (
+  {
+    color: isActive ? "greenyellow" : "white",
+  },
+  { textDecoration: "none" }
+)}
+
+          to={`/users/${tasks.assignedUser}`}
+          >
+
           {`Assigned User Name : ${tasks.assignedUserName}`}
+          </NavLink>
 
         </Typography>
 

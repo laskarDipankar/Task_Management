@@ -1,432 +1,426 @@
-import axios from 'axios'
-import React from 'react'
-import { useParams } from 'react-router'
-import { useState,useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
-import { border, Box, height, textAlign} from '@mui/system'
-import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material'
-import u6 from '../../Img/user/u6.svg'
-import sand from '../../Img/sand.jpg'
-import detail from '../../Img/details.png'
-
-
-
-
-
+import axios from "axios";
+import React from "react";
+import { useParams } from "react-router";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { border, Box, height, textAlign } from "@mui/system";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import u6 from "../../Img/user/u6.svg";
+import AddTask from "../task/AddTask";
 
 const UserDetails = () => {
-    const [individual,setUser] = useState([])
-    const [Updatedetail,setUpdatedetail] =useState()
-    const [tasks,setpendingTasks] = useState([])
-    const [arr,setArr] = useState([])
-    
-    const [taskId,setTaskId] = useState()
-    const [add,setadd]=useState()
-    const [status,setStatus] = useState([])
-    // const [name,setame]=useState([])
-    const[tname,setname]=useState([])
-    const [display,setDisplay] = useState('none')
-    const params = useParams()
-    var tarray = []
+  const [individual, setUser] = useState([]);
+  const [Updatedetail, setUpdatedetail] = useState();
+  const [completion, setCompletion] = useState(false);
+  const [uid, setuid] = useState();
+  const [tasks, setpendingTasks] = useState([]);
+  const [task, settask] = useState({ id: "", name: "" });
+  const [dialog, setdialog] = useState(false);
+  const [add, setadd] = useState();
+  const [status, setStatus] = useState([]);
+  const [tname, setname] = useState([]);
+  const [display, setDisplay] = useState("none");
+  const params = useParams();
+  var tarray = [];
 
-    
-    // console.log(params.id)
+  // console.log(params.id)
 
-    useEffect(  ( ) => {
-
-
-        axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks?limit=20&where={'completed':true}`)
-        .then((res)=>{
-            setStatus(res.data.data)
-            // console.log(res.data)
-        })
-
-
-
-
-
-        
+  useEffect(() => {
     axios
-        .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
-        // .get(`http://localhost:9999/api/users/${params.id}`)
-        .then((res)=>{
-            
-            setUser(res.data.data[0])
-            setpendingTasks(res.data.data[0].pendingTasks)
+      .get(
+        `https://taskmanagementtodo.herokuapp.com/api/tasks?where={'completed':true}&sort={'dateCreated':-1}`
+      )
+      .then((res) => {
+        setStatus(res.data.data);
+        // console.log(res.data)
+      });
 
-            // console.log(tasks)
-            console.log(res.data.data[0].pendingTasks)
-            res.data.data[0].pendingTasks.map( async (item)=>{
+    axios
+      .get(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`)
+      // .get(`http://localhost:9999/api/users/${params.id}`)
+      .then((res) => {
+        setUser(res.data.data[0]);
+        setpendingTasks(res.data.data[0].pendingTasks);
+      });
+  }, [params.id, Updatedetail]);
 
+  useEffect(() => {
+    tasks.map(async (item) => {
+      await axios
+        .get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${item}`)
+        .then((res) => {
+          // console.log(res.data.results,"jjjj")
+          updatearray(res.data.results);
 
-            //     console.log(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
-            // await axios.get(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+          // tarray.push(res.data.results)
 
-            await axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${item}`)
-                .then((res)=>{
-                    console.log(res.data.results,"jjjj")
-                    updatearray(res.data.results)
+          // setname(tarray)
+        });
+    });
+  }, [tasks]);
 
-                    // tarray.push(res.data.results)
+  const handleDisplay = () => {
+    if (display == "block") {
+      setDisplay("none");
+    } else {
+      setDisplay("block");
+    }
+  };
 
-                    // setname(tarray)
-                })
-            })
-            console.log(tarray,"array1")
-            // updatearray(tarray)
-            console.log(tname,"usatat fff")
-        })
-    },[params.id,Updatedetail])
+  const UpdateStatus = () => {
+    axios
+      .patch(`https://taskmanagementtodo.herokuapp.com/api/tasks/${uid}`, {
+        completed: completion,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        setUpdatedetail(res.data.data);
+      });
+  };
 
-    const handleDisplay =() =>{
-        if(display == 'block'){
-            setDisplay('none')
-        }else{
-            setDisplay('block')
+  function removeDuplicates(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  }
+
+  const updatearray = (data) => {
+    tarray.push(data);
+
+    setname(removeDuplicates(tarray));
+  };
+
+  const handleID = async () => {
+    // console.log()
+    await axios
+      .put(
+        `https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`,
+        // await axios.put(`http://localhost:9999/api/users/${params.id}`
+
+        {
+          taskd: task.id,
         }
-    }
+      )
+      .then((res) => {
+        alert(res.data.message);
+        setUpdatedetail(res.data.data);
+      });
+  };
 
+  const getUpdatedata = (data) => {
+    setUpdatedetail(data);
+  };
 
-
-
-    const updatearray=(data)=>{
-
-        tarray.push(data)
-
-        setname(tarray)
-
-    }
-
-    const handleID = async () =>{
-
-        // console.log()
-    await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
-    // await axios.put(`http://localhost:9999/api/users/${params.id}`
-    
-    ,{
-            taskd:taskId
-        })
-        .then((res)=>{
-            alert(res.data.message)
-            setUpdatedetail(res.data.data)
-        })
-    }
-
-    // const handleInput =(e)=>{
-    //     setTaskId((prev)=>({...prev,[e.target.name]:[e.target.value]}))
-
-    // }    
-
-
-
-        
-    console.log(tname,"tarray")
-    
-
-
-return (
+  const handleActions = () => {
+    setdialog(true);
+    setCompletion(true);
+  };
+  // console.log(uid);
+  return (
     <>
-    <Dialog
-    open={add}
-    onClose={()=>setadd(false)}
-    >
-        <DialogTitle>
-            Assign task to user
+      <Dialog open={add} onClose={() => setadd(false)}>
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          ASSIGN TASK TO USER
         </DialogTitle>
 
-
         <DialogContent>
-                        <Box>
-                            {/* <FormControl
-                            sx={{ m: 1, width: 300, mt: 3 }}
-                            > */}
-                        
-                                <Select
-
-                                label='select task'
-                                placeholder={`${taskId}`}
-                                sx={{
-                                    width:400,
-                                    margin:'10px',
-                                    
-                                    // placeholder:'select'
-
-                                }}
-                                
-                                >
-
-
-                                    {
-                                        status.map((item)=>{
-                                            return(
-
-                                                <MenuItem
-                                                onClick={()=>{setTaskId(item._id)}}
-                                                >{item.name}</MenuItem>
-                                            )
-
-
-                                        })
-
-                                    }
-                                </Select>
-                                {/* </TextField> */}
-                            {/* </FormControl> */}
-                        </Box> 
-            
-            {/* <TextField
-            sx={{
-                width:400,
-                margin:'10px'
-            }}
-            name='task'
-            placeholder='add task _id'
-            onChange={handleInput}
+          <Box>
+            <AddTask getUpdatedata={getUpdatedata} />
+            <Select
+              value={task.name}
+              placeholder={"select task"}
+              sx={{
+                width: 400,
+                margin: "10px",
+                color: "black",
+              }}
             >
-                {taskId}
-            </TextField> */}
-
-
+              {status.map((item) => {
+                return (
+                  <MenuItem
+                    value={item.name}
+                    onClick={() => {
+                      settask({ name: item.name, id: item._id });
+                    }}
+                  >
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </Box>
         </DialogContent>
-
         <DialogActions>
-            <Button
-            onClick={handleID}
-            >
-                Assign
-            </Button>
-        <Button
-        onClick={()=>setadd(false)}>close</Button>
+          <Button onClick={handleID}>Assign</Button>
+          <Button onClick={() => setadd(false)}>close</Button>
         </DialogActions>
+      </Dialog>
 
-
-    </Dialog>
-
-    <Box
-    sx={{
-        height: 890,
-        width: "99.2%",
-        marginTop:'5.5%',
-        // border:'2px solid red',
-        display:'grid',
-        justifyContent:'center',
-        alignItems:'center'
-        
-    }}
-    >
-        <Box
-        
-        sx={{
-            height:800,
-            width:1000,
-            // border:'2px solid green',
-            display:'grid',
-            
-            placeItems:"center"
-            // bgcolor:'red'
-        }}>
-            <Box
+      <Dialog open={dialog} onClose={() => setdialog(false)}>
+        <DialogTitle>Marking task as Complete will remove the task</DialogTitle>
+        <DialogContent>
+          <Box
             sx={{
-                width:800,
-                // border:"2px solid yellow",
-                display:'grid',
-                gridTemplateRows:'30% 1fr',
-                justifyContent:'center',
-                // placeItems:"center",
-                height:800,
-
-            }}> 
-            <Box
-            
-            sx={{
-                height:150,
-                width:500,
-                marginTop:'8%',
-                marginLeft:'8%',
-                // border:"2px solid brown",
-                display:"flex",
-                flexDirection:"column",
-                justifyContent:'center',
-                // alignItems:'center'
-                background:'transparent',
-                backdropFilter:'blur(15px)',
-                opacity:0.9
-
-            }}>
-
-            <Typography
-            variant='h6'
-            component='div'
-            sx={{
-                // border:"2px solid red",
-                textAlign:'center'
+              display: "flex",
+              justifyContent: "center",
             }}
-            
+          >
+            <Button
+              onClick={() => {
+                UpdateStatus();
+              }}
             >
+              Mark as Completed
+            </Button>
+            <Button
+              onClick={(e) => {
+                {
+                  setdialog(false);
+                }
+              }}
+            >
+              Close
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
+
+      <Box
+        sx={{
+          height: 890,
+          width: "99.2%",
+          marginTop: "5.5%",
+          // border:'2px solid red',
+          display: "grid",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            height: 800,
+            width: 1000,
+            // border:'2px solid green',
+            display: "grid",
+
+            placeItems: "center",
+            // bgcolor:'red'
+          }}
+        >
+          <Box
+            sx={{
+              width: 800,
+              // border:"2px solid yellow",
+              display: "grid",
+              gridTemplateRows: "30% 1fr",
+              justifyContent: "center",
+              // placeItems:"center",
+              height: 800,
+            }}
+          >
+            <Box
+              sx={{
+                height: 150,
+                width: 770,
+                marginTop: "8%",
+                // marginLeft: "10%",
+                // border:"2px solid brown",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                // alignItems:'center'
+                background: "rgba(0,102,51,0.4)",
+                backdropFilter: "blur(15px)",
+
+                // background:'transparent',
+                // backdropFilter:'blur(15px)',
+                // opacity:0.9
+              }}
+            >
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  // border:"2px solid red",
+                  textAlign: "center",
+                }}
+              >
                 Name<span> : </span>
                 {individual.name}
-            </Typography>
-            <Typography
-            variant='h6'
-            component='div'
-            sx={{
-                // border:"2px solid red",
-                textAlign:'center'
-                
-            }}
-            >
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  // border:"2px solid red",
+                  textAlign: "center",
+                }}
+              >
                 Email <span> : </span>
                 {individual.email}
-            </Typography>
-            <Typography
-            variant='h6'
-            component='div'
-            sx={{
-                // border:"2px solid red",
-                textAlign:'center'
-                
-            }}
-            >
+              </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  // border:"2px solid red",
+                  textAlign: "center",
+                }}
+              >
                 DateCreated <span> : </span>
                 {individual.dateCreated}
-            </Typography>
-            <Box
-            sx={{
-                display:'flex',
-                alignItems:'center',
-                justifyContent:"center",
-                gap:'2px',
-                
-            }}>
-            <Button
-            sx={{
-                backgroundColor:'#92D293'
-            }}
-            onClick={(e)=>{
-                // {handleID()}
-                // {setTaskId(individual._id)}
-                {setadd(true)}
-
-        
-            }}
-            
-            >Add-Task</Button>
-            <Button
-            sx={{
-                backgroundColor:'#92D293'
-            }}
-            onClick={handleDisplay}
-            >Show Pending tasks</Button>
-            </Box>
-                </Box>
-                <Box
+              </Typography>
+              <Box
                 sx={{
-                    // border:'2px solid pink',
-                    height:450,
-                    width:600,
-                    marginTop:'8%',
-                    
-                    // paddingLeft:'50%',
-                    display:'grid',
-                    gridTemplateColumns:'repeat(2,1fr)',
-                    marginLeft:'8%'
-                    // justifyContent:'center'
-
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "2px",
                 }}
-                
+              >
+                <Button
+                  sx={{
+                    backgroundColor: "#92D293",
+                  }}
+                  onClick={(e) => {
+                    // {handleID()}
+                    // {setTaskId(individual._id)}
+                    {
+                      setadd(true);
+                    }
+                  }}
                 >
-                    {/* <Typography
+                  Add-Task
+                </Button>
+                <Button
+                  sx={{
+                    backgroundColor: "#92D293",
+                  }}
+                  onClick={handleDisplay}
+                >
+                  Show Pending tasks
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                // border: "2px solid pink",
+                height: 450,
+                width: 770,
+                marginTop: "8%",
+
+                // paddingLeft:'50%',
+                display: "grid",
+                gridTemplateColumns: "repeat(3,1fr)",
+                // marginLeft: "8%",
+                // justifyContent:'center'
+              }}
+            >
+              {/* <Typography
                     textAlign={'center'}
                     >
                         Pending tasks 
                     </Typography> */}
-                    {
-                        
-
-                        tname.map((item)=>{
-                            return(
-                                <>
-                                <Card
-                                
-                                sx={{
-                                    // border:'2px solid greenyellow',
-                                    marginTop:'2%',
-                                    marginLeft:'9%',
-                                    width:250,
-                                    height:200,
-                                    opacity:0.8,
-                                    display:`${display}`,
-                                    background:'rgba(0,102,51,0.4)',
-                                    backdropFilter:'blur(15px)',
-
-                                    
-                                }}>
-                                    <CardMedia
-                                    component="img"
-                                    alt="green iguana"
-                                    height="130"
-                                    image={u6}
-                                    sx={{
-                                        // margin:4
-                                    }}
-                                    >
-
-                                    </CardMedia>
-                                    <CardContent
-                                    sx={{
-                                        textAlign:'center'
-                                    }}>
-                                    <NavLink
-                                    
-                                    style={{
-                                        color:'red',
-                                        textDecoration:'none'
-                                    }}
-
-                                    to={`/tasks/${item._id}`}>
-                                    <Typography
-                                    variant='p'
-                                    textAlign={'center'}
-                                    >
-                                        {item.name}
-
-
-                                        {
-
-                                        }
-                                    </Typography>
-                                </NavLink>
-
-                                    </CardContent>
-                                </Card>
-
-                                {/* {
-                                    {tarray}
-                                } */}
-
-                            
-                            
-
-                                
-                                </>
-                            )
-                        })
-
-                    }
-
-                </Box>
+              {tname.map((item) => {
+                return (
+                  <>
+                    <Card
+                      sx={{
+                        // border: "2px solid greenyellow",
+                        marginTop: "2%",
+                        paddingTop: "2%",
+                        // marginLeft: "9%",
+                        width: 250,
+                        height: 250,
+                        // opacity:0.8,
+                        display: `${display}`,
+                        background: "rgba(0,102,51,0.4)",
+                        backdropFilter: "blur(15px)",
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        alt="green iguana"
+                        height="130"
+                        image={u6}
+                        sx={
+                          {
+                            // margin:4
+                          }
+                        }
+                      ></CardMedia>
+                      <CardContent
+                        sx={{
+                          textAlign: "center",
+                        }}
+                      >
+                        <NavLink
+                          style={{
+                            color: "red",
+                            textDecoration: "none",
+                          }}
+                          to={`/tasks/${item._id}`}
+                        >
+                          <Typography variant="p" textAlign={"center"}>
+                            {item.name}
+                          </Typography>
+                        </NavLink>
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          sx={{
+                            color: "red",
+                          }}
+                          onClick={() => {
+                            {
+                              handleActions();
+                            }
+                            {
+                              setuid(item._id);
+                            }
+                          }}
+                        >
+                          completed
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </>
+                );
+              })}
             </Box>
-            
+          </Box>
         </Box>
-    </Box>
+      </Box>
     </>
-)
+  );
+};
 
-}
+export default UserDetails;
 
-export default UserDetails
-
-{/* <h1>{ `EMAIL: ${individual.email}  `}</h1>
+{
+  /* <h1>{ `EMAIL: ${individual.email}  `}</h1>
             <h1>PendingTasks :</h1>
             {
                 tasks.map((item)=>{
@@ -434,8 +428,5 @@ export default UserDetails
                 })
             }
             
-            <h1>{ individual.dateCreated }</h1> */}
-
-
-
-            
+            <h1>{ individual.dateCreated }</h1> */
+}

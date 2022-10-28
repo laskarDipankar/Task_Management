@@ -50,6 +50,7 @@ const MobileHome = () => {
                 // backgroundRepeat: "no-repeat",
                 backgroundPosition: "center center",
                 backgroundAttachment: "fixed",
+                backdropFilter:'blur(20px)'
                 // height:300,
                 // width:600
               }}

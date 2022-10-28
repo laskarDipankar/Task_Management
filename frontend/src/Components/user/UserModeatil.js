@@ -12,11 +12,14 @@ const UserModetail = () => {
     const [individual,setUser] = useState({})
     const [tasks,setpendingTasks] = useState([])
     const [updatedetail,setUdetail]=useState()
+    const[tname,setname]=useState([])
     const [taskId,setTaskId] = useState({
         task:""
     })
     const [add,setadd]=useState()
     const params = useParams()
+    const [display,setDisplay] = useState('none')
+    var tarray = []
     // console.log(params.id)
 
     useEffect(() => {
@@ -40,6 +43,45 @@ const UserModetail = () => {
 
     },[params.id,updatedetail])
 
+
+    useEffect(()=>{
+
+        tasks.map( async (item)=>{
+            await axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${item}`)
+                .then((res)=>{
+                    // console.log(res.data.results,"jjjj")
+                    updatearray(res.data.results)
+
+                    // tarray.push(res.data.results)
+
+                    // setname(tarray)
+                })
+            })
+            
+        },[tasks])
+
+        const updatearray=(data)=>{
+
+            tarray.push(data)
+    
+            setname(tarray)
+    
+        }
+
+        const handleDisplay =() =>{
+            if(display == 'block'){
+                setDisplay('none')
+            }else{
+                setDisplay('block')
+            }
+        }
+
+
+
+
+
+
+
     const handleID = async () =>{
     await axios.put(`https://taskmanagementtodo.herokuapp.com/api/users/${params.id}`
     // await axios.put(`http://localhost:9999/api/users/${params.id}`
@@ -58,7 +100,7 @@ const UserModetail = () => {
 
     }    
     
-    console.log(taskId)
+    // console.log(taskId)
 
 
 
@@ -148,7 +190,10 @@ return (
                 justifyContent:'center',
                 background:'white',
                 opacity:0.85,
-                marginLeft:'2%'
+                marginLeft:'2%',
+                background:'rgba(0,102,51,0.4)',
+                backdropFilter:'blur(15px)',
+
                 // alignItems:'center'
 
             }}>
@@ -207,6 +252,13 @@ return (
             }}
             
             >Add-Task</Button>
+            <Button
+            sx={{
+                backgroundColor:'#92D293'
+            }}
+            onClick={handleDisplay}
+            >Show Pending tasks</Button>
+
             {/* <Button>EDIT</Button> */}
             </Box>
                 </Box>
@@ -221,7 +273,8 @@ return (
                     gridTemplateColumns:'1fr',
                     marginLeft:'2%',
                     // justifyContent:'center'
-                    alignitems:'center'
+                    alignitems:'center',
+                    
 
                 }}>
                     {/* <Typography
@@ -232,7 +285,7 @@ return (
                     {
                         
 
-                        tasks.map((item)=>{
+                        tname.map((item)=>{
                             return(
                                 <>
                                 <Card
@@ -243,7 +296,10 @@ return (
                                     marginLeft:'9%',
                                     width:230,
                                     height:200,
-                                    opacity:0.9
+                                    opacity:0.9,
+                                    display:`${display}`,
+                                    background:'rgba(0,102,51,0.4)',
+                                    backdropFilter:'blur(15px)'
                                     
                                 }}>
                                     <CardMedia
@@ -261,12 +317,12 @@ return (
                                     sx={{
                                         textAlign:'center'
                                     }}>
-                                    <NavLink to={`/tasks/${item}`}>
+                                    <NavLink to={`/tasks/${item._id}`}>
                                     <Typography
                                     variant='p'
                                     textAlign={'center'}
                                     >
-                                        {item}
+                                        {item.name}
                                     </Typography>
                                 </NavLink>
 

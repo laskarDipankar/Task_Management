@@ -20,20 +20,18 @@ import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-// import ClipLoader from "react-spinners/ClipLoader";
-
 
 const UserList = () => {
   const [state, setstate] = useState([]);
   const [page, setpage] = useState(0);
   const [user, setUser] = useState();
-  const [update,setUpdate] = useState()
+  const [update, setUpdate] = useState();
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
   const [sortdata, setdata] = useState();
   const [flag, setflag] = useState(true);
   const [loading, setloading] = useState(false);
-  const [color,setcolor] = useState("2px solid orange")
+  const [color, setcolor] = useState("2px solid orange");
   const [edit, setEdit] = useState({
     name: "",
     email: "",
@@ -44,7 +42,6 @@ const UserList = () => {
     setloading(true);
 
     setTimeout(() => {
-
       axios
         .get(
           `https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
@@ -52,7 +49,7 @@ const UserList = () => {
         )
         .then((res) => {
           setstate(res.data.Data);
-          setloading(false)
+          setloading(false);
           // console.log(res.data.Data);
         });
     }, 1000);
@@ -60,7 +57,7 @@ const UserList = () => {
     // var status = document.querySelectorAll('.status')
 
     // setloading(false);
-  }, [page,update,]);
+  }, [page, update]);
 
   const getData = (data) => {
     setpage(data);
@@ -71,19 +68,17 @@ const UserList = () => {
         `https://taskmanagementtodo.herokuapp.com/api/users/${user.toString()}`
       )
       .then((res) => {
-        
-          // alert(
-          //   `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
-          //   );
-          setUpdate(res.data.data)
+        // alert(
+        //   `Deleted user ${res.data.message},freed task ${res.data.Taskfreed}`
+        //   );
+        setUpdate(res.data.data);
 
-            if(res.data.message != ""){
-              setTimeout(() => {
-                setcolor("2px solid red")
-              }, 1000);
-              // setcolor("2px solid orange")
-            }
-          
+        if (res.data.message != "") {
+          setTimeout(() => {
+            setcolor("2px solid red");
+          }, 1000);
+          // setcolor("2px solid orange")
+        }
       });
 
     console.log(user);
@@ -103,14 +98,13 @@ const UserList = () => {
         )
         .then((res) => {
           // alert(res.data.message);
-          setUpdate(res.data.data)
-          if(res.data.message != ""){
+          setUpdate(res.data.data);
+          if (res.data.message != "") {
             setTimeout(() => {
-              setcolor('2px solid red')
+              setcolor("2px solid red");
             }, 1000);
             // setcolor("2px solid orange")
           }
-          
         });
     }
 
@@ -149,10 +143,10 @@ const UserList = () => {
   const handleClose = () => {
     setWarn(false);
   };
-  const getUpdate = (data) =>{
-    setUpdate(data)
-    console.log(data)
-  }
+  const getUpdate = (data) => {
+    setUpdate(data);
+    console.log(data);
+  };
 
   return (
     <>
@@ -255,7 +249,7 @@ const UserList = () => {
                         name="email"
                         placeholder="Edit email"
                         onChange={handleChange}
-                        type='email'
+                        type="email"
                       ></TextField>
                     </Box>
                     {/* <Box>
@@ -300,23 +294,21 @@ const UserList = () => {
 
       <AddUser getUpdate={getUpdate} />
       <Box
-      className="status"
-      sx={{
-        height:40,
-
-
-      }}>
-        <Typography
+        className="status"
         sx={{
-          display:'flex',
-          justifyContent:'center'
-        }}>
-
-        {
-          // `${color}`
-        }
+          height: 40,
+        }}
+      >
+        <Typography
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {
+            // `${color}`
+          }
         </Typography>
-
       </Box>
 
       <Box
@@ -339,120 +331,114 @@ const UserList = () => {
           gridTemplateColumns: "repeat(1fr)",
         }}
       >
-        {
-        
-        
-        state.map( (item) => {
+        {state.map((item) => {
           return (
             <>
+              <Box
+                sx={{
+                  display: "flex",
+                  // justifyContent:'center',
+                  paddingLeft: "2rem",
+                  // alignItems:'center',
+                  border: ` ${color}`,
+                  width: 800,
+                  height: 120,
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                }}
+              >
+                <NavLink
+                  to={`/users/${item._id}`}
+                  style={({ isActive }) => (
+                    {
+                      color: isActive ? "greenyellow" : "white",
+                    },
+                    { textDecoration: "none" }
+                  )}
+                >
+                  <Typography
+                    sx={{
+                      color: "black",
+                      paddingTop: "45%",
+                      // height:40,
+                      display: "grid",
+                      alignItems: "center",
+                      // background:'white'
+                      // justifyContent:'center'
+                    }}
+                  >
+                    {item.name.toUpperCase()}
+                  </Typography>
+                </NavLink>
                 <Box
                   sx={{
                     display: "flex",
-                    // justifyContent:'center',
-                    paddingLeft: "2rem",
-                    // alignItems:'center',
-                    border: ` ${color}`,
-                    width: 800,
-                    height: 120,
-                    backgroundColor: "rgba(255,255,255,0.8)",
+                    alignItems: "center",
+                    marginLeft: "auto",
+                    // paddingRight:'2rem',
+                    // gap:5
                   }}
                 >
                   <NavLink
                     to={`/users/${item._id}`}
-                    style={({ isActive }) => (
-                      {
-                        color: isActive ? "greenyellow" : "white",
-                      },
-                      { textDecoration: "none" }
-                    )}
-                  >
-                    <Typography
-                      sx={{
-                        color: "black",
-                        paddingTop: "45%",
-                        // height:40,
-                        display: "grid",
-                        alignItems: "center",
-                        // background:'white'
-                        // justifyContent:'center'
-                      }}
-                    >
-                      {item.name.toUpperCase()}
-                    </Typography>
-                  </NavLink>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginLeft: "auto",
-                      // paddingRight:'2rem',
-                      // gap:5
+                    style={{
+                      textDecoration: "none",
                     }}
                   >
-                    <NavLink
-                      to={`/users/${item._id}`}
-                      style={{
-                        textDecoration: "none",
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        margin: 2,
                       }}
                     >
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          margin: 2,
-                        }}
-                      >
-                        Detail
-                        {/* <span>/</span>
+                      Detail
+                      {/* <span>/</span>
                         Add Task */}
-                      </Button>
-                    </NavLink>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        margin: 2,
-                      }}
-                      onClick={(e) => {
-                        {
-                          UserEdit();
-                        }
-                        {
-                          setUser(item._id);
-                        }
-                      }}
-                    >
-                      Edit <span>-</span>
-                      <EditIcon />
                     </Button>
+                  </NavLink>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      margin: 2,
+                    }}
+                    onClick={(e) => {
+                      {
+                        UserEdit();
+                      }
+                      {
+                        setUser(item._id);
+                      }
+                    }}
+                  >
+                    Edit <span>-</span>
+                    <EditIcon />
+                  </Button>
 
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        margin: 2,
-                      }}
-                      // dUser={item._id}
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      margin: 2,
+                    }}
+                    // dUser={item._id}
 
-                      onClick={(e) => {
-                        {
-                          handleClickOpen();
-                          // UserDelete();
-                        }
-                        {
-                          setUser(item._id);
-                        }
-                      }}
-                    >
-                      {" "}
-                      Delete <span>-</span>
-                      <HighlightOffIcon />
-                    </Button>
-                  </Box>
+                    onClick={(e) => {
+                      {
+                        handleClickOpen();
+                        // UserDelete();
+                      }
+                      {
+                        setUser(item._id);
+                      }
+                    }}
+                  >
+                    Delete <span>-</span>
+                    <HighlightOffIcon />
+                  </Button>
                 </Box>
-              )
+              </Box>
             </>
-          )
-              })
-            };
-        {/* )} */}
+          );
+        })}
+        ;{/* )} */}
       </Box>
     </>
   );
