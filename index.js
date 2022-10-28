@@ -71,7 +71,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/tasks", async (req, res) => {
-  if (req.body.name != "" && req.body.deadline != "") {
+  if (req.body.name != "" && req.body.deadline != null) {
     // console.log("not working")
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
@@ -89,9 +89,10 @@ app.post("/api/tasks", async (req, res) => {
       // console.log(error)
     }
   } else {
-    console.log("hello");
+    // console.log("hello");
     res.status(404).send({
-      message: "You have either left deadline or taskname fields empty",
+      message:
+        "You have either left deadline or taskname fields of the form empty",
     });
   }
 });
