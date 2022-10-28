@@ -26,6 +26,8 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 const MobileHome = () => {
   return (
 
+
+  
         <>
           <Box
             sx={{

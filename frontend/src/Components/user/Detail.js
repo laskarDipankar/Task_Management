@@ -3,6 +3,7 @@ import UserModetail from "./UserModeatil";
 import { useMediaQuery,useTheme,Box } from "@mui/material";
 import React from 'react'
 import sand from '../../Img/sand.jpg'
+import detail from '../../Img/details.png'
 
 
 const Detail = () => {
@@ -15,11 +16,12 @@ const Detail = () => {
     sx={{
 
         
-        backgroundImage: `url(${sand})`,
+        backgroundImage: `url(${detail})`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center center",
         backgroundAttachment: "fixed",
+        
     }}
     >
     {   matches ? <UserModetail/> : <UserDetails/>                   }

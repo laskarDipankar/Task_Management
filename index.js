@@ -26,7 +26,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 9999;
+const port = process.env.PORT || 1999;
 
 app.use(express.static('Public'));
 
@@ -373,15 +373,17 @@ app.patch("/api/tasks/:id", async (req, res) => {
     );
 
     if(req.body.completed == true){
+      console.log("task true")
       const findUser = await User.find({"pendingTasks":id})
-      
-      console.log(findUser.nam)
-      await findUser.pendingTasks.filter((item)=>{
+
+
+      console.log(findUser[0].name)
+      findUser[0].pendingTasks.filter((item)=>{
 
         console.log("here")
         if(item == id ){
-          findUser.pendingTasks.remove(id)
-          findUser.save()
+          findUser[0].pendingTasks.remove(id)
+          findUser[0].save()
         }
       })}
     }

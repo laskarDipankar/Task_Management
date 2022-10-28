@@ -7,6 +7,9 @@ import { border, Box, height, textAlign} from '@mui/system'
 import { Button, Card, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material'
 import u6 from '../../Img/user/u6.svg'
 import sand from '../../Img/sand.jpg'
+import detail from '../../Img/details.png'
+
+
 
 
 
@@ -22,6 +25,7 @@ const UserDetails = () => {
     const [status,setStatus] = useState([])
     // const [name,setame]=useState([])
     const[tname,setname]=useState([])
+    const [display,setDisplay] = useState('none')
     const params = useParams()
     var tarray = []
 
@@ -31,7 +35,7 @@ const UserDetails = () => {
     useEffect(  ( ) => {
 
 
-        axios.get(`http://localhost:9999/api/tasks?limit=20&where={'completed':true}`)
+        axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks?limit=20&where={'completed':true}`)
         .then((res)=>{
             setStatus(res.data.data)
             // console.log(res.data)
@@ -52,31 +56,44 @@ const UserDetails = () => {
 
             // console.log(tasks)
             console.log(res.data.data[0].pendingTasks)
-            res.data.data[0].pendingTasks.map( (item)=>{
+            res.data.data[0].pendingTasks.map( async (item)=>{
 
 
-                console.log(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
-                axios.get(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+            //     console.log(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+            // await axios.get(`http://localhost:9999/api/tasks/${item}?where={'completed':true}`)
+
+            await axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${item}`)
                 .then((res)=>{
                     console.log(res.data.results,"jjjj")
+                    updatearray(res.data.results)
 
-                    tarray.push(res.data.results.name)
+                    // tarray.push(res.data.results)
 
                     // setname(tarray)
                 })
             })
             console.log(tarray,"array1")
-            updatearray(tarray)
+            // updatearray(tarray)
             console.log(tname,"usatat fff")
         })
     },[params.id,Updatedetail])
+
+    const handleDisplay =() =>{
+        if(display == 'block'){
+            setDisplay('none')
+        }else{
+            setDisplay('block')
+        }
+    }
 
 
 
 
     const updatearray=(data)=>{
 
-        setname(data)
+        tarray.push(data)
+
+        setname(tarray)
 
     }
 
@@ -95,10 +112,10 @@ const UserDetails = () => {
         })
     }
 
-    const handleInput =(e)=>{
-        setTaskId((prev)=>({...prev,[e.target.name]:[e.target.value]}))
+    // const handleInput =(e)=>{
+    //     setTaskId((prev)=>({...prev,[e.target.name]:[e.target.value]}))
 
-    }    
+    // }    
 
 
 
@@ -123,12 +140,15 @@ return (
                             {/* <FormControl
                             sx={{ m: 1, width: 300, mt: 3 }}
                             > */}
+                        
                                 <Select
 
+                                label='select task'
+                                placeholder={`${taskId}`}
                                 sx={{
                                     width:400,
                                     margin:'10px',
-                                    label:`${taskId}`
+                                    
                                     // placeholder:'select'
 
                                 }}
@@ -150,10 +170,11 @@ return (
 
                                     }
                                 </Select>
+                                {/* </TextField> */}
                             {/* </FormControl> */}
                         </Box> 
             
-            <TextField
+            {/* <TextField
             sx={{
                 width:400,
                 margin:'10px'
@@ -163,7 +184,7 @@ return (
             onChange={handleInput}
             >
                 {taskId}
-            </TextField>
+            </TextField> */}
 
 
         </DialogContent>
@@ -228,7 +249,7 @@ return (
                 justifyContent:'center',
                 // alignItems:'center'
                 background:'transparent',
-                backdropFilter:'blur(20px)',
+                backdropFilter:'blur(15px)',
                 opacity:0.9
 
             }}>
@@ -294,7 +315,7 @@ return (
             sx={{
                 backgroundColor:'#92D293'
             }}
-            // onClick={pendingTask}
+            onClick={handleDisplay}
             >Show Pending tasks</Button>
             </Box>
                 </Box>
@@ -304,13 +325,16 @@ return (
                     height:450,
                     width:600,
                     marginTop:'8%',
+                    
                     // paddingLeft:'50%',
                     display:'grid',
                     gridTemplateColumns:'repeat(2,1fr)',
                     marginLeft:'8%'
                     // justifyContent:'center'
 
-                }}>
+                }}
+                
+                >
                     {/* <Typography
                     textAlign={'center'}
                     >
@@ -330,7 +354,11 @@ return (
                                     marginLeft:'9%',
                                     width:250,
                                     height:200,
-                                    opacity:0.8
+                                    opacity:0.8,
+                                    display:`${display}`,
+                                    background:'rgba(0,102,51,0.4)',
+                                    backdropFilter:'blur(15px)',
+
                                     
                                 }}>
                                     <CardMedia
@@ -348,12 +376,19 @@ return (
                                     sx={{
                                         textAlign:'center'
                                     }}>
-                                    <NavLink to={`/tasks/${item}`}>
+                                    <NavLink
+                                    
+                                    style={{
+                                        color:'red',
+                                        textDecoration:'none'
+                                    }}
+
+                                    to={`/tasks/${item._id}`}>
                                     <Typography
                                     variant='p'
                                     textAlign={'center'}
                                     >
-                                        {item}
+                                        {item.name}
 
 
                                         {

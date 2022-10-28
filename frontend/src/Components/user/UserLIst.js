@@ -60,7 +60,7 @@ const UserList = () => {
     // var status = document.querySelectorAll('.status')
 
     // setloading(false);
-  }, [page,update]);
+  }, [page,update,]);
 
   const getData = (data) => {
     setpage(data);
