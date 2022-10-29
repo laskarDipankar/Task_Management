@@ -41,9 +41,9 @@ const TaskGallery = () => {
   useEffect(() => {
     axios
       .get(
-        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}${data}`
+        // `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
 
-        // `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
+        `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}${data}`
       )
       .then((res) => {
         // console.log(res.data.data);
@@ -65,7 +65,6 @@ const TaskGallery = () => {
   };
   const handleChange = (e) => {
     setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    // console.log(edit)
   };
 
   const Sortby = (sdata) => {
