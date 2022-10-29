@@ -71,7 +71,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/tasks", async (req, res) => {
-  if (req.body.name != "" && req.body.deadline != "") {
+  if (!req.body.name !== "" && !req.body.deadline == "") {
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
     res.status(201).send({
