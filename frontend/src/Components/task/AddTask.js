@@ -25,11 +25,12 @@ const AddTask = (props) => {
     props.getUpdatedata(data);
   };
 
-  console.log(typeof input.deadline);
+  // console.log(input);
 
   const saveToDb = () => {
     axios
-      .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
+      // .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
+      .post("http://localhost:1999/api/tasks", {
         name: input.name,
         description: input.description,
         deadline: input.deadline,
@@ -102,7 +103,7 @@ const AddTask = (props) => {
             </Box>
             <Box>
               <TextField
-                name="dealine"
+                name="deadline"
                 onChange={handleChange}
                 placeholder="Enter description"
                 type="date"

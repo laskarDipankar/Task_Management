@@ -79,7 +79,6 @@ app.post("/api/tasks", async (req, res) => {
     console.log("inside");
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
-
     console.log("inside2");
     res.send({
       message: `task ${req.body.name}  Created`,
