@@ -444,6 +444,7 @@ app.delete("/api/tasks/:id", async (req, res) => {
         console.log("5");
         var darray = data.pendingTasks.filter((item) => {
           if (item == id) {
+            console.log("almost delted");
             data.pendingTasks.remove(id);
             data.save();
             res.send({

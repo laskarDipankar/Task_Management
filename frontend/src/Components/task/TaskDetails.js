@@ -1,135 +1,160 @@
 import axios from "axios";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Box } from "@mui/system";
-import { Button,Modal, Typography,Dialog,DialogActions,DialogContent,
-  DialogTitle,FormControlLabel,FormGroup,
-  TextField, 
-  Checkbox } from "@mui/material";
+import {
+  Button,
+  Modal,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Checkbox,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 const TaskDetails = () => {
-    const[tasks,setTasks]=useState([])
-    const params = useParams()
-    const [user,setUser] = useState()
-    const [update,setUpdate] = useState()
-    const [warn, setWarn] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [taskId, setTaskid] = useState();
+  const [tasks, setTasks] = useState([]);
+  const params = useParams();
+  const [user, setUser] = useState();
+  const [update, setUpdate] = useState();
+  const [warn, setWarn] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [taskId, setTaskid] = useState();
 
-    const [edit, setEdit] = useState({
-      name: "",
-      description: "",
-      deadline: "",
-      status:false
-    });
+  const [edit, setEdit] = useState({
+    name: "",
+    description: "",
+    deadline: "",
+    status: false,
+  });
 
-    useEffect(()=>{
-        axios.get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
-              .then((res)=>{
-            // console.log(res.data.results)
-              setTasks(res.data.results)
-        })
-    },[params.id,update])
-
-    const taskDelete = () =>{
-      axios.delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
-      // axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
-      .then((res)=>{
-        alert(res.data.message)
-        setUpdate(res.data.data)
-      })
-
-      // alert("hello")
-    }
-    const handleClickOpen = () => {
-      setWarn(true);
-    };
-    
-    const handleClose = () => {
-      setWarn(false);
-    };
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      e.target.reset();
-      // console.log(edit)
-    };
-  
-    const updateTask = async () => {
-      // await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
-        await axios.patch(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`,{
-
-        "name":edit.name,
-        "description": edit.description,
-        "deadline": edit.deadline,
-        "completed":edit.status
-
-      }).then((res) => {
-        alert(res.data.message);
-        setUpdate(res.data.data)
+  useEffect(() => {
+    axios
+      .get(`https://taskmanagementtodo.herokuapp.com/api/tasks/${params.id}`)
+      .then((res) => {
+        // console.log(res.data.results)
+        setTasks(res.data.results);
       });
-    };
+  }, [params.id, update]);
 
-    const handleChange = (e) => {
-      setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-      // console.log(edit)
-    };
+  const taskDelete = () => {
+    console.log(taskId);
+    axios
+      .delete(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`)
+      // axios.delete(`http://localhost:9999/api/tasks/${params.id}`)
+      .then((res) => {
+        alert(res.data.message);
+        setUpdate(res.data.data);
+      });
 
+    // alert("hello")
+  };
+  const handleClickOpen = () => {
+    setWarn(true);
+  };
 
+  const handleClose = () => {
+    setWarn(false);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    // console.log(edit)
+  };
 
+  const updateTask = async () => {
+    // await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
+    await axios
+      .patch(`https://taskmanagementtodo.herokuapp.com/api/tasks/${taskId}`, {
+        name: edit.name,
+        description: edit.description,
+        deadline: edit.deadline,
+        completed: edit.status,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        setUpdate(res.data.data);
+      });
+  };
 
+  const handleChange = (e) => {
+    setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // console.log(edit)
+  };
 
-    const status =(tasks.completed+"")
-    // console.log(status)
+  const status = tasks.completed + "";
+  // console.log(status)
   return (
     <>
-    <Dialog
-        open={warn}
-        onClose={handleClose}
-        >
-          <DialogTitle
+      <Dialog open={warn} onClose={handleClose}>
+        <DialogTitle
           sx={{
-            color:'red'
+            color: "red",
           }}
-          >
-            {"Warning"}
-          </DialogTitle>
-          <DialogContent>
-          {"Deleting this will erase all the data of this user, are you sure you want to delete ."}
-          </DialogContent>
-          <DialogActions>
+        >
+          {"Warning"}
+        </DialogTitle>
+        <DialogContent>
+          {
+            "Deleting this will erase all the data of this user, are you sure you want to delete ."
+          }
+        </DialogContent>
+        <DialogActions>
           <Button onClick={handleClose}>Do not Delete</Button>
-          <Button onClick={()=>{{handleClose()}{taskDelete()}}} autoFocus>
+          <Button
+            onClick={() => {
+              {
+                handleClose();
+              }
+              {
+                taskDelete();
+              }
+            }}
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>
-        </Dialog>
+      </Dialog>
 
-        
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <Box
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box
+          sx={{
+            maxWidth: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="div"
             sx={{
-              maxWidth: "100%",
-              height: "100%",
+              width: "80%",
+              height: "50%",
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              background: "white",
             }}
           >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                width: "80%",
-                height: "50%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "white",
-              }}
-            >
-              <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -140,267 +165,246 @@ const TaskDetails = () => {
                   }}
                 >
                   <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 2,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                  // sx={{
+                  //    display:'flex',
+                  //   flexDirection:'column',
+                  //   // gap:20,
+                  //   justifyContent:'center',
+                  //   alignItems:'center'
+                  // }}
                   >
-                    <Box
-                    // sx={{
-                    //    display:'flex',
-                    //   flexDirection:'column',
-                    //   // gap:20,
-                    //   justifyContent:'center',
-                    //   alignItems:'center'
-                    // }}
-                    >
                     <TextField
-                          onChange={handleChange}
-
-                        name="name"
-                        placeholder="Edit Name"
+                      onChange={handleChange}
+                      name="name"
+                      placeholder="Edit Name"
                     >
-                        {edit.name}
+                      {edit.name}
                     </TextField>
-                    </Box>
-                    <Box>
-                      <TextField
-                        name="description"
-                        placeholder="put description"
-                        onChange={handleChange}
-                      >
-                        {edit.description}
-                      </TextField>
-                    </Box>
-                    {/* <Box>
+                  </Box>
+                  <Box>
+                    <TextField
+                      name="description"
+                      placeholder="put description"
+                      onChange={handleChange}
+                    >
+                      {edit.description}
+                    </TextField>
+                  </Box>
+                  {/* <Box>
                       <FormGroup>
                     <FormControlLabel disabled control={<Checkbox />} label="Status" />
                         
                       </FormGroup>
 
                     </Box> */}
-                    <Box
+                  <Box
                     sx={{
-                      display:'flex',
-                      alignItems:'center',
-                    
-                      gap:1
-                    }}>
-                      <TextField
-                        name="deadline"
-                        placeholder="Enter Deadline"
-                        onChange={handleChange}
-                        type="date"
-                      >
-                        {edit.deadline}
-                      </TextField>
-                      {/* <FormGroup> */}
-                    <FormControlLabel control={<Checkbox 
-                    name="status"
-                    onClick={()=>{{setEdit((prev)=>({status:!edit.status}))}}}
-                    
-                    />} label="Status" />
-                        
-                      {/* </FormGroup> */}
-                    </Box>
-                    {/* <Button variant="contained" >save</Button> */}
-                  </Box>
-                  <Button
-                    type="submit"
-                    onClick={(e) => {
-                      {
-                        // setOpen(false);
-                      }
-                      {
-                        updateTask();
-                      }
+                      display: "flex",
+                      alignItems: "center",
+
+                      gap: 1,
                     }}
                   >
-                    Submit !
-                  </Button>
+                    <TextField
+                      name="deadline"
+                      placeholder="Enter Deadline"
+                      onChange={handleChange}
+                      type="date"
+                    >
+                      {edit.deadline}
+                    </TextField>
+                    {/* <FormGroup> */}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="status"
+                          onClick={() => {
+                            {
+                              setEdit((prev) => ({ status: !edit.status }));
+                            }
+                          }}
+                        />
+                      }
+                      label="Status"
+                    />
+
+                    {/* </FormGroup> */}
+                  </Box>
+                  {/* <Button variant="contained" >save</Button> */}
                 </Box>
-                <Button onClick={() => setOpen(false)}>close</Button>
-              </form>
-            </Typography>
-          </Box>
-        </Modal>
+                <Button
+                  type="submit"
+                  onClick={(e) => {
+                    {
+                      // setOpen(false);
+                    }
+                    {
+                      updateTask();
+                    }
+                  }}
+                >
+                  Submit !
+                </Button>
+              </Box>
+              <Button onClick={() => setOpen(false)}>close</Button>
+            </form>
+          </Typography>
+        </Box>
+      </Modal>
 
-        {/* <Button>Completed Task</Button> */}
-    <Box
-    sx={{
-      // marginTop:'7'
-      margin:'7%',
-      height:770,
-      display:'grid',
-      justifyContent:'center',
-      alignItems:'center',
-      border:' 2px solid yellow',
-      background:'rgba(199, 221, 255,0.6)',
-      backdropFilter:'blur(100px)'
-
-    }}>
-      <Typography
-      variant="h3"
-      component={'div'}
-      sx={{
-        // border:'2px solid red',
-        color:'#103BC4',
-        marginBottom:'3%'
-      }}
-      >
-      {` Taskname: ${tasks.name}`}
-      </Typography>
-      <Typography
-      variant="h6"
-      component={'div'}
-      sx={{
-        // border:'2px solid red',
-        color:'blueviolet'
-      }}
-      >
-      {` Task-Id: ${tasks._id}`}
-      </Typography>
+      {/* <Button>Completed Task</Button> */}
       <Box
-      sx={{
-        display:'flex',
-        justifyContent:'space-around',
-        flexDirection:'column',
-        gap:4
-      }}>
-        <Typography
-        variant="h4"
-        component={'div'}
         sx={{
-          // border:'2px solid red',
-          color:"green"
+          // marginTop:'7'
+          margin: "7%",
+          height: 770,
+          display: "grid",
+          justifyContent: "center",
+          alignItems: "center",
+          border: " 2px solid yellow",
+          background: "rgba(199, 221, 255,0.6)",
+          backdropFilter: "blur(100px)",
         }}
+      >
+        <Typography
+          variant="h3"
+          component={"div"}
+          sx={{
+            // border:'2px solid red',
+            color: "#103BC4",
+            marginBottom: "3%",
+          }}
         >
-        {`Status : ${status}`}
+          {` Taskname: ${tasks.name}`}
         </Typography>
         <Typography
-        variant="h6"
-        component='div'
-        sx={{
-          width:400
-        }}
+          variant="h6"
+          component={"div"}
+          sx={{
+            // border:'2px solid red',
+            color: "blueviolet",
+          }}
         >
-          
-        {`Description :${tasks.description}`}
-
-
-
+          {` Task-Id: ${tasks._id}`}
         </Typography>
-        <Typography
-        variant="h4"
-        component={'div'}
-        sx={{
-          // border:'2px solid red',
-          color:"green"
-        }}
-        >
-        {`Deadline : ${tasks.deadline}`}
-        </Typography>
-        <Typography
-        variant="h4"
-        component={'div'}
-        sx={{
-          // border:'2px solid red',
-          color:"green"
-        }}
-        >
-            {`Assigned-User : ${tasks.assignedUser}`}
-        </Typography>
-        <Typography
-        variant="h4"
-        component={'div'}
-        sx={{
-          // border:'2px solid red',
-          color:"green"
-        }}
-        >
-          <NavLink
-
-style={({ isActive }) => (
-  {
-    color: isActive ? "greenyellow" : "white",
-  },
-  { textDecoration: "none" }
-)}
-
-          to={`/users/${tasks.assignedUser}`}
-          >
-
-          {`Assigned User Name : ${tasks.assignedUserName}`}
-          </NavLink>
-
-        </Typography>
-
         <Box
-        sx={{
-          display:'flex',
-          gap:2
-        }}>
-          <Button
-          variant="outlined"
           sx={{
-            bgcolor:'red',
-            color:'darkgreen'
+            display: "flex",
+            justifyContent: "space-around",
+            flexDirection: "column",
+            gap: 4,
           }}
-          onClick={()=>{{handleClickOpen()}}}
-          
-          
-          size="medium">Delete</Button>
-          <Button
-          variant="outlined"
-          sx={{
-            bgcolor:'green',
-            color:'blue'
-          }}
-          onClick={() => {
-            {
-              setOpen(true);
-            }
-            {
-              
-                setTaskid(tasks._id);
-              
-            }
-          }}
-          size="medium"
-          
-          
-          >Edit</Button>
-          {/* <Button size="small"></Button> */}
+        >
+          <Typography
+            variant="h4"
+            component={"div"}
+            sx={{
+              // border:'2px solid red',
+              color: "green",
+            }}
+          >
+            {`Status : ${status}`}
+          </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              width: 400,
+            }}
+          >
+            {`Description :${tasks.description}`}
+          </Typography>
+          <Typography
+            variant="h4"
+            component={"div"}
+            sx={{
+              // border:'2px solid red',
+              color: "green",
+            }}
+          >
+            {`Deadline : ${tasks.deadline}`}
+          </Typography>
+          <Typography
+            variant="h4"
+            component={"div"}
+            sx={{
+              // border:'2px solid red',
+              color: "green",
+            }}
+          >
+            {`Assigned-User : ${tasks.assignedUser}`}
+          </Typography>
+          <Typography
+            variant="h4"
+            component={"div"}
+            sx={{
+              // border:'2px solid red',
+              color: "green",
+            }}
+          >
+            <NavLink
+              style={({ isActive }) => (
+                {
+                  color: isActive ? "greenyellow" : "white",
+                },
+                { textDecoration: "none" }
+              )}
+              to={`/users/${tasks.assignedUser}`}
+            >
+              {`Assigned User Name : ${tasks.assignedUserName}`}
+            </NavLink>
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+            }}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                bgcolor: "red",
+                color: "darkgreen",
+              }}
+              onClick={() => {
+                {
+                  handleClickOpen();
+                }
+                {
+                  setTaskid(tasks._id);
+                }
+              }}
+              size="medium"
+            >
+              Delete
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                bgcolor: "green",
+                color: "blue",
+              }}
+              onClick={() => {
+                {
+                  setOpen(true);
+                }
+                {
+                  setTaskid(tasks._id);
+                }
+              }}
+              size="medium"
+            >
+              Edit
+            </Button>
+            {/* <Button size="small"></Button> */}
+          </Box>
         </Box>
-        </Box>
-          
 
-
-        
-        
-        
-        
-
-
-
-
-
-
-
-      
-
-
-
-
-    {/* <p></p> */}
-    
-    </Box>
+        {/* <p></p> */}
+      </Box>
     </>
+  );
+};
 
-  )
-}
-
-export default TaskDetails
+export default TaskDetails;
