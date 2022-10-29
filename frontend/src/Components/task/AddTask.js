@@ -29,8 +29,8 @@ const AddTask = (props) => {
 
   const saveToDb = () => {
     axios
-      // .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
-      .post("http://localhost:1999/api/tasks", {
+      .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
+        // .post("http://localhost:1999/api/tasks", {
         name: input.name,
         description: input.description,
         deadline: input.deadline,
