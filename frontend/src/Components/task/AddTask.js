@@ -17,7 +17,7 @@ const AddTask = (props) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
     e.target.reset();
   };
 
@@ -25,7 +25,7 @@ const AddTask = (props) => {
     props.getUpdatedata(data);
   };
 
-  console.log(input);
+  // console.log(input);
 
   const saveToDb = (e) => {
     axios
@@ -49,7 +49,7 @@ const AddTask = (props) => {
     } else {
       setisflag(false);
 
-      console.log(isFlag);
+      // console.log(isFlag);
     }
 
     // isFlag = true
@@ -88,16 +88,19 @@ const AddTask = (props) => {
               <TextField
                 name="name"
                 onChange={handleChange}
-                placeholder="Enter Task Name"
+                label="Enter Task Name"
+                required
               >
                 {input.name}
               </TextField>
             </Box>
             <Box>
               <TextField
+                label="Enter decription"
                 name="description"
                 onChange={handleChange}
-                placeholder="Enter description"
+                // placeholder="Enter description"
+                required
               >
                 {input.description}
               </TextField>
@@ -106,7 +109,8 @@ const AddTask = (props) => {
               <TextField
                 name="deadline"
                 onChange={handleChange}
-                placeholder="Enter description"
+                // label="Enter Deadline"
+                required
                 type="date"
               >
                 {input.deadline}

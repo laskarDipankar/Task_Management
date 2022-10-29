@@ -29,7 +29,7 @@ const UserList = () => {
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
   const [sortdata, setdata] = useState();
-  const [flag, setflag] = useState(true);
+  const [flag, setflag] = useState();
   const [loading, setloading] = useState(false);
   const [color, setcolor] = useState("2px solid orange");
   const [edit, setEdit] = useState({
@@ -75,9 +75,9 @@ const UserList = () => {
 
         if (res.data.message != "") {
           setTimeout(() => {
-            setcolor("2px solid red");
+            setcolor("2px solid orange");
           }, 1000);
-          // setcolor("2px solid orange")
+          setcolor("2px solid green");
         }
       });
 
@@ -101,9 +101,9 @@ const UserList = () => {
           setUpdate(res.data.data);
           if (res.data.message != "") {
             setTimeout(() => {
-              setcolor("2px solid red");
+              setcolor("2px solid orange");
             }, 1000);
-            // setcolor("2px solid orange")
+            setcolor("2px solid green");
           }
         });
     }
@@ -113,12 +113,12 @@ const UserList = () => {
 
   const sortItem = () => {
     console.log("hello");
-    if (flag != true) {
+    if (flag) {
       setstate((item) => item.sort((a, b) => (a.id > b.id ? 1 : -1)));
-      setflag(true);
+      setflag(false);
     } else {
       setstate((item) => item.sort((a, b) => (a.id > b.id ? -1 : 1)));
-      setflag(false);
+      setflag(true);
     }
   };
 
@@ -238,7 +238,8 @@ const UserList = () => {
                       <TextField
                         onChange={handleChange}
                         name="name"
-                        placeholder="Edit Name"
+                        label="Edit Name"
+                        required
                       >
                         {edit.name}
                       </TextField>
@@ -247,9 +248,10 @@ const UserList = () => {
                       {/* <TextField></TextField> */}
                       <TextField
                         name="email"
-                        placeholder="Edit email"
+                        label="Edit email"
                         onChange={handleChange}
                         type="email"
+                        required
                       ></TextField>
                     </Box>
                     {/* <Box>
@@ -271,21 +273,36 @@ const UserList = () => {
 
                     {/* <Button variant="contained" >save</Button> */}
                   </Box>
-                  <Button
-                    type="submit"
-                    onClick={(e) => {
-                      {
-                        // setOpen(false);
-                      }
-                      {
-                        UserUpdate();
-                      }
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    Submit !
-                  </Button>
+                    <Button
+                      sx={{ color: "green" }}
+                      type="submit"
+                      onClick={(e) => {
+                        {
+                          // setOpen(false);
+                        }
+                        {
+                          UserUpdate();
+                        }
+                      }}
+                    >
+                      Submit !
+                    </Button>
+                    <Button
+                      sx={{
+                        marginTop: "auto",
+                      }}
+                      onClick={() => setOpen(false)}
+                    >
+                      close
+                    </Button>
+                  </Box>
                 </Box>
-                <Button onClick={() => setOpen(false)}>close</Button>
               </form>
             </Typography>
           </Box>

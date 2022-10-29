@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -143,6 +144,8 @@ const UserDetails = () => {
         <DialogContent>
           <Box>
             <AddTask getUpdatedata={getUpdatedata} />
+            <p>You can assign the created task below</p>
+            <InputLabel>Select Task</InputLabel>
             <Select
               value={task.name}
               placeholder={"select task"}
@@ -157,7 +160,9 @@ const UserDetails = () => {
                   <MenuItem
                     value={item.name}
                     onClick={() => {
-                      settask({ name: item.name, id: item._id });
+                      {
+                        settask({ name: item.name, id: item._id });
+                      }
                     }}
                   >
                     {item.name}

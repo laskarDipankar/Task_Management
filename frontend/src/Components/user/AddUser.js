@@ -1,131 +1,132 @@
-import { Button,TextField } from '@mui/material'
-import { Box } from '@mui/system'
-import React from 'react'
-import axios from 'axios'
-import { useState } from 'react'
-
+import { Button, TextField } from "@mui/material";
+import { Box } from "@mui/system";
+import React from "react";
+import axios from "axios";
+import { useState } from "react";
 
 const AddUser = (props) => {
-    const [isFlag,setisflag] = useState(false)
-    const [data,setData] = useState()
+  const [isFlag, setisflag] = useState(false);
+  const [data, setData] = useState();
 
-    const [input, setInput]=useState({
-        name:'',
-        email:''
-    })
+  const [input, setInput] = useState({
+    name: "",
+    email: "",
+  });
 
-    const handleChange =(e)=>{
-        setInput((prev)=>({...prev,[e.target.name]:e.target.value}))
-        // console.log(input)
-    }
-    const handleSubmit=(e)=>{
-        e.preventDefault();
-        console.log(input)
-        e.target.reset();
-    }
-    const saveResult=(length)=>{
-        props.getUpdate(length)
-    }
-    const saveToDb = () =>{
-        
-        axios.post('https://taskmanagementtodo.herokuapp.com/api/users',{
-            name:input.name,
-            email:input.email
-        })
-        .then((res)=>{
-            // alert(res.data.message)  
-            // setData(res.data.data)
-            // props.getUpdate(res.data.data)
-            saveResult(props.length+1)
-            console.log(res.data.message)
-        })
-        // .catch((err)=>{
-        //     // console.log(res.data.message)
-        //     alert(err.message)
-        // })
+  const handleChange = (e) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // console.log(input)
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(input);
+    e.target.reset();
+  };
+  const saveResult = (length) => {
+    props.getUpdate(length);
+  };
+  const saveToDb = () => {
+    axios
+      .post("https://taskmanagementtodo.herokuapp.com/api/users", {
+        name: input.name,
+        email: input.email,
+      })
+      .then((res) => {
+        // alert(res.data.message)
+        // setData(res.data.data)
+        // props.getUpdate(res.data.data)
+        saveResult(props.length + 1);
+        console.log(res.data.message);
+      });
+    // .catch((err)=>{
+    //     // console.log(res.data.message)
+    //     alert(err.message)
+    // })
+  };
 
-    
-    }
+  var createUser = () => {
+    if (isFlag == false) {
+      setisflag(true);
+    } else {
+      setisflag(false);
 
-    var createUser =()=>{
-        if(isFlag==false){
-
-            setisflag(true)
-        }else{
-            setisflag(false)
-
-            console.log(isFlag)
-        }
-            
-            // isFlag = true
+      console.log(isFlag);
     }
 
-  
+    // isFlag = true
+  };
 
-
-return (
+  return (
     <>
-    <Box
-    sx={{
-        display:'flex',
-        justifyContent:'center',
-        marginTop:'5%%'
-    }}>
-    <Button
-    sx={{
-        backgroundColor:'greenyellow',
-        marginBottom:'2%'
-    }}
-    variant='contained'
-    onClick={createUser}
-    >Create-User</Button>
-    </Box>
-    
-    
-{
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "5%%",
+        }}
+      >
+        <Button
+          sx={{
+            backgroundColor: "greenyellow",
+            marginBottom: "2%",
+          }}
+          variant="contained"
+          onClick={createUser}
+        >
+          Create-User
+        </Button>
+      </Box>
 
-isFlag?
+      {isFlag ? (
+        <form onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box>
+              <TextField
+                name="name"
+                required
+                onChange={handleChange}
+                label="Name"
+              >
+                {input.name}
+              </TextField>
+            </Box>
+            <Box>
+              <TextField
+                name="email"
+                onChange={handleChange}
+                label="email"
+                required
+                type="email"
+              >
+                {input.email}
+              </TextField>
+            </Box>
+            <Button
+              variant="outlined"
+              onClick={(e) => {
+                {
+                  saveToDb();
+                }
+                {
+                  setisflag(false);
+                }
+              }}
+              type="submit"
+            >
+              submit
+            </Button>
+          </Box>
+        </form>
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
 
-    <form onSubmit={handleSubmit}>            
-<Box
-sx={{
-    display:'flex',
-    justifyContent:'center',
-    
-    
-}}
->
-
-<Box
->
-<TextField
-name="name"
-onChange={handleChange}
-placeholder='Name'
->
-{input.name}
-</TextField>
-</Box>
-<Box>
-<TextField
-name="email"
-onChange={handleChange}
-placeholder='email'
->
-{input.email}
-</TextField>
-</Box>
-<Button
-variant='outlined'
-onClick={(e)=>{{saveToDb()}{setisflag(false)}}}
-type='submit'>submit</Button>
-</Box>
-    </form>
-
-:""
-}
-
-    </>)
-}
-
-export default AddUser
+export default AddUser;
