@@ -89,7 +89,7 @@ const UserDetails = () => {
       })
       .then((res) => {
         alert(res.data.message);
-        setUpdatedetail(res.data.data);
+        setUpdatedetail(res.data.message);
       });
   };
 

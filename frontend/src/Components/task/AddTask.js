@@ -9,7 +9,7 @@ const AddTask = (props) => {
   const [input, setInput] = useState({
     name: "",
     description: "",
-    deadline: "",
+    deadline: null,
   });
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,21 +26,21 @@ const AddTask = (props) => {
   };
 
   const saveToDb = () => {
-    axios
-      .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
-        name: input.name,
-        description: input.description,
-        deadline: input.deadline,
-      })
-      .then((res) => {
-        alert(res.data.message);
-        updateData(res.data.message);
-        console.log(res.data.message);
-      })
-      .catch((res) => {
-        // console.log(res.data.message)
-        alert(res.data.message);
-      });
+    if (input.deadline == null && input.name == "") {
+      alert("you have left field empty");
+    } else {
+      axios
+        .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
+          name: input.name,
+          description: input.description,
+          deadline: input.deadline,
+        })
+        .then((res) => {
+          alert(res.data.message);
+          updateData(res.data.message);
+          console.log(res.data.message);
+        });
+    }
   };
 
   var createUser = () => {

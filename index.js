@@ -72,22 +72,13 @@ app.post("/api/users", async (req, res) => {
 
 app.post("/api/tasks", async (req, res) => {
   if (req.body.name != "" && req.body.deadline != null) {
-    // console.log("not working")
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
-
-    if (SaveTasks == null) {
-      res.status(404).send({
-        message: "No Task Data Recieved",
-        data: [],
-      });
-    } else {
-      res.status(201).send({
-        message: "task Created",
-        data: SaveTasks,
-      });
-      // console.log(error)
-    }
+    res.status(201).send({
+      message: "task Created",
+      data: SaveTasks,
+    });
+    // console.log(error)
   } else {
     // console.log("hello");
     res.status(400).send({
