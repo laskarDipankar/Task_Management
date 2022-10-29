@@ -9,7 +9,7 @@ const AddTask = (props) => {
   const [input, setInput] = useState({
     name: "",
     description: "",
-    deadline: null,
+    deadline: "",
   });
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,7 +26,7 @@ const AddTask = (props) => {
   };
 
   const saveToDb = () => {
-    if (input.deadline == null && input.name == "") {
+    if (input.deadline == "" && input.name == "") {
       alert("you have left field empty");
     } else {
       axios
