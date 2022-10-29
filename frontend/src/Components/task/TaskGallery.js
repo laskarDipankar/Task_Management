@@ -13,11 +13,14 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Menu,
+  List,
+  ListItem,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 import AddTask from "./AddTask";
-
+import MenuSort from "./Sorting/MenuSort";
 const TaskGallery = () => {
   const [Tasks, setTask] = useState([]);
   const [page, setpage] = useState(0);
@@ -25,6 +28,7 @@ const TaskGallery = () => {
   const [taskId, setTaskid] = useState();
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState();
+  const [data, setdata] = useState();
   // const [completion,setcompletion] = useState(null)
   // const [taskstatus,setstatus] = useState(false)
   const [edit, setEdit] = useState({
@@ -37,12 +41,12 @@ const TaskGallery = () => {
   useEffect(() => {
     axios
       .get(
-        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}`
+        `https://taskmanagementtodo.herokuapp.com/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}${data}`
 
         // `http://localhost:9999/api/tasks?skip=${page}&limit=9&sort={'dateCreated':-1}&where={'completed':true}`
       )
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setTask(res.data.data);
       });
   }, [page, update]);
@@ -62,6 +66,10 @@ const TaskGallery = () => {
   const handleChange = (e) => {
     setEdit((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     // console.log(edit)
+  };
+
+  const Sortby = (sdata) => {
+    setdata(sdata);
   };
 
   const handleClickOpen = () => {
@@ -288,6 +296,16 @@ const TaskGallery = () => {
 
         {/* /////////////////////////////////////////////////////////////////////////////////////// */}
         <AddTask getUpdatedata={getUpdatedata} />
+        <MenuSort Sortby={Sortby} />
+        <Box>
+          <Menu>
+            <List>
+              <ListItem>
+                <Button>DateCreated</Button>
+              </ListItem>
+            </List>
+          </Menu>
+        </Box>
         <Box
           sx={{
             display: "flex",
