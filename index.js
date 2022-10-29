@@ -26,7 +26,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 9999;
+const port = process.env.PORT || 1999;
 
 app.use(express.static("Public"));
 
@@ -71,16 +71,23 @@ app.post("/api/users", async (req, res) => {
 });
 
 app.post("/api/tasks", async (req, res) => {
-  if (req.body.name !== "" && !req.body.deadline == "") {
+  if (!req.body.deadline == " ") {
+    console.log("empty");
+  }
+
+  if (!req.body.name == "" && !req.body.deadline == "") {
+    console.log("inside");
     const Tasks = new Task(req.body);
     const SaveTasks = await Tasks.save();
+
+    console.log("inside2");
     res.send({
-      message: "task Created",
+      message: `task ${req.body.name}  Created`,
       data: SaveTasks,
     });
     // console.log(error)
   } else {
-    // console.log("hello");
+    console.log("hello");
     res.send({
       message:
         "You have either left deadline or taskname fields of the form empty",

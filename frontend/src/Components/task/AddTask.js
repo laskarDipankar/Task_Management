@@ -25,22 +25,20 @@ const AddTask = (props) => {
     props.getUpdatedata(data);
   };
 
+  console.log(typeof input.deadline);
+
   const saveToDb = () => {
-    if (input.deadline == "" && input.name == "") {
-      alert("you have left field empty");
-    } else {
-      axios
-        .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
-          name: input.name,
-          description: input.description,
-          deadline: input.deadline,
-        })
-        .then((res) => {
-          alert(res.data.message);
-          updateData(res.data.message);
-          console.log(res.data.message);
-        });
-    }
+    axios
+      .post("https://taskmanagementtodo.herokuapp.com/api/tasks", {
+        name: input.name,
+        description: input.description,
+        deadline: input.deadline,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        updateData(res.data.message);
+        console.log(res.data.message);
+      });
   };
 
   var createUser = () => {
