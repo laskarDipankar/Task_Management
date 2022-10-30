@@ -95,14 +95,14 @@ const TaskGallery = () => {
     if (flag != true) {
       setTask((item) => item.sort((a, b) => (a.id > b.id ? 1 : -1)));
       console.log();
+      setass("Ascending");
       setflag(true);
       console.log(flag);
-      setass("Descending");
     } else {
       setTask((item) => item.sort((a, b) => (a.id > b.id ? -1 : 1)));
+      setass("Descending");
       setflag(false);
       console.log(flag);
-      setass("Ascending");
     }
   };
 

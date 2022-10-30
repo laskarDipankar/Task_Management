@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+
 import { Box } from "@mui/system";
 import {
   Button,
@@ -18,6 +19,7 @@ import {
 import { NavLink } from "react-router-dom";
 
 const TaskDetails = () => {
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const params = useParams();
   const [user, setUser] = useState();
@@ -52,6 +54,8 @@ const TaskDetails = () => {
         setUpdate(res.data.data);
       });
 
+    navigate(-1);
+
     // alert("hello")
   };
   const handleClickOpen = () => {
@@ -66,6 +70,10 @@ const TaskDetails = () => {
     e.target.reset();
     // console.log(edit)
   };
+
+  // const takeMeto = () => {
+  //   navigate(-1);
+  // };
 
   const updateTask = async () => {
     // await axios.patch(`http://localhost:9999/api/tasks/${taskId}`,{
@@ -373,6 +381,8 @@ const TaskDetails = () => {
                 }
                 {
                   setTaskid(tasks._id);
+                }
+                {
                 }
               }}
               size="medium"
