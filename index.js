@@ -452,7 +452,7 @@ app.delete("/api/tasks/:id", async (req, res) => {
             data.pendingTasks.remove(id);
             data.save();
             res.send({
-              message: "Task Deleted",
+              message: "Task Deleted Successfully",
               data: data,
             });
           }
