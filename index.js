@@ -212,6 +212,15 @@ app.put("/api/users/:id", async (req, res) => {
           { $set: { name: updateName, email: updateEmail } },
           { new: true }
         );
+        console.log(req.body.name);
+        const uname = await Task.findOneAndUpdate(
+          { assignedUser: _id },
+          { $set: { assignedUserName: req.body.name } },
+          { new: true }
+        );
+        uname.save();
+
+        console.log(uname);
         res.status(201).send({
           message: "You have successfully Updated",
           Data: userData,
@@ -423,8 +432,8 @@ app.delete("/api/users/:id", async (req, res) => {
 });
 
 app.delete("/api/tasks/:id", async (req, res) => {
-  const result = await Task.findById({ _id: req.params.id });
   const id = req.params.id;
+  const result = await Task.findById({ _id: req.params.id });
   console.log("1");
 
   if (result == null) {
