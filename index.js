@@ -213,14 +213,19 @@ app.put("/api/users/:id", async (req, res) => {
           { new: true }
         );
         console.log(req.body.name);
-        const uname = await Task.findOneAndUpdate(
-          { assignedUser: _id },
-          { $set: { assignedUserName: req.body.name } },
-          { new: true }
-        );
-        uname.save();
 
-        console.log(uname);
+        console.log(userData.pendingTasks);
+
+        userData.pendingTasks.map(async (item) => {
+          const uname = await Task.findOneAndUpdate(
+            { _id: item },
+            { $set: { assignedUserName: req.body.name } },
+            { new: true }
+          );
+          console.log(uname);
+        });
+
+        // console.log(uname);
         res.status(201).send({
           message: "You have successfully Updated",
           Data: userData,
