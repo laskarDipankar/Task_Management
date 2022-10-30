@@ -26,7 +26,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 1999;
+const port = process.env.PORT || 9999;
 
 app.use(express.static("Public"));
 
@@ -459,10 +459,13 @@ app.delete("/api/tasks/:id", async (req, res) => {
       if (data.pendingTasks.length != 0) {
         console.log("5");
 
-        var darray = data.pendingTasks.filter((item) => {
-          console.log(typeof darray);
+        data.pendingTasks.filter((item) => {
+          // console.log(typeof darray, "heello");
+          console.log(item, "item");
+          console.log(id);
           if (item == id) {
             console.log("almost delted");
+
             data.pendingTasks.remove(id);
             data.save();
             res.send({
@@ -470,16 +473,26 @@ app.delete("/api/tasks/:id", async (req, res) => {
               data: data,
             });
           }
-        });
-      } else {
-        console.log("hello");
-        const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
+          //  else {
+          //   console.log(typeof id, "hello1");
+          //   Task.findOneAndDelete({ _id: id }, { new: true });
 
-        res.send({
-          message: `Task ${delTask.name}deleted`,
-          data: delTask,
+          //   res.send({
+          //     message: `Task deleted`,
+          //     // data: delTask,
+          //   });
+          // }
         });
       }
+      // else {
+      //   console.log("hello");
+      //   const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
+
+      //   res.send({
+      //     message: `Task ${delTask.name}deleted`,
+      //     data: delTask,
+      //   });
+      // }
     } else {
       console.log("hello");
       const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
