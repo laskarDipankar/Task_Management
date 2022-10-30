@@ -459,13 +459,11 @@ app.delete("/api/tasks/:id", async (req, res) => {
       if (data.pendingTasks.length != 0) {
         console.log("5");
 
-        data.pendingTasks.filter((item) => {
+        data.pendingTasks.filter(async (item) => {
           // console.log(typeof darray, "heello");
           console.log(item, "item");
           console.log(id);
           if (item == id) {
-            console.log("almost delted");
-
             data.pendingTasks.remove(id);
             data.save();
             res.send({
@@ -473,26 +471,8 @@ app.delete("/api/tasks/:id", async (req, res) => {
               data: data,
             });
           }
-          //  else {
-          //   console.log(typeof id, "hello1");
-          //   Task.findOneAndDelete({ _id: id }, { new: true });
-
-          //   res.send({
-          //     message: `Task deleted`,
-          //     // data: delTask,
-          //   });
-          // }
         });
       }
-      // else {
-      //   console.log("hello");
-      //   const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
-
-      //   res.send({
-      //     message: `Task ${delTask.name}deleted`,
-      //     data: delTask,
-      //   });
-      // }
     } else {
       console.log("hello");
       const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
