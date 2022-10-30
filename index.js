@@ -466,11 +466,20 @@ app.delete("/api/tasks/:id", async (req, res) => {
           if (item == id) {
             data.pendingTasks.remove(id);
             data.save();
-            res.send({
-              message: "Task Deleted Successfully",
-              data: data,
-            });
           }
+        });
+        const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
+        res.send({
+          message: "Task Deleted Successfully",
+          data: data,
+        });
+      } else {
+        console.log("hellono data");
+        const delTask = await Task.findOneAndDelete({ _id: id }, { new: true });
+
+        res.send({
+          message: `Task ${delTask.name}deleted`,
+          data: delTask,
         });
       }
     } else {
