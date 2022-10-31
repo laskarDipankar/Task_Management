@@ -20,6 +20,7 @@ import Pagination from "../Pagination/Pagination";
 import AddUser from "./AddUser";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Api from "../Api/Api";
 
 const UserList = () => {
   const [state, setstate] = useState([]);
@@ -28,10 +29,13 @@ const UserList = () => {
   const [update, setUpdate] = useState();
   const [open, setOpen] = useState(false);
   const [warn, setWarn] = useState(false);
-  const [sortdata, setdata] = useState();
+  // const [sortdata, setdata] = useState();
   const [flag, setflag] = useState();
   const [loading, setloading] = useState(false);
   const [color, setcolor] = useState("2px solid orange");
+  const [api, setApi] = useState(
+    `https://taskmanagerapi99.herokuapp.com/api/users?`
+  );
   const [edit, setEdit] = useState({
     name: "",
     email: "",
@@ -44,20 +48,20 @@ const UserList = () => {
     setTimeout(() => {
       axios
         .get(
-          `https://taskmanagementtodo.herokuapp.com/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
+          `${api}skip=${page}&limit=9&sort={'dateCreated':-1}`
           // `http://localhost:9999/api/users?skip=${page}&limit=9&sort={'dateCreated':-1}`
         )
         .then((res) => {
-          setstate(res.data.Data);
+          setstate(res.data.data);
           setloading(false);
           // console.log(res.data.Data);
         });
-    }, 1000);
+    }, 5000);
 
     // var status = document.querySelectorAll('.status')
 
     // setloading(false);
-  }, [page, update]);
+  }, [page, update, api]);
 
   const getData = (data) => {
     setpage(data);
@@ -84,6 +88,12 @@ const UserList = () => {
     console.log(user);
   };
 
+  const getApi = (data) => {
+    setApi(data);
+    console.log(data, "props");
+    console.log(api, "apidata");
+  };
+
   const UserUpdate = async () => {
     if (edit.name == "" || edit.email == "") {
       alert("All the fields are mandatory");
@@ -98,7 +108,7 @@ const UserList = () => {
         )
         .then((res) => {
           // alert(res.data.message);
-          setUpdate(res.data.data);
+          setUpdate(res.data.message);
           if (res.data.message != "") {
             setTimeout(() => {
               setcolor("2px solid orange");
@@ -307,6 +317,17 @@ const UserList = () => {
             </Typography>
           </Box>
         </Modal>
+
+        <Box
+          sx={{
+            diplay: "flex",
+            justifyContent: "center",
+            // alignItems: "center",
+            marginLeft: "44%",
+          }}
+        >
+          <Api getApi={getApi} />
+        </Box>
       </Box>
 
       <AddUser getUpdate={getUpdate} />

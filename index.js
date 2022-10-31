@@ -114,7 +114,7 @@ app.get("/api/users", async (req, res) => {
         } else {
           res.status(200).send({
             message: "user details retrieved",
-            Data: data,
+            data: data,
           });
         }
       }
